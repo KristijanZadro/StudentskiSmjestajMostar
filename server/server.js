@@ -4,6 +4,8 @@ const cors = require("cors")
 const mysql = require("mysql")
 const dotenv = require("dotenv")
 
+const registerRoute = require("./routes/register")
+
 const app = express()
 
 dotenv.config();
@@ -27,6 +29,8 @@ db.connect(err => {
         throw err
     }
 })
+
+app.use('/api', registerRoute )
 
 const PORT = process.env.PORT || 5000
 
