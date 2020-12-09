@@ -34,7 +34,7 @@ export const registerUserStart = () => {
       
         axios({
           method: "POST",
-          url: "http://localhost:5000/api/register",
+          url: "http://localhost:5000/api/user/register",
           data: {
             name,
             surname,
