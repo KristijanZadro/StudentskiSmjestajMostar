@@ -1,0 +1,13 @@
+.header{
+    width: 100%;
+    height: 15vh;
+    background-color: royalblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to bottom left, royalblue,#99bbff);
+}
+
+.header h1{
+    color: white;
+}
