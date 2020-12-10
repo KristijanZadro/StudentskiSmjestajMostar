@@ -10,8 +10,8 @@ export default class Public extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path="/" component={Welcome} />
-                    <Route path="/register" component={Register} />
+                    <Route exact path="/" component={Welcome} />
+                    <Route exact path="/register" component={Register} />
                 </Switch>
             </div>
         )
