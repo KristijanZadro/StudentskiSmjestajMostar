@@ -9,7 +9,14 @@ export default function Content() {
                 <img src={welcomePic} alt="" />
             </div>
             <div className="info">
-
+                <div className="welcome">
+                    <h1>Welcome!</h1>
+                </div>
+               <div className="infoButtons">
+                    <button>Sign in</button>
+                    <button>Sign up</button> 
+               </div>
+               
             </div>
         </div>
     )
