@@ -1,0 +1,38 @@
+
+.register{
+    width: 20%;
+    height: 55vh;
+    margin: auto;
+    border: 2pt solid royalblue;
+    text-align: center;
+    
+}
+
+.register button{
+    margin-top: 30px;
+    width: 90px;
+    height: 40px;
+    margin: 10px;
+    background-color: royalblue;
+    border: 2pt solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+}
+
+.register button:hover{
+    background-color: transparent;
+    color: royalblue;
+    border-color: royalblue;
+}
+
+.register p{
+    padding: 5px;
+    
+}
+
+.register h1{
+    color: royalblue;
+}

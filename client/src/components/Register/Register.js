@@ -1,4 +1,5 @@
 import React from 'react'
+import './Register.css'
 import Input from '../../containers/Input/Input'
 //import {Link} from 'react-router-dom'
 
