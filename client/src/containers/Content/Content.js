@@ -1,6 +1,7 @@
 import React from 'react'
 import './Content.css'
 import welcomePic from '../../images/details-4.jpeg'
+import {Link} from 'react-router-dom'
 
 export default function Content() {
     return (
@@ -13,8 +14,13 @@ export default function Content() {
                     <h1>Welcome!</h1>
                 </div>
                <div className="infoButtons">
-                    <button>Sign in</button>
-                    <button>Sign up</button> 
+                   <Link to="/login">
+                        <button>Sign in</button>
+                   </Link>
+                    
+                   <Link to="/register">
+                        <button>Sign up</button>
+                   </Link> 
                </div>
                
             </div>
