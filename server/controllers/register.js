@@ -12,6 +12,7 @@ const registerController = (req,res) => {
             console.log(err)
         }else{
             console.log(result)
+            res.send(result)
         }
     })
 }
