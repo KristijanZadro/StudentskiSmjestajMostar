@@ -30,6 +30,7 @@ const checkEmailController = (req,res,next) => {
     db.query(SQL_FIND_EMAIL, email, (err, result) => {
         if(err){
             console.log(err)
+            res.send("email is not valid")
             
         }else{
             console.log(result)
@@ -40,9 +41,37 @@ const checkEmailController = (req,res,next) => {
     
 }
 
+const checkPasswordController = (req,res,next) => {
+    const email = req.body.email
+    const password = req.body.password
+    
+        const SQL_FIND_EMAIL = "SELECT Password FROM user WHERE Email = ?;"
+        db.query(SQL_FIND_EMAIL, email, (err, result) => {
+            bcrypt.compare(password, result[0].Password, (err,res)=> {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log("compare:",res)
+                }
+            })
+            if(err){
+                console.log(err)
+                
+            }else{
+                console.log(result)
+                res.send(result)
+            }
+
+        })
+    
+    
+    
+}
+
 module.exports = {
     registerController,
-    checkEmailController
+    checkEmailController,
+    checkPasswordController
 }
 
 
