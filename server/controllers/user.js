@@ -1,5 +1,6 @@
 const db = require("../database/db")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 const registerController = (req,res,next) => {
 
@@ -40,7 +41,7 @@ const loginController = (req,res) => {
     const email = req.body.email
     const password = req.body.password
     
-    const SQL_FIND_EMAIL = "SELECT Password FROM user WHERE Email = ?;"
+    const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
     db.query(SQL_FIND_EMAIL, email, (err, result) => {
         
         if(err){
@@ -55,7 +56,10 @@ const loginController = (req,res) => {
                     }else{
                         //console.log("compare:",rows)
                         if(rows){
-                            res.send("login succesfull")
+                            //console.log(result[0].id)
+                            const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
+                            res.header('auth-token-ssm', token).send({token: token})
+                            //res.send("login succesfull")
                         }else{
                             res.send("pass not valid")
                         }
@@ -72,7 +76,23 @@ const loginController = (req,res) => {
 
     })
 }
+const verifyToken = (req,res,next) => {
+    const token = req.header('auth-token-ssm')
+    if(!token) return res.status(401).send('access denied')
 
+    try{
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET)
+        req.user = verified
+        next()
+    }catch(err){
+        res.status(400).send('invalid token')
+    }
+}
+
+/*const test = (req,res) => {
+    res.send("post")
+}
+*/
 /*const checkEmailController = (req,res,next) => {
     const email = req.query.email
     const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
@@ -127,7 +147,9 @@ const checkPasswordController = (req,res,next) => {
 
 module.exports = {
     registerController,
-    loginController
+    loginController,
+    verifyToken,
+    //test
     //checkEmailController,
     //checkPasswordController
 }
