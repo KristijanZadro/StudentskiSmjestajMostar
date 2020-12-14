@@ -1,6 +1,10 @@
 import React from 'react'
 import './Login.css'
 import Input from '../../containers/Input/Input'
+
+import { connect } from "react-redux";
+
+import {authenticate} from '../../redux/actions/auth'
 //import {Link} from 'react-router-dom'
 
 class Login extends React.Component {
@@ -15,13 +19,23 @@ class Login extends React.Component {
     onInputChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
         
+    };
+    onAuthenticateHandler = (e) => {
+        e.preventDefault()
+        let { email, password } = this.state;
+        this.props.authenticate(email, password, this.onAuthSuccess);
+      };
+    
+      onAuthSuccess = () => {
+        console.log("Login success")
+        this.props.history.push("/private");
       };
 
     render() {
         const {email,password} = this.state
         return (
             <div className="login">
-                <form>
+                <form onSubmit={this.onAuthenticateHandler}>
                     <h1>Login</h1>
 
                     <label><b>Email</b></label>
@@ -54,4 +68,17 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+/*const mapStateToProps = (state) => {
+    return {
+     
+    };
+  };
+  */
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      authenticate: (email, password, onAuthSuccess) =>
+        dispatch(authenticate(email, password, onAuthSuccess)),
+    };
+  };
+  
+  export default connect(mapDispatchToProps, mapDispatchToProps)(Login);

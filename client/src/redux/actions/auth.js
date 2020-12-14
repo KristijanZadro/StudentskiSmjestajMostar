@@ -88,7 +88,7 @@ export const authenticate = (email, password, onAuthSuccess) => {
     })
       .then(async (data) => {
         console.log("authenticate:", data);
-        //localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
+        localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
         dispatch(authSuccess());
         onAuthSuccess();
       })

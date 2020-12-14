@@ -22,7 +22,8 @@ class Register extends React.Component {
         
       };
 
-      onRegisterSend = () => {
+      onRegisterSend = (e) => {
+        e.preventDefault()
         const {name,surname,email,password} = this.state
         this.props.registerUser(name, surname, email, password, this.onSuccessRedirect);
       };
