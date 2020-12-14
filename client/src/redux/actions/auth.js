@@ -54,3 +54,47 @@ export const registerUserStart = () => {
       
     };
   };
+
+  // authenticate user start
+export const authStart = () => {
+  return {
+    type: actionTypes.AUTH_LOGIN_START,
+  };
+};
+export const authSuccess = (email_exists) => {
+  return {
+    type: actionTypes.AUTH_LOGIN_SUCCESS,
+    email_exists,
+  };
+};
+export const authFail = () => {
+  return {
+    type: actionTypes.AUTH_LOGIN_FAIL,
+  };
+};
+
+export const authenticate = (email, password, onAuthSuccess) => {
+  return async (dispatch) => {
+    // send request
+    dispatch(authStart());
+
+    axios({
+      method: "POST",
+      url: "http://localhost:5000/api/user/login",
+      data: {
+        email,
+        password,
+      },
+    })
+      .then(async (data) => {
+        console.log("authenticate:", data);
+        //localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
+        dispatch(authSuccess());
+        onAuthSuccess();
+      })
+      .catch((e) => {
+        console.log(e.response);
+        dispatch(authFail());
+      });
+  };
+};
