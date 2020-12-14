@@ -6,7 +6,7 @@ import Footer from '../../containers/Footer/Footer'
 export default function Welcome() {
     return (
         <div>
-            <Header />
+            <Header title="Studentski Smještaj Mostar" />
             <Content />
             <Footer />
         </div>

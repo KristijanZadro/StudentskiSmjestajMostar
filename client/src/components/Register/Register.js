@@ -5,6 +5,8 @@ import Input from '../../containers/Input/Input'
 
 import { connect } from "react-redux";
 import {registerUser} from '../../redux/actions/auth'
+import Header from '../../containers/Header/Header';
+import Footer from '../../containers/Footer/Footer';
 
 class Register extends React.Component {
     constructor(){
@@ -35,53 +37,58 @@ class Register extends React.Component {
     render() {
         const {name,surname,email,password} = this.state
         return (
-            <div className="register">
-                <form onSubmit={this.onRegisterSend}>
-                    <h1>Register</h1>
-                    <p>Please fill in this form to create an account.</p>
+            <div className="register-container">
+                <Header title="" />
+                <div className="register">
+                    <form onSubmit={this.onRegisterSend}>
+                        <h1>Register</h1>
+                        <p>Please fill in this form to create an account.</p>
+                        
+
+                        <label><b>Name</b></label>
+                        <Input
+                            type="text"
+                            placeholder="name:"
+                            name="name"
+                            value={name}
+                            onChange={this.onInputChange}
+                        />
+
+                        <label><b>Surname</b></label>
+                        <Input
+                            type="text"
+                            placeholder="surname:" 
+                            name="surname"
+                            value={surname}
+                            onChange={this.onInputChange}
+                        />
+
+                        <label><b>Email</b></label>
+                        <Input 
+                            type="text"
+                            placeholder="email:"
+                            name="email"
+                            value={email}
+                            onChange={this.onInputChange}
+                        />
+
+                        <label><b>Password</b></label>
+                        <Input
+                            type="text" 
+                            placeholder="password:"
+                            name="password"
+                            value={password}
+                            onChange={this.onInputChange}
+                        />
+
+                        
+                        
+                        <button type="submit" className="registerbtn" >Register</button>
                     
-
-                    <label><b>Name</b></label>
-                    <Input
-                        type="text"
-                        placeholder="name:"
-                        name="name"
-                        value={name}
-                        onChange={this.onInputChange}
-                    />
-
-                    <label><b>Surname</b></label>
-                    <Input
-                        type="text"
-                        placeholder="surname:" 
-                        name="surname"
-                        value={surname}
-                        onChange={this.onInputChange}
-                    />
-
-                    <label><b>Email</b></label>
-                    <Input 
-                        type="text"
-                        placeholder="email:"
-                        name="email"
-                        value={email}
-                        onChange={this.onInputChange}
-                    />
-
-                    <label><b>Password</b></label>
-                    <Input
-                        type="text" 
-                        placeholder="password:"
-                        name="password"
-                        value={password}
-                        onChange={this.onInputChange}
-                    />
-
-                    
-                    
-                    <button type="submit" className="registerbtn" >Register</button>
+                    </form>
+                </div>
+                <Footer />
                 
-                </form>
             
             
         </div>

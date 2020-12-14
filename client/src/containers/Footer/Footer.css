@@ -3,4 +3,6 @@
     height: 10vh;
     background-color: royalblue;
     background-image: linear-gradient(to top left, royalblue,#99bbff);
+    position: fixed;
+    bottom: 0;
 }

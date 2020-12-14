@@ -1,10 +1,10 @@
 import React from 'react'
 import './Header.css'
 
-export default function Header() {
+export default function Header({title}) {
     return (
         <div className="header">
-            <h1>Studentski smještaj Mostar</h1>
+            <h1>{title}</h1>
         </div>
     )
 }
