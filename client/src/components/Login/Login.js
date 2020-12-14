@@ -27,7 +27,6 @@ class Login extends React.Component {
       };
     
       onAuthSuccess = () => {
-        console.log("Login success")
         this.props.history.push("/private");
       };
 

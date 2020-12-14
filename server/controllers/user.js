@@ -16,7 +16,7 @@ const registerController = (req,res,next) => {
         }else{
             if(result.length > 0){
                 console.log("email is already in use")
-                res.send("email is already in use")
+                res.send({"user_exist": true})
             }else{
                 bcrypt.hash(password, 10, (err, hash) => {
                     const SQL_INSERT = "INSERT INTO user (Ime, Prezime, Email, Password) VALUES (?,?,?,?);"
@@ -25,7 +25,7 @@ const registerController = (req,res,next) => {
                             console.log(err)
                         }else{
                             console.log(result)
-                            res.send(result)
+                            res.send({"user_exist": false})
                         }
                     })
                 })
@@ -50,15 +50,16 @@ const loginController = (req,res) => {
             
         }else{
             if(result.length == 1){
+                
                 bcrypt.compare(password, result[0].Password, (err,rows)=> {
                     if(err){
                         console.log(err)
                     }else{
-                        //console.log("compare:",rows)
+                        
                         if(rows){
                             //console.log(result[0].id)
                             const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
-                            res.header('auth-token-ssm', token).send({token: token})
+                            res.header('auth-token-ssm', token).send({token: token, "password:": rows, "email_exist": true })
                             //res.send("login succesfull")
                         }else{
                             res.send("pass not valid")
@@ -68,7 +69,7 @@ const loginController = (req,res) => {
                 })
 
             }else{
-                res.send("email not valid")
+                res.send({"email_exist": false})
             }
             //console.log(result)
             //res.send(result)
