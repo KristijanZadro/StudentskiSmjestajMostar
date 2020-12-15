@@ -34,6 +34,10 @@ class Login extends React.Component {
 
     render() {
         const {email,password} = this.state
+        const {
+            loginErrorMsg,
+            authError
+        } = this.props
         return (
             <div className="login-container">
                 <Header title="" />
@@ -52,16 +56,25 @@ class Login extends React.Component {
 
                         <label><b>Password</b></label>
                         <Input
-                            type="text" 
+                            type="password" 
                             placeholder="password:"
                             name="password"
                             value={password}
                             onChange={this.onInputChange}
                         />
-
+                        {
+                            authError ?
+                            <div className="loginErrorMsg">
+                                <span>{loginErrorMsg}</span>
+                                <br />
+                            </div> :
+                            null
+                        }
                         
                         
                         <button type="submit" className="loginbtn" >Login</button>
+
+                        
                     
                     </form>
                 </div>
@@ -74,12 +87,13 @@ class Login extends React.Component {
     }
 }
 
-/*const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
-     
+        loginErrorMsg: state.auth.loginErrorMsg,
+        authError: state.auth.authError
     };
   };
-  */
+  
   const mapDispatchToProps = (dispatch) => {
     return {
       authenticate: (email, password, onAuthSuccess) =>
@@ -87,4 +101,4 @@ class Login extends React.Component {
     };
   };
   
-  export default connect(mapDispatchToProps, mapDispatchToProps)(Login);
+  export default connect(mapStateToProps, mapDispatchToProps)(Login);

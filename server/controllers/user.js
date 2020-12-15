@@ -59,10 +59,10 @@ const loginController = (req,res) => {
                         if(rows){
                             //console.log(result[0].id)
                             const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
-                            res.header('auth-token-ssm', token).send({token: token, "password:": rows, "email_exist": true })
+                            res.header('auth-token-ssm', token).send({token: token, "password": rows, "email_exist": true })
                             //res.send("login succesfull")
                         }else{
-                            res.send("pass not valid")
+                            res.send({"password": rows, "email_exist": true})
                         }
                         
                     }

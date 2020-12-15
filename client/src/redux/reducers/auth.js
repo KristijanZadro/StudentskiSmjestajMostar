@@ -12,6 +12,7 @@ const initialState = {
     isEmailValid: false,
     isEmailError: false,
     registerErrorMsg: "",
+    loginErrorMsg: ""
 };
 
 // register
@@ -45,18 +46,22 @@ const authStart = (state, action) => ({
     authLoading: true,
     authSuccess: false,
     authError: false,
+    loginErrorMsg: ""
 });
 const authSuccess = (state, action) => ({
     ...state,
     authLoading: false,
     authSuccess: true,
     isAuthenticated: true,
+    loginErrorMsg: ""
 });
 const authFail = (state, action) => ({
     ...state,
     authLoading: false,
     authError: true,
+    authSuccess: false,
     isAuthenticated: false,
+    loginErrorMsg: action.msg
 });
 
 

@@ -81,7 +81,7 @@ class Register extends React.Component {
 
                         <label><b>Password</b></label>
                         <Input
-                            type="text" 
+                            type="password" 
                             placeholder="password:"
                             name="password"
                             value={password}
@@ -90,10 +90,12 @@ class Register extends React.Component {
 
                         {
                             isEmailError ?
-                            <span>{registerErrorMsg}</span> :
+                            <div className="errorMsg">
+                                <span>{registerErrorMsg}</span>
+                                <br />
+                            </div> :
                             null
                         }
-                        <br/>
                         
                         <button type="submit" className="registerbtn" >Register</button>
                     

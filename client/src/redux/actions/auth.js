@@ -82,9 +82,10 @@ export const authSuccess = (email_exists) => {
     email_exists,
   };
 };
-export const authFail = () => {
+export const authFail = (msg) => {
   return {
     type: actionTypes.AUTH_LOGIN_FAIL,
+    msg
   };
 };
 
@@ -104,8 +105,18 @@ export const authenticate = (email, password, onAuthSuccess) => {
       .then(async (data) => {
         console.log("authenticate:", data);
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
-        dispatch(authSuccess());
-        onAuthSuccess();
+        console.log("pass",data.data.password)
+        console.log("exist",data.data.email_exist)
+        if((data.data.email_exist === true)&&(data.data.password === true)){
+          dispatch(authSuccess());
+          onAuthSuccess();
+        }
+        else if((data.data.email_exist === true)&&(data.data.password === false)){
+          dispatch(authFail("Password is not valid"));
+        }
+        else if((data.data.email_exist === false)&&(typeof(data.data.password) === 'undefined')){
+          dispatch(authFail("Email is incorrect. Please register if you don't have an account!"));
+        }
       })
       .catch((e) => {
         console.log(e.response);

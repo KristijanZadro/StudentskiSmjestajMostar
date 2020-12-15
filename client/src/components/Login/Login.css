@@ -6,7 +6,7 @@
 
 .login{
     width: 20%;
-    height: 35vh;
+    height: 40vh;
     border: 2pt solid royalblue;
     text-align: center;
     position: absolute;
@@ -38,4 +38,9 @@
 
 .login h1{
     color: royalblue;
+}
+
+.loginErrorMsg{
+    color: red;
+    font-weight: bold;
 }
