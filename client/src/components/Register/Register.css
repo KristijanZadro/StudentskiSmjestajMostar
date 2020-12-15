@@ -27,6 +27,7 @@
     font-weight: bold;
     cursor: pointer;
     font-size: medium;
+    outline: none;
 }
 
 .register button:hover{

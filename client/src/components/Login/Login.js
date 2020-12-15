@@ -4,6 +4,8 @@ import Input from '../../containers/Input/Input'
 
 import { connect } from "react-redux";
 
+import {Link} from 'react-router-dom'
+
 import {authenticate} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
@@ -66,7 +68,6 @@ class Login extends React.Component {
                             authError ?
                             <div className="loginErrorMsg">
                                 <span>{loginErrorMsg}</span>
-                                <br />
                             </div> :
                             null
                         }
@@ -74,7 +75,9 @@ class Login extends React.Component {
                         
                         <button type="submit" className="loginbtn" >Login</button>
 
-                        
+                        <Link to="/register">
+                            <p className="toRegister">Register here!</p>
+                        </Link>
                     
                     </form>
                 </div>
