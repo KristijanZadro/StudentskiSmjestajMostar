@@ -16,7 +16,7 @@ const registerController = (req,res,next) => {
         }else{
             if(result.length > 0){
                 console.log("email is already in use")
-                res.send({"user_exist": true})
+                res.send({"email_available": false})
             }else{
                 bcrypt.hash(password, 10, (err, hash) => {
                     const SQL_INSERT = "INSERT INTO user (Ime, Prezime, Email, Password) VALUES (?,?,?,?);"
@@ -25,7 +25,7 @@ const registerController = (req,res,next) => {
                             console.log(err)
                         }else{
                             console.log(result)
-                            res.send({"user_exist": false})
+                            res.send({"email_available": true})
                         }
                     })
                 })

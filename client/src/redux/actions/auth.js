@@ -9,13 +9,14 @@ export const registerUserStart = () => {
       type: actionTypes.AUTH_REGISTER_START,
     };
   };
-  export const registerUserSuccess = (userName, userSurname, userEmail, userPassword) => {
+  export const registerUserSuccess = (userName, userSurname, userEmail, userPassword, email_available) => {
     return {
       type: actionTypes.AUTH_REGISTER_SUCCESS,
       userName,
       userSurname,
       userEmail,
-      userPassword
+      userPassword,
+      email_available
       
     };
   };
@@ -30,27 +31,41 @@ export const registerUserStart = () => {
     return async (dispatch) => {
       // send request
       dispatch(registerUserStart());
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let test = re.test(String(email).toLowerCase());
+      if(test){
+          axios({
+            method: "POST",
+            url: "http://localhost:5000/api/user/register",
+            data: {
+              name,
+              surname,
+              email,
+              password
+            },
+          })
+            .then((data) => {
+              console.log("registerUser:", data);
+              //console.log(data.data.email_available)
+              if(data.data.email_available === true){
+                dispatch(registerUserSuccess(name, surname, email, password, data.data.email_available));
+                onSuccessRedirect();
+              }else{
+                dispatch(registerUserFail("Email not valid or already exists!"));
+              }
+              
+            })
+            .catch((e) => {
+              console.log(e);
+              dispatch(registerUserFail("Email not valid or already exists!"));
+            });
+
+      }else{
+        dispatch(registerUserFail("Email is not valid"))
+      }
   
       
-        axios({
-          method: "POST",
-          url: "http://localhost:5000/api/user/register",
-          data: {
-            name,
-            surname,
-            email,
-            password
-          },
-        })
-          .then((data) => {
-            console.log("registerUser:", data);
-            dispatch(registerUserSuccess(name, surname, email, password));
-            onSuccessRedirect();
-          })
-          .catch((e) => {
-            console.log(e);
-            dispatch(registerUserFail("Email not valid or already exists!"));
-          });
+        
       
     };
   };

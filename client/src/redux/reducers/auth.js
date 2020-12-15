@@ -8,12 +8,17 @@ const initialState = {
     authLoading: false,
     authSuccess: false,
     authError: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    isEmailValid: false,
+    isEmailError: false,
+    registerErrorMsg: "",
 };
 
 // register
 const registerStart = (state, action) => ({
-    
+    ...state,
+    registerErrorMsg: "",
+    isEmailError: false,
     
 });
   const registerSuccess = (state, action) => ({
@@ -21,12 +26,16 @@ const registerStart = (state, action) => ({
     userName: action.userName,
     userSurname: action.userSurname,
     userEmail: action.userEmail,
-    userPassword: action.userPassword
+    userPassword: action.userPassword,
+    isEmailValid: action.email_available,
+    isEmailError: !action.email_available,
+    registerErrorMsg: ""
     
 });
   const registerFail = (state, action) => ({
-    
-    
+    ...state,
+    registerErrorMsg: action.msg,
+    isEmailError: true,
     
 });
 

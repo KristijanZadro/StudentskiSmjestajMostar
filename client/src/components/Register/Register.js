@@ -28,14 +28,21 @@ class Register extends React.Component {
         e.preventDefault()
         const {name,surname,email,password} = this.state
         this.props.registerUser(name, surname, email, password, this.onSuccessRedirect);
+        
       };
 
       onSuccessRedirect = () => {
         this.props.history.push("/login");
+        
+        
       };
 
     render() {
         const {name,surname,email,password} = this.state
+        const {
+            isEmailError,
+            registerErrorMsg
+        } = this.props
         return (
             <div className="register-container">
                 <Header title="" />
@@ -81,7 +88,12 @@ class Register extends React.Component {
                             onChange={this.onInputChange}
                         />
 
-                        
+                        {
+                            isEmailError ?
+                            <span>{registerErrorMsg}</span> :
+                            null
+                        }
+                        <br/>
                         
                         <button type="submit" className="registerbtn" >Register</button>
                     
@@ -96,12 +108,14 @@ class Register extends React.Component {
     }
 }
 
-/*const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
-      
+      isEmailError: state.auth.isEmailError,
+      registerErrorMsg: state.auth.registerErrorMsg
+
     };
   };
-  */
+  
   const mapDispatchToProps = (dispatch) => {
     return {
       registerUser: (name, surname, email, password, onSuccessRedirect) =>
@@ -109,4 +123,4 @@ class Register extends React.Component {
     };
   };
   
-  export default connect(mapDispatchToProps, mapDispatchToProps)(Register);
+  export default connect(mapStateToProps, mapDispatchToProps)(Register);
