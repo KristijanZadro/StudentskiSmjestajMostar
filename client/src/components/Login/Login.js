@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import {Link} from 'react-router-dom'
 
-import {authenticate} from '../../redux/actions/auth'
+import {authenticate, loadSignInPage} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
 //import {Link} from 'react-router-dom'
@@ -18,6 +18,10 @@ class Login extends React.Component {
             email: "",
             password: ""
         }
+    }
+
+    componentDidMount(){
+        this.props.loadSignInPage()
     }
 
     onInputChange = (e) => {
@@ -101,6 +105,7 @@ const mapStateToProps = (state) => {
     return {
       authenticate: (email, password, onAuthSuccess) =>
         dispatch(authenticate(email, password, onAuthSuccess)),
+      loadSignInPage: () => dispatch(loadSignInPage())
     };
   };
   

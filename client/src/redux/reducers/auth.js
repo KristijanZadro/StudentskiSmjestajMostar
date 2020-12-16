@@ -64,6 +64,17 @@ const authFail = (state, action) => ({
     loginErrorMsg: action.msg
 });
 
+const resetStateLogin = (state, action) => ({
+  ...state,
+  authLoading: false,
+  authSuccess: false,
+  authError: false,
+  isEmailValid: false,
+  isEmailError: false,
+  loginErrorMsg: ""
+
+})
+
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -79,6 +90,8 @@ const authFail = (state, action) => ({
         return authSuccess(state, action);
       case actionTypes.AUTH_LOGIN_FAIL:
         return authFail(state, action);
+      case actionTypes.AUTH_RESET_LOGIN:
+        return resetStateLogin(state, action);
       default:
         return state;
     }

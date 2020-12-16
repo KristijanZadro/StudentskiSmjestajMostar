@@ -124,3 +124,16 @@ export const authenticate = (email, password, onAuthSuccess) => {
       });
   };
 };
+
+// reset state on load sign in page
+export const resetStateLogin = () => {
+  return {
+    type: actionTypes.AUTH_RESET_LOGIN,
+  };
+};
+
+export const loadSignInPage = () => {
+  return (dispatch) => {
+    dispatch(resetStateLogin());
+  };
+};
