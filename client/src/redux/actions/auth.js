@@ -137,3 +137,16 @@ export const loadSignInPage = () => {
     dispatch(resetStateLogin());
   };
 };
+
+// reset state on load sign up page
+export const resetStateRegister = () => {
+  return {
+    type: actionTypes.AUTH_RESET_REGISTER,
+  };
+};
+
+export const loadSignUpPage = () => {
+  return (dispatch) => {
+    dispatch(resetStateRegister());
+  };
+};

@@ -4,7 +4,7 @@ import Input from '../../containers/Input/Input'
 //import {Link} from 'react-router-dom'
 
 import { connect } from "react-redux";
-import {registerUser} from '../../redux/actions/auth'
+import {loadSignUpPage, registerUser} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
 
@@ -17,6 +17,10 @@ class Register extends React.Component {
             email: "",
             password: ""
         }
+    }
+
+    componentDidMount(){
+        this.props.loadSignUpPage()
     }
 
     onInputChange = (e) => {
@@ -122,6 +126,7 @@ const mapStateToProps = (state) => {
     return {
       registerUser: (name, surname, email, password, onSuccessRedirect) =>
         dispatch(registerUser(name, surname, email, password, onSuccessRedirect)),
+      loadSignUpPage: () => dispatch(loadSignUpPage())
     };
   };
   

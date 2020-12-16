@@ -75,6 +75,13 @@ const resetStateLogin = (state, action) => ({
 
 })
 
+const resetStateRegister = (state, action) => ({
+  ...state,
+  isEmailError: false,
+  registerErrorMsg: ""
+
+})
+
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -92,6 +99,8 @@ const resetStateLogin = (state, action) => ({
         return authFail(state, action);
       case actionTypes.AUTH_RESET_LOGIN:
         return resetStateLogin(state, action);
+      case actionTypes.AUTH_RESET_REGISTER:
+        return resetStateRegister(state, action);
       default:
         return state;
     }
