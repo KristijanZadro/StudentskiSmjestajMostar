@@ -5,7 +5,7 @@ const Controllers = require("../controllers/user")
 
 
 
-router.post('/register',  Controllers.registerController)
+router.post('/register', Controllers.registerController, Controllers.roleController,)
 router.post('/login',  Controllers.loginController)
 //router.post('/test', Controllers.verifyToken,  Controllers.test)
 //router.get('/check_email/', Controllers.checkEmailController)

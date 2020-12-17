@@ -31,11 +31,19 @@ class Login extends React.Component {
     onAuthenticateHandler = (e) => {
         e.preventDefault()
         let { email, password } = this.state;
-        this.props.authenticate(email, password, this.onAuthSuccess);
+        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin);
       };
     
-      onAuthSuccess = () => {
+      onAuthSuccessUser = () => {
         this.props.history.push("/private");
+      };
+
+      onAuthSuccessAdmin = () => {
+        this.props.history.push("/private/admin");
+      };
+
+      onAuthSuccessSuperAdmin = () => {
+        this.props.history.push("/private/super-admin");
       };
 
     render() {
@@ -103,8 +111,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      authenticate: (email, password, onAuthSuccess) =>
-        dispatch(authenticate(email, password, onAuthSuccess)),
+      authenticate: (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) =>
+        dispatch(authenticate(email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin)),
       loadSignInPage: () => dispatch(loadSignInPage())
     };
   };

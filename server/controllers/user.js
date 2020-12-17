@@ -26,6 +26,8 @@ const registerController = (req,res,next) => {
                         }else{
                             console.log(result)
                             res.send({"email_available": true})
+                            res.locals.email = email
+                            next()
                         }
                     })
                 })
@@ -37,6 +39,36 @@ const registerController = (req,res,next) => {
     })
 
 }
+const roleController = (req,res,next) => {
+    const SQL_FIND_EMAIL = "SELECT id FROM user WHERE Email=?;"
+    db.query(SQL_FIND_EMAIL, res.locals.email, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            const SQL_FIND_ID_ROLE = "SELECT id_uloge FROM uloge WHERE naziv_uloge = 'korisnik';"
+            db.query(SQL_FIND_ID_ROLE, (err, result_2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    const SQL_INSERT_ID_ROLE = "INSERT INTO korisnik_uloga (id_user, id_uloga) VALUES (?,?);"
+                    db.query(SQL_INSERT_ID_ROLE, [result[0].id, result_2[0].id_uloge], (err, result_3) => {
+                        if(err){
+                            console.log(err)
+                        }else{
+                            //res.send("role korisnik added.")
+                            console.log(result_3)
+                        }
+                    })
+                }
+                
+            })
+        }
+            
+
+    })
+    
+}
+
 const loginController = (req,res) => {
     const email = req.body.email
     const password = req.body.password
@@ -59,10 +91,20 @@ const loginController = (req,res) => {
                         if(rows){
                             //console.log(result[0].id)
                             const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
-                            res.header('auth-token-ssm', token).send({token: token, "password": rows, "email_exist": true })
+                            res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
+                            const SQL_FIND_ROLE = "SELECT id_uloga FROM korisnik_uloga WHERE id_user = ?;"
+                            db.query(SQL_FIND_ROLE, [result[0].id], (err,result_2)=> {
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_uloga })
+                                }
+
+                            })
                         }else{
                             res.send({"password": rows, "email_exist": true})
+                            
                         }
                         
                     }
@@ -150,6 +192,7 @@ module.exports = {
     registerController,
     loginController,
     verifyToken,
+    roleController
     //test
     //checkEmailController,
     //checkPasswordController

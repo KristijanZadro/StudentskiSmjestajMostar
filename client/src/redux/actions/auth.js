@@ -89,7 +89,7 @@ export const authFail = (msg) => {
   };
 };
 
-export const authenticate = (email, password, onAuthSuccess) => {
+export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) => {
   return async (dispatch) => {
     // send request
     dispatch(authStart());
@@ -108,8 +108,17 @@ export const authenticate = (email, password, onAuthSuccess) => {
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
         if((data.data.email_exist === true)&&(data.data.password === true)){
-          dispatch(authSuccess());
-          onAuthSuccess();
+            if(data.data.role_id === 1){
+              dispatch(authSuccess());
+              onAuthSuccessSuperAdmin();
+            }else if(data.data.role_id === 2){
+              dispatch(authSuccess());
+              onAuthSuccessAdmin();
+            }else if(data.data.role_id === 3){
+              dispatch(authSuccess());
+              onAuthSuccessUser();
+            }
+
         }
         else if((data.data.email_exist === true)&&(data.data.password === false)){
           dispatch(authFail("Password is not valid"));
