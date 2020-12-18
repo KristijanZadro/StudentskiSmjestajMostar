@@ -11,7 +11,7 @@ export default class Public extends Component {
         return (
             <div>
                 <Switch>
-                    <Route exact path="/" component={Welcome} />
+                    <Route exact path="/welcome" component={Welcome} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/login" component={Login} />
 
