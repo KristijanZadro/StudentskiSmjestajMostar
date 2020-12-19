@@ -6,7 +6,7 @@ export default function Private({isLoggedIn, Component, ...rest}) {
         <Route 
             {...rest}
             render={(props) => {
-                return isLoggedIn ? <Component {...props} /> : <Redirect to="/welcome" />
+                return isLoggedIn ? <Component {...props}  /> : <Redirect to="/welcome" />
             }} 
         />
         

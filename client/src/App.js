@@ -28,6 +28,7 @@ export default class App extends React.Component {
         isLoggedIn: false
       })
     }
+    
 
   }
   render() {

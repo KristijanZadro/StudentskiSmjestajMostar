@@ -6,7 +6,7 @@ export default class Layout extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path="/private/" component={Home} />
+                    <Route path="/private" component={Home} />
                 </Switch>
             </div>
         )
