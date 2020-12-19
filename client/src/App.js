@@ -19,6 +19,7 @@ export default class App extends React.Component {
 
   componentDidMount(){
     let checkToken = JSON.parse(localStorage.getItem("auth-token-ssm"))
+    
     if(checkToken){
       this.setState({
         isLoggedIn: true
