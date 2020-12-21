@@ -12,7 +12,8 @@ const initialState = {
     isEmailValid: false,
     isEmailError: false,
     registerErrorMsg: "",
-    loginErrorMsg: ""
+    loginErrorMsg: "",
+    checkTokenLoading: false
 };
 
 // register
@@ -53,7 +54,7 @@ const authSuccess = (state, action) => ({
     authLoading: false,
     authSuccess: true,
     isAuthenticated: true,
-    loginErrorMsg: ""
+    loginErrorMsg: "",
 });
 const authFail = (state, action) => ({
     ...state,
@@ -82,6 +83,23 @@ const resetStateRegister = (state, action) => ({
 
 })
 
+const authCheckTokenStart = (state, action) => ({
+    ...state,
+    isAuthenticated: false,
+    checkTokenLoading: true,
+})
+
+const authCheckTokenSuccess = (state, action) => ({
+  ...state,
+  isAuthenticated: true,
+  checkTokenLoading: false,
+})
+const authCheckTokenFail = (state, action) => ({
+  ...state,
+  isAuthenticated: false,
+  checkTokenLoading: false,
+})
+
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -101,6 +119,12 @@ const resetStateRegister = (state, action) => ({
         return resetStateLogin(state, action);
       case actionTypes.AUTH_RESET_REGISTER:
         return resetStateRegister(state, action);
+      case actionTypes.AUTH_CHECK_TOKEN_START:
+        return authCheckTokenStart(state, action);
+      case actionTypes.AUTH_CHECK_TOKEN_SUCCESS:
+        return authCheckTokenSuccess(state, action);
+      case actionTypes.AUTH_CHECK_TOKEN_FAIL:
+        return authCheckTokenFail(state, action);
       default:
         return state;
     }

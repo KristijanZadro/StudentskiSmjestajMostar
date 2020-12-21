@@ -160,3 +160,43 @@ export const loadSignUpPage = () => {
     dispatch(resetStateRegister());
   };
 };
+
+export const authCheckTokenStart = () => {
+  return {
+    type: actionTypes.AUTH_CHECK_TOKEN_START,
+  };
+};
+export const authCheckTokenSuccess = () => {
+  return {
+    type: actionTypes.AUTH_CHECK_TOKEN_SUCCESS,
+  };
+};
+export const authCheckTokenFail = (errorMsg) => {
+  return {
+    type: actionTypes.AUTH_CHECK_TOKEN_FAIL,
+    errorMsg,
+  };
+};
+
+export const authCheckToken = () => {
+  return async (dispatch) => {
+    // send request
+
+    dispatch(authCheckTokenStart());
+    console.log("Checking token ...");
+
+    let authUser = localStorage.getItem("auth-user-ssm");
+    if (authUser !== null) {
+      let authObj = JSON.parse(authUser);
+
+      console.log("Authenticated user: ", authObj);
+      
+      dispatch(authCheckTokenSuccess());
+
+      // this.setState({ isAuthenticated: true, loading: false });
+    } else {
+      // this.setState({ loading: false });
+      dispatch(authCheckTokenFail());
+    }
+  };
+};

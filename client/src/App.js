@@ -5,42 +5,46 @@ import Private from './components/Private/Private';
 //import {Switch, Route} from 'react-router-dom'
 import Public from './components/Public/Public';
 
+import {connect} from "react-redux"
+import {authCheckToken} from './redux/actions/auth'
 
 
-
-export default class App extends React.Component {
-
-  constructor(){
-    super()
-    this.state = {
-      isLoggedIn : false
-    }
-  }
-
+class App extends React.Component {
   componentDidMount(){
-    let checkToken = JSON.parse(localStorage.getItem("auth-token-ssm"))
-    
-    if(checkToken){
-      this.setState({
-        isLoggedIn: true
-      })
-    }else{
-      this.setState({
-        isLoggedIn: false
-      })
-    }
-    
-
+    this.props.authCheckToken()
   }
   render() {
-    const {isLoggedIn} = this.state
+    const {isAuthenticated} = this.props
+    const {checkTokenLoading} = this.props
     return (
       <div>
-        <Public />
-        <Private isLoggedIn={isLoggedIn} Component={Home} />
+        {
+          checkTokenLoading ?
+          <p>loading...</p> : (
+          <>
+            <Public />
+            <Private isAuthenticated={isAuthenticated} Component={Home} />
+          </>
+          )}
+        
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    checkTokenLoading: state.auth.checkTokenLoading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authCheckToken: () => dispatch(authCheckToken()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 
