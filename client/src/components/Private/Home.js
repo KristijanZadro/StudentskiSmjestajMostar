@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class Home extends Component {
     componentDidMount(){
-        console.log(this.props.isAuthenticated)
+        this.props.history.push("/private")
     }
     render() {
         return (
@@ -12,3 +12,5 @@ export default class Home extends Component {
         )
     }
 }
+
+

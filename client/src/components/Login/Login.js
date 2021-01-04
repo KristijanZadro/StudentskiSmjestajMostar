@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import {Link} from 'react-router-dom'
 
-import {authenticate, loadSignInPage} from '../../redux/actions/auth'
+import {authenticate, get_role_id, loadSignInPage} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
 //import {Link} from 'react-router-dom'
@@ -31,7 +31,7 @@ class Login extends React.Component {
     onAuthenticateHandler = (e) => {
         e.preventDefault()
         let { email, password } = this.state;
-        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin);
+        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin, this.props.get_role_id());
       };
     
       onAuthSuccessUser = () => {
@@ -113,7 +113,8 @@ const mapStateToProps = (state) => {
     return {
       authenticate: (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) =>
         dispatch(authenticate(email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin)),
-      loadSignInPage: () => dispatch(loadSignInPage())
+      loadSignInPage: () => dispatch(loadSignInPage()),
+      get_role_id: () => dispatch(get_role_id())
     };
   };
   

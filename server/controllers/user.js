@@ -69,7 +69,7 @@ const roleController = (req,res,next) => {
     
 }
 
-const loginController = (req,res) => {
+const loginController = (req,res,next) => {
     const email = req.body.email
     const password = req.body.password
     
@@ -99,6 +99,7 @@ const loginController = (req,res) => {
                                     console.log(err)
                                 }else{
                                     res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_uloga })
+                            
                                 }
 
                             })
@@ -119,6 +120,39 @@ const loginController = (req,res) => {
 
     })
 }
+
+const role_id_Controller = (req,res,next) => {
+            const SQL_FIND_ID_ROLE = "SELECT * FROM uloge;"
+            db.query(SQL_FIND_ID_ROLE, (err, result5) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    //res.send("role korisnik added.")
+                    let user_role_id;
+                    let superadmin_role_id;
+                    let admin_role_id;
+                    for(let i=0; i < result5.length; i++){
+                        if(result5[i].naziv_uloge === 'korisnik'){
+                            user_role_id = result5[i].id_uloge
+                        }else if(result5[i].naziv_uloge === 'superadmin'){
+                            superadmin_role_id = result5[i].id_uloge
+                        }else if(result5[i].naziv_uloge === 'admin'){
+                            admin_role_id = result5[i].id_uloge
+                        }
+                        if(i == result5.length-1){
+                            res.send({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
+                            console.log({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
+                        }
+                    }
+                    
+                    console.log(result5)
+                }
+    
+            })
+}
+
+
+
 const verifyToken = (req,res,next) => {
     const token = req.header('auth-token-ssm')
     if(!token) return res.status(401).send('access denied')
@@ -192,7 +226,8 @@ module.exports = {
     registerController,
     loginController,
     verifyToken,
-    roleController
+    roleController,
+    role_id_Controller
     //test
     //checkEmailController,
     //checkPasswordController

@@ -4,9 +4,10 @@ import Home from './components/Private/Home';
 import Private from './components/Private/Private';
 //import {Switch, Route} from 'react-router-dom'
 import Public from './components/Public/Public';
+import {authCheckToken} from './redux/actions/auth'
 
 import {connect} from "react-redux"
-import {authCheckToken} from './redux/actions/auth'
+
 
 
 class App extends React.Component {
@@ -44,6 +45,8 @@ const mapDispatchToProps = (dispatch) => {
     authCheckToken: () => dispatch(authCheckToken()),
   };
 };
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 

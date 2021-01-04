@@ -71,6 +71,25 @@ export const registerUserStart = () => {
     };
   };
 
+  
+export const get_role_id = () => {
+    
+      // send request
+     axios({
+        method: "GET",
+        url: "http://localhost:5000/api/user/get_role_id"
+        
+      })
+        .then(async (data) => {
+          console.log("role_data",data)
+          return data
+        })
+        .catch((e) => {
+          console.log(e.response);
+        
+        });
+      
+  };
   // authenticate user start
 export const authStart = () => {
   return {
@@ -90,7 +109,8 @@ export const authFail = (msg) => {
   };
 };
 
-export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) => {
+export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, get_role_id) => {
+  
   return async (dispatch) => {
     // send request
     dispatch(authStart());
@@ -108,14 +128,20 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
+        
         if((data.data.email_exist === true)&&(data.data.password === true)){
-            if(data.data.role_id === 1){
+          const role_data = get_role_id();
+          console.log("role_data_auth",role_data)
+            if(data.data.role_id === role_data.data.superadmin_role_id){
+              //dispatch(get_role_id())
               dispatch(authSuccess());
               onAuthSuccessSuperAdmin();
-            }else if(data.data.role_id === 2){
+            }else if(data.data.role_id === role_data.data.admin_role_id){
+              //dispatch(get_role_id())
               dispatch(authSuccess());
               onAuthSuccessAdmin();
-            }else if(data.data.role_id === 3){
+            }else if(data.data.role_id === role_data.data.user_role_id){
+              //dispatch(get_role_id())
               dispatch(authSuccess());
               onAuthSuccessUser();
             }
@@ -185,7 +211,7 @@ export const authCheckToken = () => {
     dispatch(authCheckTokenStart());
     console.log("Checking token ...");
 
-    let authUser = localStorage.getItem("auth-user-ssm");
+    let authUser = localStorage.getItem("auth-token-ssm");
     if (authUser !== null) {
       let authObj = JSON.parse(authUser);
 

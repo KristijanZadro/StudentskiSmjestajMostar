@@ -6,7 +6,7 @@ export default function Private({isAuthenticated, Component, ...rest}) {
         <Route 
             {...rest}
             render={(props) => {
-                return isAuthenticated ? <Component {...props} isAuthenticated={isAuthenticated} /> && <Redirect to="/private" />  : <Redirect to="/welcome" />
+                return isAuthenticated ? <Component {...props} isAuthenticated={isAuthenticated} /> : <Redirect to="/welcome" />
             }} 
         />
         
