@@ -19,7 +19,7 @@ const registerController = (req,res,next) => {
                 res.send({"email_available": false})
             }else{
                 bcrypt.hash(password, 10, (err, hash) => {
-                    const SQL_INSERT = "INSERT INTO user (Ime, Prezime, Email, Password) VALUES (?,?,?,?);"
+                    const SQL_INSERT = "INSERT INTO user (Name, Surname, Email, Password) VALUES (?,?,?,?);"
                     db.query(SQL_INSERT, [name, surname, email, hash], (err, result) => {
                         if(err){
                             console.log(err)
@@ -45,13 +45,13 @@ const roleController = (req,res,next) => {
         if(err){
             console.log(err)
         }else{
-            const SQL_FIND_ID_ROLE = "SELECT id_uloge FROM uloge WHERE naziv_uloge = 'korisnik';"
+            const SQL_FIND_ID_ROLE = "SELECT id_role FROM roles WHERE role_name = 'user';"
             db.query(SQL_FIND_ID_ROLE, (err, result_2) => {
                 if(err){
                     console.log(err)
                 }else{
-                    const SQL_INSERT_ID_ROLE = "INSERT INTO korisnik_uloga (id_user, id_uloga) VALUES (?,?);"
-                    db.query(SQL_INSERT_ID_ROLE, [result[0].id, result_2[0].id_uloge], (err, result_3) => {
+                    const SQL_INSERT_ID_ROLE = "INSERT INTO user_role (id_user, id_role) VALUES (?,?);"
+                    db.query(SQL_INSERT_ID_ROLE, [result[0].id, result_2[0].id_role], (err, result_3) => {
                         if(err){
                             console.log(err)
                         }else{
@@ -93,12 +93,12 @@ const loginController = (req,res,next) => {
                             const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
                             res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
-                            const SQL_FIND_ROLE = "SELECT id_uloga FROM korisnik_uloga WHERE id_user = ?;"
+                            const SQL_FIND_ROLE = "SELECT id_role FROM user_role WHERE id_user = ?;"
                             db.query(SQL_FIND_ROLE, [result[0].id], (err,result_2)=> {
                                 if(err){
                                     console.log(err)
                                 }else{
-                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_uloga })
+                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role })
                             
                                 }
 
@@ -122,7 +122,7 @@ const loginController = (req,res,next) => {
 }
 
 const role_id_Controller = (req,res,next) => {
-            const SQL_FIND_ID_ROLE = "SELECT * FROM uloge;"
+            const SQL_FIND_ID_ROLE = "SELECT * FROM roles;"
             db.query(SQL_FIND_ID_ROLE, (err, result5) => {
                 if(err){
                     console.log(err)
@@ -132,12 +132,12 @@ const role_id_Controller = (req,res,next) => {
                     let superadmin_role_id;
                     let admin_role_id;
                     for(let i=0; i < result5.length; i++){
-                        if(result5[i].naziv_uloge === 'korisnik'){
-                            user_role_id = result5[i].id_uloge
-                        }else if(result5[i].naziv_uloge === 'superadmin'){
-                            superadmin_role_id = result5[i].id_uloge
-                        }else if(result5[i].naziv_uloge === 'admin'){
-                            admin_role_id = result5[i].id_uloge
+                        if(result5[i].role_name === 'user'){
+                            user_role_id = result5[i].id_role
+                        }else if(result5[i].role_name === 'superadmin'){
+                            superadmin_role_id = result5[i].id_role
+                        }else if(result5[i].role_name === 'admin'){
+                            admin_role_id = result5[i].id_role
                         }
                         if(i == result5.length-1){
                             res.send({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
