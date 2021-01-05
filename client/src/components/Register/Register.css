@@ -1,0 +1,53 @@
+.register-container{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.register{
+    width: 20%;
+    height: 60vh;
+    border: 2pt solid royalblue;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+.register button{
+    margin-top: 30px;
+    width: 90px;
+    height: 40px;
+    margin: 10px;
+    background-color: royalblue;
+    border: 2pt solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+}
+
+.register button:hover{
+    background-color: transparent;
+    color: royalblue;
+    border-color: royalblue;
+}
+
+.register p{
+    padding: 5px;
+    
+}
+
+.register h1{
+    color: royalblue;
+}
+
+.errorMsg{
+    color: red;
+    font-weight: bold;
+    margin: 5px;
+
+}

@@ -1,25 +1,53 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Home from './components/Private/Home';
+import Private from './components/Private/Private';
+//import {Switch, Route} from 'react-router-dom'
+import Public from './components/Public/Public';
+import {authCheckToken} from './redux/actions/auth'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {connect} from "react-redux"
+
+
+
+class App extends React.Component {
+  componentDidMount(){
+    this.props.authCheckToken()
+  }
+  render() {
+    const {isAuthenticated} = this.props
+    const {checkTokenLoading} = this.props
+    return (
+      <div>
+        {
+          checkTokenLoading ?
+          <p>loading...</p> : (
+          <>
+            <Public />
+            <Private isAuthenticated={isAuthenticated} Component={Home} />
+          </>
+          )}
+        
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    checkTokenLoading: state.auth.checkTokenLoading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authCheckToken: () => dispatch(authCheckToken()),
+  };
+};
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
