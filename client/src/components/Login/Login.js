@@ -22,6 +22,7 @@ class Login extends React.Component {
 
     componentDidMount(){
         this.props.loadSignInPage()
+        this.props.get_role_id()
     }
 
     onInputChange = (e) => {
@@ -31,7 +32,7 @@ class Login extends React.Component {
     onAuthenticateHandler = (e) => {
         e.preventDefault()
         let { email, password } = this.state;
-        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin, this.props.get_role_id());
+        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin);
       };
     
       onAuthSuccessUser = () => {

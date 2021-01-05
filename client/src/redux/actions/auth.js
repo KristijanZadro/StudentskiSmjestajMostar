@@ -73,22 +73,24 @@ export const registerUserStart = () => {
 
   
 export const get_role_id = () => {
-    
+    return async (dispatch) => {
       // send request
+      
      axios({
         method: "GET",
         url: "http://localhost:5000/api/user/get_role_id"
         
       })
         .then(async (data) => {
-          console.log("role_data",data)
-          return data
+          console.log("role_data", data)
+          localStorage.setItem("roles-ssm", JSON.stringify(data.data));
+          
         })
         .catch((e) => {
           console.log(e.response);
         
         });
-      
+    };
   };
   // authenticate user start
 export const authStart = () => {
@@ -109,12 +111,12 @@ export const authFail = (msg) => {
   };
 };
 
-export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, get_role_id) => {
+export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) => {
   
   return async (dispatch) => {
     // send request
     dispatch(authStart());
-
+    
     axios({
       method: "POST",
       url: "http://localhost:5000/api/user/login",
@@ -124,24 +126,22 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
       },
     })
       .then(async (data) => {
+        const roles = localStorage.getItem("roles-ssm");
+        const roles2 = JSON.parse(roles)
+        console.log(roles2)
         console.log("authenticate:", data);
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
         
         if((data.data.email_exist === true)&&(data.data.password === true)){
-          const role_data = get_role_id();
-          console.log("role_data_auth",role_data)
-            if(data.data.role_id === role_data.data.superadmin_role_id){
-              //dispatch(get_role_id())
+            if(data.data.role_id === roles2.superadmin_role_id){
               dispatch(authSuccess());
               onAuthSuccessSuperAdmin();
-            }else if(data.data.role_id === role_data.data.admin_role_id){
-              //dispatch(get_role_id())
+            }else if(data.data.role_id === roles2.admin_role_id){
               dispatch(authSuccess());
               onAuthSuccessAdmin();
-            }else if(data.data.role_id === role_data.data.user_role_id){
-              //dispatch(get_role_id())
+            }else if(data.data.role_id === roles2.user_role_id){
               dispatch(authSuccess());
               onAuthSuccessUser();
             }
