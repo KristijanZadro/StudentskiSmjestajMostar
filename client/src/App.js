@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './components/Private/Home';
+import Home from './components/Private/Home/Home';
 import Private from './components/Private/Private';
 //import {Switch, Route} from 'react-router-dom'
 import Public from './components/Public/Public';
