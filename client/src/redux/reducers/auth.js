@@ -8,12 +8,12 @@ const initialState = {
     authLoading: false,
     authSuccess: false,
     authError: false,
-    isAuthenticated: false,
+    isAuthenticated: JSON.parse(localStorage.getItem('isAuth')) || false,
     isEmailValid: false,
     isEmailError: false,
     registerErrorMsg: "",
     loginErrorMsg: "",
-    checkTokenLoading: false
+    checkTokenLoading: false,
 };
 
 // register

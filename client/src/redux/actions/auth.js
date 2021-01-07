@@ -133,6 +133,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
+        localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));
         
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles2.superadmin_role_id){

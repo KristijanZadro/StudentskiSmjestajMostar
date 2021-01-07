@@ -16,11 +16,13 @@ import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
 
 export default class Layout extends Component {
-    componentDidMount() {
-        let { isAuthenticated } = this.props;
-    
-        if (!isAuthenticated) this.props.history.push("/");
-      }
+    componentDidMount(){
+      //console.log(window.location.pathname)
+      //this.props.history.push("/private")
+      //window.location.reload();
+      console.log("isAuth",this.props.isAuthenticated)
+      
+    }
     render() {
         return (
             <div className="layout">
@@ -83,7 +85,7 @@ export default class Layout extends Component {
                 </div>
                 <div className="layout-content">
                     <Switch>
-                        <Route exact path="/private" render={() => <Home {...this.props} />}  />
+                        <Route exact path="/private" component={Home}  />
                         <Route exact path="/private/profile" render={() => <Profile {...this.props} />}  />
                         <Route exact path="/private/myAds" component={MyAds} />
                         <Route exact path="/private/chat" component={Chat} />
