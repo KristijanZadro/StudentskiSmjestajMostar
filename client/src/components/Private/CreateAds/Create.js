@@ -1,5 +1,5 @@
 import React from 'react'
-//import Form from './Form'
+import Form from './Form'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -44,7 +44,7 @@ export default class Create extends React.Component{
                         <DialogContentText>
                             Please Fill out the form below.
                         </DialogContentText>
-                        
+                        <Form />
                     </DialogContent>
                 </Dialog>
             </div>
