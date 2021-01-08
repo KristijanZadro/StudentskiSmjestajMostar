@@ -2,6 +2,8 @@ import * as actionTypes from "./actionsTypes";
 
 import axios from "axios";
 
+import Jwt_Decode from "jwt-decode";
+
 
 // register user start
 export const registerUserStart = () => {
@@ -212,11 +214,21 @@ export const authCheckToken = () => {
     dispatch(authCheckTokenStart());
     console.log("Checking token ...");
 
-    let authUser = localStorage.getItem("auth-token-ssm");
+    if (localStorage.getItem("auth-token-ssm")) {
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      console.log(jwt_Token_decoded.exp * 1000);
+      console.log(Date.now());
+      console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
+      if (jwt_Token_decoded.exp * 1000 < Date.now()) {
+        localStorage.clear();
+      } 
+    
+
+    /*let authUser = localStorage.getItem("auth-token-ssm");
     if (authUser !== null) {
       let authObj = JSON.parse(authUser);
 
-      console.log("Authenticated user: ", authObj);
+      console.log("Authenticated user: ", authObj);*/
       
       dispatch(authCheckTokenSuccess());
 

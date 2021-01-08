@@ -6,8 +6,13 @@
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(to right, royalblue,#3385ff);
+
 }
 
-.header h1{
+.header-title{
     color: white;
+    flex: 2;
+    text-align: center;
+    
+    
 }
