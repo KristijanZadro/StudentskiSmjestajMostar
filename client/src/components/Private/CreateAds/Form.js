@@ -6,7 +6,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+//import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     FormControl: {
@@ -15,6 +16,10 @@ const styles = theme => ({
     },
     CheckBox: {
         display: "flex"
+    },
+    TextArea: {
+        display: "flex",
+        flexDirection: "column"
     }
 })
 
@@ -124,8 +129,22 @@ export default withStyles(styles)(class Form extends Component {
                                 color="primary"
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
+                            <br/>
+                            
+                        </div>
+                        <div className={this.props.classes.TextArea}>
+                        <label>Description</label>
+                            <TextareaAutosize
+                                name="desc"
+                                value={desc}
+                                onChange={this.handleChange} 
+                                aria-label="minimum height" 
+                                rowsMin={5} 
+                                placeholder="" 
+                            />
                             <br/>  
                         </div>
+                        
                         
                         
                     </form>

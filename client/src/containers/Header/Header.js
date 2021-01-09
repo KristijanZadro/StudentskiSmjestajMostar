@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.css'
-import Create from '../../components/Private/CreateAds/Create'
+//import Create from '../../components/Private/CreateAds/Create'
 
 export default function Header({title, componentToPassDown}) {
     return (
