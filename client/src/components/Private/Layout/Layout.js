@@ -8,6 +8,8 @@ import Profile from '../Profile/Profile'
 import MyAds from '../MyAds/MyAds'
 import Chat from '../Chat/Chat'
 import Settings from '../Settings/Settings'
+import Create from '../CreateAds/Create'
+
 
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
@@ -26,7 +28,7 @@ export default class Layout extends Component {
     render() {
         return (
             <div className="layout">
-                <Header title="Studentski Smjestaj Mostar" />
+                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>}/>
                 <div className="layout-sidebar">
                     <div className="sidebar-profile">
                         <div className="sidebar-avatar">
