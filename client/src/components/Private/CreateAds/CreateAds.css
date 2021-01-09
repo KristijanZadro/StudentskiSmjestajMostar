@@ -1,0 +1,10 @@
+
+.create{
+    flex: 1;
+    display: flex; 
+    justify-content: flex-end;   
+}
+.createButton{
+    width: 40px;
+    margin-right: 50px;
+}

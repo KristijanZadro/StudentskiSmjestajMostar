@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
-import Home from './components/Private/Home';
 import Private from './components/Private/Private';
 //import {Switch, Route} from 'react-router-dom'
 import Public from './components/Public/Public';
 import {authCheckToken} from './redux/actions/auth'
+
+import Layout from "./components/Private/Layout/Layout"
 
 import {connect} from "react-redux"
 
@@ -24,7 +25,8 @@ class App extends React.Component {
           <p>loading...</p> : (
           <>
             <Public />
-            <Private isAuthenticated={isAuthenticated} Component={Home} />
+            <Private isAuthenticated={isAuthenticated} Component={Layout} />
+            
           </>
           )}
         
@@ -37,6 +39,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     checkTokenLoading: state.auth.checkTokenLoading,
+
   };
 };
 

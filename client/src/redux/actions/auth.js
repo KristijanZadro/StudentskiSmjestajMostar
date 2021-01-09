@@ -2,6 +2,8 @@ import * as actionTypes from "./actionsTypes";
 
 import axios from "axios";
 
+import Jwt_Decode from "jwt-decode";
+
 
 // register user start
 export const registerUserStart = () => {
@@ -133,6 +135,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
+        localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));
         
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles2.superadmin_role_id){
@@ -211,11 +214,21 @@ export const authCheckToken = () => {
     dispatch(authCheckTokenStart());
     console.log("Checking token ...");
 
-    let authUser = localStorage.getItem("auth-token-ssm");
+    if (localStorage.getItem("auth-token-ssm")) {
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      console.log(jwt_Token_decoded.exp * 1000);
+      console.log(Date.now());
+      console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
+      if (jwt_Token_decoded.exp * 1000 < Date.now()) {
+        localStorage.clear();
+      } 
+    
+
+    /*let authUser = localStorage.getItem("auth-token-ssm");
     if (authUser !== null) {
       let authObj = JSON.parse(authUser);
 
-      console.log("Authenticated user: ", authObj);
+      console.log("Authenticated user: ", authObj);*/
       
       dispatch(authCheckTokenSuccess());
 
