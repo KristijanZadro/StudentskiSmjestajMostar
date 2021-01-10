@@ -132,7 +132,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         const roles2 = JSON.parse(roles)
         console.log(roles2)
         console.log("authenticate:", data);
-        localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
+        localStorage.setItem("auth-token-ssm", JSON.stringify(data.data.token));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
         localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));

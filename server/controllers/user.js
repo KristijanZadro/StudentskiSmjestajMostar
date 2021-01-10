@@ -98,7 +98,7 @@ const loginController = (req,res,next) => {
                                 if(err){
                                     console.log(err)
                                 }else{
-                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role })
+                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role, "name": result[0].Name, "surname": result[0].Surname })
                             
                                 }
 

@@ -31,7 +31,7 @@ export const createAdStart = () => {
     };
   };
 
-  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc) => {
+  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, title_available) => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
@@ -48,30 +48,38 @@ export const createAdStart = () => {
                 size, 
                 pets, 
                 balcony, 
-                desc
+                desc,
+                title_available
               
             },
           })
             .then((data) => {
               console.log("createAd:", data);
-              
+              if(data.data.title_available){
+                dispatch(createAdSuccess(title, images, price, address, peopleAllowed, size, pets, balcony, desc, data.data.title_available));
+              }else{
+                  dispatch(createAdFail("Title is already in use!"))
+              }
              
-            dispatch(createAdSuccess(title, images, price, address, peopleAllowed, size, pets, balcony, desc));
-              
-              
-              
-            })
+            
+        })
             .catch((e) => {
               console.log(e);
               dispatch(createAdFail());
             });
 
     
-       
-      
+    };
+  };
+
+  export const resetStateModalForm = () => {
+    return {
+      type: actionTypes.ADV_RESET_MODAL_FORM,
+    };
+  };
   
-      
-        
-      
+  export const loadModal = () => {
+    return (dispatch) => {
+      dispatch(resetStateModalForm());
     };
   };

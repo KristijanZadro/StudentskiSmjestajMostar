@@ -38,8 +38,8 @@ export default class Layout extends Component {
                             />
                         </div>
                         <div className="sidebar-name">
-                            John <br />
-                            Smith
+                            {this.props.name} <br />
+                            {this.props.surname}
                         </div>
                     
 

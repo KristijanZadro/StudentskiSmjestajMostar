@@ -10,7 +10,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 //import Button from '@material-ui/core/Button';
 import './CreateAds.css'
 
-import {createAd} from '../../../redux/actions/adv'
+import {createAd, loadModal} from '../../../redux/actions/adv'
 
 import { connect } from "react-redux";
 
@@ -60,17 +60,29 @@ const styles = theme => ({
             address: '',
             peopleAllowed: "",
             size: "",
-            pets: 0,
-            balcony: 0,
+            pets: false,
+            balcony: false,
             desc: ''
 
         }
+    }
+
+    componentDidMount(){
+        this.props.loadModal()
     }
     
     handleChange = ({ target: { value, name } }) => { 
         this.setState({
             [name]: value
         })
+
+    }
+    handleChangeCheckBox = ({ target: { checked, name } }) => { 
+        this.setState({
+            [name]: checked
+        })
+        console.log(this.state.pets)
+        
 
     }
     /*handleSubmit = () => {
@@ -88,6 +100,7 @@ const styles = theme => ({
 
     render() {
         const { title, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
+        const {isTitleError, createAdErrorMsg} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
         return (
             <div>
@@ -155,18 +168,18 @@ const styles = theme => ({
                         <div className={this.props.classes.CheckBox}>
                             <InputLabel id="input">Pets</InputLabel> 
                             <Checkbox
-                                value={pets}
+                                checked={pets}
                                 name="pets"
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeCheckBox}
                                 color="primary"
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
                             <br/>
                             <InputLabel id="input">Balcony</InputLabel> 
                             <Checkbox
-                                value={balcony}
+                                checked={balcony}
                                 name="balcony"
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeCheckBox}
                                 color="primary"
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
@@ -185,8 +198,19 @@ const styles = theme => ({
                             />
                               
                         </div>
+                        {
+                            isTitleError ?
+                            <div className="errorMsg">
+                                <span>{createAdErrorMsg}</span>
+                                <br />
+                            </div> :
+                            null
+                        }
                         <div className={this.props.classes.Button}>
-                            <button className="dialogFormButton">
+                            <button 
+                                className="dialogFormButton" 
+                                onClick={isTitleError ? this.props.onClose : null}
+                            >
                                 Submit request
                             </button>
                         </div>
@@ -203,7 +227,7 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
     return {
-      isTtitleError: state.adv.isTtitleError,
+      isTitleError: state.adv.isTitleError,
       createAdErrorMsg: state.adv.createAdErrorMsg
 
     };
@@ -213,6 +237,7 @@ const mapStateToProps = (state) => {
     return {
       createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc) =>
         dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc)),
+      loadModal: () => dispatch(loadModal())
     };
   };
   

@@ -6,8 +6,8 @@ const initialState = {
     address: "",
     peopleAllowed: "",
     size: "",
-    pets: 0,
-    balcony: 0,
+    pets: false,
+    balcony: false,
     desc: "",
     createAdErrorMsg: "",
     isTitleValid: false,
@@ -37,10 +37,19 @@ const createAdStart = (state, action) => ({
 });
   const createAdFail = (state, action) => ({
     ...state,
-    registerErrorMsg: action.msg,
-    isEmailError: true,
+    createAdErrorMsg: action.msg,
+    isTitleError: true,
     
 });
+
+const loadModal = (state, action) => ({
+    ...state,
+    createAdErrorMsg: "",
+    isTitleError: false,
+    
+});
+
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -50,6 +59,8 @@ const reducer = (state = initialState, action) => {
           return createAdSuccess(state, action);
         case actionTypes.ADV_CREATE_AD_FAIL:
           return createAdFail(state, action);
+        case actionTypes.ADV_RESET_MODAL_FORM:
+            return loadModal(state, action);
         default:
           return state;
     }

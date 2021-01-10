@@ -44,7 +44,7 @@ export default class Create extends React.Component{
                         <DialogContentText id="dialogTitle">
                             Please Fill out the form below.
                         </DialogContentText>
-                        <Form />
+                        <Form onClose={this.handleToggle} />
                     </DialogContent>
                 </Dialog>
             </div>

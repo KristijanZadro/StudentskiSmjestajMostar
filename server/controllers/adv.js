@@ -11,16 +11,32 @@ const advController = (req,res,next) => {
     const balcony = req.body.balcony
     const desc = req.body.desc
 
-    const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description) VALUES (?,?,?,?,?,?,?,?);"
-        db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc], (err, result) => {
-            if(err){
-                console.log(err)
+
+    const SQL_SELECT = "SELECT * FROM advertisement WHERE title = ?;"
+    db.query(SQL_SELECT, title , (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            if(result.length > 0){
+                console.log("title is already in use")
+                res.send({"title_available": false})
             }else{
-                console.log(result)
-                res.send(result)
-                
+                const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description) VALUES (?,?,?,?,?,?,?,?);"
+                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc], (err, result) => {
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log(result)
+                        res.send({"title_available": true})
+                        
+                    }
+                })
             }
-        })
+            
+        }
+    })
+
+    
 
 }
 
