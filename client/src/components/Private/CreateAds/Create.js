@@ -39,9 +39,9 @@ export default class Create extends React.Component{
                     </Fab>
                 </div>
                 <Dialog open={this.state.open} onClose={this.handleToggle}>
-                    <DialogTitle>Create a new advertisement</DialogTitle>
+                    <DialogTitle id="dialogTitle">Create a new advertisement</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
+                        <DialogContentText id="dialogTitle">
                             Please Fill out the form below.
                         </DialogContentText>
                         <Form />

@@ -7,19 +7,41 @@ import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-//import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     FormControl: {
-        width: 300,
+        width: 500,
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContetn: "center"
+        
         
     },
     CheckBox: {
-        display: "flex"
+        display: "flex",
+        margin: 20
     },
     TextArea: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        margin: 20,
+        width: "100%"
+    },
+    FormControlElement: {
+        margin: 20,
+        width: "42%"
+    },
+    FormControlElementPeopleAllowed: {
+        margin: 20,
+        width: "42%",
+        display: "flex",
+        flexDirection: "row"
+    },
+    Button: {
+        display: "flex",
+        justifyContent: "center",
+        width: "100%"
     }
 })
 
@@ -57,14 +79,15 @@ export default withStyles(styles)(class Form extends Component {
         const numbers = [1, 2, 3, 4, 5, 6]
         return (
             <div>
-                <form>
+                <form className={this.props.classes.FormControl}>
                         <TextField
                             label="Title"
                             value={title}
                             name='title'
                             onChange={this.handleChange}
                             margin="normal"
-                            className={this.props.classes.FormControl}
+                            className={this.props.classes.FormControlElement}
+                            
                         />
                         <br/>
                         <TextField
@@ -73,7 +96,8 @@ export default withStyles(styles)(class Form extends Component {
                             name='price'
                             onChange={this.handleChange}
                             margin="normal"
-                            className={this.props.classes.FormControl}
+                            className={this.props.classes.FormControlElement}
+                            
                         />
                         <br/>
                         <TextField
@@ -82,25 +106,29 @@ export default withStyles(styles)(class Form extends Component {
                             name='address'
                             onChange={this.handleChange}
                             margin="normal"
-                            className={this.props.classes.FormControl}
+                            className={this.props.classes.FormControlElement}
+                           
                         />
                         <br/>
-                        <FormControl className={this.props.classes.FormControl}>
-                            <InputLabel id="peopleAllowed">People Allowed</InputLabel>
+                        <div className={this.props.classes.FormControlElementPeopleAllowed}>
+                            <InputLabel id="input">People Allowed</InputLabel>
                             <Select
                                 value={peopleAllowed}
                                 name='peopleAllowed'
                                 onChange={this.handleChange}
+                                
                             >
                                 {
-                                     numbers.map((num, i) => 
-                                        <MenuItem key={i} value={num}>{num}</MenuItem>
+                                        numbers.map((num, i) => 
+                                        <MenuItem key={i} id="peopleAllowedSelect" value={num}>{num}</MenuItem>
                                     )
                                 
                                     
                                 }
                             </Select>
-                        </FormControl>
+                        </div>
+                        
+                        
                         <br/>
                         <TextField
                             label="Size"
@@ -108,11 +136,12 @@ export default withStyles(styles)(class Form extends Component {
                             name='size'
                             onChange={this.handleChange}
                             margin="normal"
-                            className={this.props.classes.FormControl}
+                            className={this.props.classes.FormControlElement}
+                            
                         />
                         <br/>
                         <div className={this.props.classes.CheckBox}>
-                            <label>Pets</label> 
+                            <InputLabel id="input">Pets</InputLabel> 
                             <Checkbox
                                 value={pets}
                                 name="pets"
@@ -121,7 +150,7 @@ export default withStyles(styles)(class Form extends Component {
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
                             <br/>
-                            <label>balcony</label> 
+                            <InputLabel id="input">Balcony</InputLabel> 
                             <Checkbox
                                 value={balcony}
                                 name="balcony"
@@ -133,7 +162,7 @@ export default withStyles(styles)(class Form extends Component {
                             
                         </div>
                         <div className={this.props.classes.TextArea}>
-                        <label>Description</label>
+                        <InputLabel id="desc">Description</InputLabel>
                             <TextareaAutosize
                                 name="desc"
                                 value={desc}
@@ -142,8 +171,14 @@ export default withStyles(styles)(class Form extends Component {
                                 rowsMin={5} 
                                 placeholder="" 
                             />
-                            <br/>  
+                              
                         </div>
+                        <div className={this.props.classes.Button}>
+                            <Button variant="contained" color="primary">
+                                Submit request
+                            </Button>
+                        </div>
+                        
                         
                         
                         

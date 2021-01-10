@@ -8,3 +8,17 @@
     width: 40px;
     margin-right: 50px;
 }
+
+#input{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+#desc{
+    margin-bottom: 5px;
+}
+
+#dialogTitle{
+    text-align: center;
+}
