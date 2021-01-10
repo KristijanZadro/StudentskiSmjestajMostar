@@ -2,12 +2,17 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
+//import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
+import './CreateAds.css'
+
+import {createAd} from '../../../redux/actions/adv'
+
+import { connect } from "react-redux";
 
 const styles = theme => ({
     FormControl: {
@@ -45,18 +50,18 @@ const styles = theme => ({
     }
 })
 
-export default withStyles(styles)(class Form extends Component {
+ class Form extends Component {
     constructor(){
         super()
         this.state = {
             title:'', 
             images: [], 
-            price: '',
+            price: "",
             address: '',
-            peopleAllowed: '',
-            size: '',
-            pets: false,
-            balcony: false,
+            peopleAllowed: "",
+            size: "",
+            pets: 0,
+            balcony: 0,
             desc: ''
 
         }
@@ -74,12 +79,19 @@ export default withStyles(styles)(class Form extends Component {
             ...this.state
         })
     }*/
-    render() {
+
+    onAdSend = (e) => {
+        e.preventDefault()
         const { title, images, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
+        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc);
+      };
+
+    render() {
+        const { title, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
         const numbers = [1, 2, 3, 4, 5, 6]
         return (
             <div>
-                <form className={this.props.classes.FormControl}>
+                <form className={this.props.classes.FormControl} onSubmit={this.onAdSend}>
                         <TextField
                             label="Title"
                             value={title}
@@ -120,7 +132,7 @@ export default withStyles(styles)(class Form extends Component {
                             >
                                 {
                                         numbers.map((num, i) => 
-                                        <MenuItem key={i} id="peopleAllowedSelect" value={num}>{num}</MenuItem>
+                                        <MenuItem key={i} name="num" value={num}>{num}</MenuItem>
                                     )
                                 
                                     
@@ -174,9 +186,9 @@ export default withStyles(styles)(class Form extends Component {
                               
                         </div>
                         <div className={this.props.classes.Button}>
-                            <Button variant="contained" color="primary">
+                            <button className="dialogFormButton">
                                 Submit request
-                            </Button>
+                            </button>
                         </div>
                         
                         
@@ -187,4 +199,21 @@ export default withStyles(styles)(class Form extends Component {
         )
     }
 }
-)
+
+
+const mapStateToProps = (state) => {
+    return {
+      isTtitleError: state.adv.isTtitleError,
+      createAdErrorMsg: state.adv.createAdErrorMsg
+
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc) =>
+        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc)),
+    };
+  };
+  
+  export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Form));
