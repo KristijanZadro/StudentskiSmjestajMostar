@@ -90,7 +90,7 @@ const loginController = (req,res,next) => {
                         
                         if(rows){
                             //console.log(result[0].id)
-                            const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
+                            const token = jwt.sign({user: result[0]}, process.env.TOKEN_SECRET, {expiresIn: 3600})
                             res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
                             const SQL_FIND_ROLE = "SELECT id_role FROM user_role WHERE id_user = ?;"
@@ -98,7 +98,9 @@ const loginController = (req,res,next) => {
                                 if(err){
                                     console.log(err)
                                 }else{
-                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role, "name": result[0].Name, "surname": result[0].Surname })
+                                    res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role })
+                                    res.locals.email = email
+                                    next()
                             
                                 }
 
@@ -151,8 +153,21 @@ const role_id_Controller = (req,res,next) => {
             })
 }
 
+/*const get_name_surname_Controller = (req,res,next) => {
+    const SQL_GET_NAME_SURNAME = "SELECT * FROM user WHERE Email = ?;"
+    db.query(SQL_GET_NAME_SURNAME, res.locals.email, (err, result_3) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result_3)
+            res.send({"name": result_3[0].Name, "surname": result_3[0].Surname})
+        }
+
+    })
+}
 
 
+*/
 const verifyToken = (req,res,next) => {
     const token = req.header('auth-token-ssm')
     if(!token) return res.status(401).send('access denied')
@@ -227,7 +242,8 @@ module.exports = {
     loginController,
     verifyToken,
     roleController,
-    role_id_Controller
+    role_id_Controller,
+ 
     //test
     //checkEmailController,
     //checkPasswordController

@@ -55,6 +55,8 @@ const authSuccess = (state, action) => ({
     authSuccess: true,
     isAuthenticated: true,
     loginErrorMsg: "",
+    userName: action.name,
+    userSurname: action.surname
 });
 const authFail = (state, action) => ({
     ...state,
@@ -93,6 +95,8 @@ const authCheckTokenSuccess = (state, action) => ({
   ...state,
   isAuthenticated: true,
   checkTokenLoading: false,
+  userName: action.name,
+  userSurname: action.surname
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,

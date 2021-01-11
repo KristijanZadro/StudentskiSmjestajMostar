@@ -100,10 +100,11 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (email_exists) => {
+export const authSuccess = (name, surname) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
-    email_exists,
+    name, 
+    surname
   };
 };
 export const authFail = (msg) => {
@@ -136,7 +137,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
         localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));
-        
+        const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles2.superadmin_role_id){
               dispatch(authSuccess());
@@ -145,7 +146,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
               dispatch(authSuccess());
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles2.user_role_id){
-              dispatch(authSuccess());
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
               onAuthSuccessUser();
             }
 
@@ -164,6 +165,51 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
   };
 };
 
+/*export const getUserInfoStart = () => {
+  return {
+    type: actionTypes.AUTH_GET_USER_INFO_START,
+  };
+};
+export const getUserInfoSuccess = (email_exists) => {
+  return {
+    type: actionTypes.AUTH_GET_USER_INFO_SUCCESS,
+    email_exists,
+  };
+};
+export const getUserInfoFail = (msg) => {
+  return {
+    type: actionTypes.AUTH_GET_USER_INFO_FAIL,
+    msg
+  };
+};
+
+export const getUserInfo = () => {
+  
+  return async (dispatch) => {
+    // send request
+    dispatch(getUserInfoStart());
+    const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+    axios({
+      method: "GET",
+      url: "http://localhost:5000/api/user/get_user_info",
+      data: {
+        name: jwt_Token_decoded.user.Name,
+        surname
+      }
+    })
+      .then(async (data) => {
+        console.log(data)
+        
+        dispatch(getUserInfoSuccess())
+
+      })
+      .catch((e) => {
+        console.log(e.response);
+        dispatch(getUserInfoFail());
+      });
+  };
+};
+*/
 // reset state on load sign in page
 export const resetStateLogin = () => {
   return {
@@ -195,9 +241,12 @@ export const authCheckTokenStart = () => {
     type: actionTypes.AUTH_CHECK_TOKEN_START,
   };
 };
-export const authCheckTokenSuccess = () => {
+export const authCheckTokenSuccess = (name, surname) => {
   return {
     type: actionTypes.AUTH_CHECK_TOKEN_SUCCESS,
+    name,
+    surname
+    
   };
 };
 export const authCheckTokenFail = (errorMsg) => {
@@ -216,6 +265,7 @@ export const authCheckToken = () => {
 
     if (localStorage.getItem("auth-token-ssm")) {
       const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      console.log(jwt_Token_decoded)
       console.log(jwt_Token_decoded.exp * 1000);
       console.log(Date.now());
       console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
@@ -230,7 +280,7 @@ export const authCheckToken = () => {
 
       console.log("Authenticated user: ", authObj);*/
       
-      dispatch(authCheckTokenSuccess());
+      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
 
       // this.setState({ isAuthenticated: true, loading: false });
     } else {

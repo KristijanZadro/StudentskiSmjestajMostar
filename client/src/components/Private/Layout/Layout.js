@@ -11,11 +11,14 @@ import Settings from '../Settings/Settings'
 import Create from '../CreateAds/Create'
 
 
+
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
+
+
 
 export default class Layout extends Component {
     componentDidMount(){
@@ -23,6 +26,7 @@ export default class Layout extends Component {
       //this.props.history.push("/private")
       //window.location.reload();
       console.log("isAuth",this.props.isAuthenticated)
+      //this.props.getUserInfo()
       
     }
     render() {
@@ -31,12 +35,9 @@ export default class Layout extends Component {
                 <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>}/>
                 <div className="layout-sidebar">
                     <div className="sidebar-profile">
-                        <div className="sidebar-avatar">
-                            <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-                                alt="User profile"
-                            />
-                        </div>
+                        
+                        <h2>WELCOME</h2>
+                       
                         <div className="sidebar-name">
                             {this.props.name} <br />
                             {this.props.surname}
@@ -83,6 +84,8 @@ export default class Layout extends Component {
                         </div>
 
                     </div>
+                    
+                    
 
                 </div>
                 <div className="layout-content">
@@ -99,3 +102,4 @@ export default class Layout extends Component {
         )
     }
 }
+
