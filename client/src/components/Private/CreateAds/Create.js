@@ -18,11 +18,13 @@ export default class Create extends React.Component{
             open: false,
         }
     }
+
     handleToggle = () => {
         const openCopy = !this.state.open
         this.setState({
             open: openCopy
         })
+        
     }
     /*handleFormSubmit = exercise => {
         this.handleToggle()
@@ -51,3 +53,4 @@ export default class Create extends React.Component{
         )
     }
 }
+

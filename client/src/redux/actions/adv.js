@@ -9,7 +9,7 @@ export const createAdStart = () => {
       type: actionTypes.ADV_CREATE_AD_START,
     };
   };
-  export const createAdSuccess = (title, images, price, address, peopleAllowed, size, pets, balcony, desc) => {
+  export const createAdSuccess = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, title_available) => {
     return {
       type: actionTypes.ADV_CREATE_AD_SUCCESS,
       title, 
@@ -20,7 +20,8 @@ export const createAdStart = () => {
       size, 
       pets, 
       balcony, 
-      desc
+      desc,
+      title_available
       
     };
   };

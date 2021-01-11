@@ -10,14 +10,13 @@ const initialState = {
     balcony: false,
     desc: "",
     createAdErrorMsg: "",
-    isTitleValid: false,
-    isTitleError: false
+    isTitleAvailable: false
 };
 
 const createAdStart = (state, action) => ({
     ...state,
     createAdErrorMsg: "",
-    isTitleValid: false,
+    isTitleAvailable: false,
     
 });
   const createAdSuccess = (state, action) => ({
@@ -30,22 +29,29 @@ const createAdStart = (state, action) => ({
     pets: action.pets,
     balcony: action.balcony,
     desc: action.desc,
-    isTitleValid: action.title_available,
-    isTitleError: !action.title_available,
+    isTitleAvailable: action.title_available,
     createAdErrorMsg: ""
     
 });
   const createAdFail = (state, action) => ({
     ...state,
     createAdErrorMsg: action.msg,
-    isTitleError: true,
+    isTitleAvailable: false,
     
 });
 
 const loadModal = (state, action) => ({
     ...state,
+    title: "",
+    price: "",
+    address: "",
+    peopleAllowed: "",
+    size: "",
+    pets: false,
+    balcony: false,
+    desc: "",
     createAdErrorMsg: "",
-    isTitleError: false,
+    isTitleAvailable: false
     
 });
 

@@ -10,7 +10,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 //import Button from '@material-ui/core/Button';
 import './CreateAds.css'
 
-import {createAd, loadModal} from '../../../redux/actions/adv'
+import {createAd,loadModal} from '../../../redux/actions/adv'
 
 import { connect } from "react-redux";
 
@@ -67,9 +67,7 @@ const styles = theme => ({
         }
     }
 
-    componentDidMount(){
-        this.props.loadModal()
-    }
+    
     
     handleChange = ({ target: { value, name } }) => { 
         this.setState({
@@ -98,9 +96,14 @@ const styles = theme => ({
         this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc);
       };
 
+      onCloseModal = () => {
+          this.props.onClose()
+          this.props.loadModal()
+      }
+
     render() {
         const { title, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
-        const {isTitleError, createAdErrorMsg} = this.props
+        const {isTitleAvailable, createAdErrorMsg} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
         return (
             <div>
@@ -199,7 +202,7 @@ const styles = theme => ({
                               
                         </div>
                         {
-                            isTitleError ?
+                            !isTitleAvailable ?
                             <div className="errorMsg">
                                 <span>{createAdErrorMsg}</span>
                                 <br />
@@ -208,8 +211,8 @@ const styles = theme => ({
                         }
                         <div className={this.props.classes.Button}>
                             <button 
-                                className="dialogFormButton" 
-                                onClick={isTitleError ? this.props.onClose : null}
+                                className="dialogFormButton"
+                                onClick={isTitleAvailable ? this.onCloseModal() : null}
                             >
                                 Submit request
                             </button>
@@ -227,7 +230,7 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
     return {
-      isTitleError: state.adv.isTitleError,
+      isTitleAvailable: state.adv.isTitleAvailable,
       createAdErrorMsg: state.adv.createAdErrorMsg
 
     };
