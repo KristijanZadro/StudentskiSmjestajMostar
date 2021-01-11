@@ -104,6 +104,12 @@ const authCheckTokenFail = (state, action) => ({
   checkTokenLoading: false,
 })
 
+const logout = (state, action) => ({
+  ...state,
+  isAuthenticated: false,
+  authSuccess: false
+}) 
+
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -129,6 +135,8 @@ const authCheckTokenFail = (state, action) => ({
         return authCheckTokenSuccess(state, action);
       case actionTypes.AUTH_CHECK_TOKEN_FAIL:
         return authCheckTokenFail(state, action);
+      case actionTypes.AUTH_LOGOUT:
+        return logout(state,action)
       default:
         return state;
     }

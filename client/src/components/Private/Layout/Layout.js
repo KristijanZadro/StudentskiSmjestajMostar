@@ -29,6 +29,11 @@ export default class Layout extends Component {
       //this.props.getUserInfo()
       
     }
+    logOut = () => {
+        localStorage.clear()
+        this.props.logout()
+    }
+
     render() {
         return (
             <div className="layout">
@@ -83,6 +88,9 @@ export default class Layout extends Component {
                             </NavLink>
                         </div>
 
+                    </div>
+                    <div className="logout">
+                        <button onClick={this.logOut}>log out</button>
                     </div>
                     
                     

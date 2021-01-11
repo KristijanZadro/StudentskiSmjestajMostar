@@ -165,51 +165,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
   };
 };
 
-/*export const getUserInfoStart = () => {
-  return {
-    type: actionTypes.AUTH_GET_USER_INFO_START,
-  };
-};
-export const getUserInfoSuccess = (email_exists) => {
-  return {
-    type: actionTypes.AUTH_GET_USER_INFO_SUCCESS,
-    email_exists,
-  };
-};
-export const getUserInfoFail = (msg) => {
-  return {
-    type: actionTypes.AUTH_GET_USER_INFO_FAIL,
-    msg
-  };
-};
 
-export const getUserInfo = () => {
-  
-  return async (dispatch) => {
-    // send request
-    dispatch(getUserInfoStart());
-    const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
-    axios({
-      method: "GET",
-      url: "http://localhost:5000/api/user/get_user_info",
-      data: {
-        name: jwt_Token_decoded.user.Name,
-        surname
-      }
-    })
-      .then(async (data) => {
-        console.log(data)
-        
-        dispatch(getUserInfoSuccess())
-
-      })
-      .catch((e) => {
-        console.log(e.response);
-        dispatch(getUserInfoFail());
-      });
-  };
-};
-*/
 // reset state on load sign in page
 export const resetStateLogin = () => {
   return {
@@ -287,5 +243,17 @@ export const authCheckToken = () => {
       // this.setState({ loading: false });
       dispatch(authCheckTokenFail());
     }
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const logOut = () => {
+  return (dispatch) => {
+    dispatch(logoutUser());
   };
 };

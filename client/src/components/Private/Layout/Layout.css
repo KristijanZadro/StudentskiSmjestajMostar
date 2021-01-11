@@ -90,4 +90,29 @@
     color: inherit;
     text-decoration: none;
   }
+
+  .logout{
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    margin-left: 25px;
+  }
+
+  .logout button{
+    width: 90px;
+    height: 40px;
+    background-color: #3385ff;
+    border: 2pt solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+  }
+
+  .logout button:hover{
+    background-color: white;
+    color: #3385ff;
+  }
   

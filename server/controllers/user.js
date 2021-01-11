@@ -153,21 +153,7 @@ const role_id_Controller = (req,res,next) => {
             })
 }
 
-/*const get_name_surname_Controller = (req,res,next) => {
-    const SQL_GET_NAME_SURNAME = "SELECT * FROM user WHERE Email = ?;"
-    db.query(SQL_GET_NAME_SURNAME, res.locals.email, (err, result_3) => {
-        if(err){
-            console.log(err)
-        }else{
-            console.log(result_3)
-            res.send({"name": result_3[0].Name, "surname": result_3[0].Surname})
-        }
 
-    })
-}
-
-
-*/
 const verifyToken = (req,res,next) => {
     const token = req.header('auth-token-ssm')
     if(!token) return res.status(401).send('access denied')
