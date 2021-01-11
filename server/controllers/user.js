@@ -89,8 +89,33 @@ const loginController = (req,res,next) => {
                     }else{
                         
                         if(rows){
+                            const SQL_FIND_ID_ROLE = "SELECT * FROM roles;"
+                            db.query(SQL_FIND_ID_ROLE, (err, result5) => {
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    console.log(result5)
+                                    let user_role_id;
+                                    let superadmin_role_id;
+                                    let admin_role_id;
+                                    for(let i=0; i < result5.length; i++){
+                                        if(result5[i].role_name === 'user'){
+                                            user_role_id = result5[i].id_role
+                                        }else if(result5[i].role_name === 'superadmin'){
+                                            superadmin_role_id = result5[i].id_role
+                                        }else if(result5[i].role_name === 'admin'){
+                                            admin_role_id = result5[i].id_role
+                                        }
+                                    }
+                            
                             //console.log(result[0].id)
-                            const token = jwt.sign({user: result[0]}, process.env.TOKEN_SECRET, {expiresIn: 3600})
+                            const token = jwt.sign({
+                                user: result[0], 
+                                /*roles: {
+                                    user_role_id: user_role_id, 
+                                    superadmin_role_id: superadmin_role_id, 
+                                    admin_role_id: admin_role_id
+                                }*/}, process.env.TOKEN_SECRET, {expiresIn: 3600})
                             res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
                             const SQL_FIND_ROLE = "SELECT id_role FROM user_role WHERE id_user = ?;"
@@ -105,6 +130,7 @@ const loginController = (req,res,next) => {
                                 }
 
                             })
+                        }})
                         }else{
                             res.send({"password": rows, "email_exist": true})
                             
@@ -123,7 +149,7 @@ const loginController = (req,res,next) => {
     })
 }
 
-const role_id_Controller = (req,res,next) => {
+/*const role_id_Controller = (req,res,next) => {
             const SQL_FIND_ID_ROLE = "SELECT * FROM roles;"
             db.query(SQL_FIND_ID_ROLE, (err, result5) => {
                 if(err){
@@ -142,7 +168,7 @@ const role_id_Controller = (req,res,next) => {
                             admin_role_id = result5[i].id_role
                         }
                         if(i == result5.length-1){
-                            res.send({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
+                            //res.send({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
                             console.log({"user_role_id": user_role_id, "superadmin_role_id": superadmin_role_id,"admin_role_id": admin_role_id,})
                         }
                     }
@@ -152,7 +178,7 @@ const role_id_Controller = (req,res,next) => {
     
             })
 }
-
+*/
 
 const verifyToken = (req,res,next) => {
     const token = req.header('auth-token-ssm')
@@ -228,7 +254,7 @@ module.exports = {
     loginController,
     verifyToken,
     roleController,
-    role_id_Controller,
+    //role_id_Controller,
  
     //test
     //checkEmailController,
