@@ -93,7 +93,7 @@ const styles = theme => ({
     onAdSend = (e) => {
         e.preventDefault()
         const { title, images, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
-        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc);
+        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, this.onCloseModal);
       };
 
       onCloseModal = () => {
@@ -212,7 +212,7 @@ const styles = theme => ({
                         <div className={this.props.classes.Button}>
                             <button 
                                 className="dialogFormButton"
-                                onClick={isTitleAvailable ? this.onCloseModal() : null}
+                                //onClick={isTitleAvailable ? this.onCloseModal() : null}
                             >
                                 Submit request
                             </button>
@@ -238,8 +238,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc) =>
-        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc)),
+      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal) =>
+        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal)),
       loadModal: () => dispatch(loadModal())
     };
   };

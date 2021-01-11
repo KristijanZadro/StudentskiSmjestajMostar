@@ -32,7 +32,7 @@ export const createAdStart = () => {
     };
   };
 
-  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, title_available) => {
+  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal) => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
@@ -50,7 +50,7 @@ export const createAdStart = () => {
                 pets, 
                 balcony, 
                 desc,
-                title_available
+                
               
             },
           })
@@ -58,6 +58,7 @@ export const createAdStart = () => {
               console.log("createAd:", data);
               if(data.data.title_available){
                 dispatch(createAdSuccess(title, images, price, address, peopleAllowed, size, pets, balcony, desc, data.data.title_available));
+                onCloseModal();
               }else{
                   dispatch(createAdFail("Title is already in use!"))
               }
