@@ -10,7 +10,8 @@ const initialState = {
     balcony: false,
     desc: "",
     createAdErrorMsg: "",
-    isTitleAvailable: false
+    isTitleAvailable: false,
+    ads: []
 };
 
 const createAdStart = (state, action) => ({
@@ -55,6 +56,12 @@ const loadModal = (state, action) => ({
     
 });
 
+const getAds = (state, action) => ({
+  ...state,
+  ads: action.ads
+  
+});
+
 
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +74,8 @@ const reducer = (state = initialState, action) => {
           return createAdFail(state, action);
         case actionTypes.ADV_RESET_MODAL_FORM:
             return loadModal(state, action);
+        case actionTypes.ADV_GET_ADS:
+          return getAds(state, action);
         default:
           return state;
     }

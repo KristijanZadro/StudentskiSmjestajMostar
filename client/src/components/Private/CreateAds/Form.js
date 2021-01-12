@@ -10,7 +10,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 //import Button from '@material-ui/core/Button';
 import './CreateAds.css'
 
-import {createAd,loadModal} from '../../../redux/actions/adv'
+import {createAd,loadModal, getAllAds} from '../../../redux/actions/adv'
 
 import { connect } from "react-redux";
 
@@ -66,7 +66,8 @@ const styles = theme => ({
 
         }
     }
-
+    /*componentDidMount(){
+    }*/
     
     
     handleChange = ({ target: { value, name } }) => { 
@@ -93,8 +94,13 @@ const styles = theme => ({
     onAdSend = (e) => {
         e.preventDefault()
         const { title, images, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
-        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, this.onCloseModal);
+        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, this.onCloseModal, this.getAds);
+        
       };
+
+      getAds = () => {
+        this.props.getAllAds()
+      }
 
       onCloseModal = () => {
           this.props.onClose()
@@ -238,9 +244,10 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal) =>
-        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal)),
-      loadModal: () => dispatch(loadModal())
+      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds) =>
+        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds)),
+      loadModal: () => dispatch(loadModal()),
+      getAllAds: () => dispatch(getAllAds())
     };
   };
   

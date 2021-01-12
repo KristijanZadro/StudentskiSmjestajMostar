@@ -32,7 +32,7 @@ export const createAdStart = () => {
     };
   };
 
-  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal) => {
+  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds) => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
@@ -59,6 +59,7 @@ export const createAdStart = () => {
               if(data.data.title_available){
                 dispatch(createAdSuccess(title, images, price, address, peopleAllowed, size, pets, balcony, desc, data.data.title_available));
                 onCloseModal();
+                getAds()
               }else{
                   dispatch(createAdFail("Title is already in use!"))
               }
@@ -83,5 +84,35 @@ export const createAdStart = () => {
   export const loadModal = () => {
     return (dispatch) => {
       dispatch(resetStateModalForm());
+    };
+  };
+
+  export const getAdvs = (ads) => {
+    return {
+      type: actionTypes.ADV_GET_ADS,
+      ads
+    };
+  };
+  
+  export const getAllAds = () => {
+    return async (dispatch) => {
+      // send request
+
+          axios({
+            method: "GET",
+            url: "http://localhost:5000/api/adv/getAdv",
+          })
+            .then((data) => {
+              console.log("allAds:", data);
+              dispatch(getAdvs(data.data))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+              dispatch(createAdFail());
+            });
+
+    
     };
   };

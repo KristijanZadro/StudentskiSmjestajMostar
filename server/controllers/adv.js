@@ -40,8 +40,29 @@ const advController = (req,res,next) => {
 
 }
 
+const getAdvController = (req,res,next) => {
+
+    const SQL_SELECT = "SELECT * FROM advertisement;"
+    db.query(SQL_SELECT, (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            res.send(result)
+            
+        }
+    })
+
+    
+
+}
+
+
+
+
 
 module.exports = {
     advController,
+    getAdvController
 
 }
