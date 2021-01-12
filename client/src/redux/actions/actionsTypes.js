@@ -21,3 +21,5 @@ export const ADV_RESET_MODAL_FORM = "ADV_RESET_MODAL_FORM";
 
 
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
+
+export const AUTH_ROLES = "AUTH_ROLES";

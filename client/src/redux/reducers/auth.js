@@ -14,6 +14,7 @@ const initialState = {
     registerErrorMsg: "",
     loginErrorMsg: "",
     checkTokenLoading: false,
+    roles: []
 };
 
 // register
@@ -110,6 +111,13 @@ const logout = (state, action) => ({
   authSuccess: false
 }) 
 
+const roles = (state, action) => ({
+  ...state,
+  roles: [action.roles]
+}) 
+
+
+
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -137,6 +145,8 @@ const logout = (state, action) => ({
         return authCheckTokenFail(state, action);
       case actionTypes.AUTH_LOGOUT:
         return logout(state,action)
+      case actionTypes.AUTH_ROLES:
+        return roles(state,action)
       default:
         return state;
     }

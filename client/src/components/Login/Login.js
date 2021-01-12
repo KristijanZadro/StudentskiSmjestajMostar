@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import {Link} from 'react-router-dom'
 
-import {authenticate, loadSignInPage} from '../../redux/actions/auth'
+import {authenticate,get_role_id, loadSignInPage} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
 //import {Link} from 'react-router-dom'
@@ -22,7 +22,7 @@ class Login extends React.Component {
 
     componentDidMount(){
         this.props.loadSignInPage()
-        //this.props.get_role_id()
+        this.props.get_role_id()
     }
 
     onInputChange = (e) => {
@@ -32,7 +32,15 @@ class Login extends React.Component {
     onAuthenticateHandler = (e) => {
         e.preventDefault()
         let { email, password } = this.state;
-        this.props.authenticate(email, password, this.onAuthSuccessUser, this.onAuthSuccessAdmin, this.onAuthSuccessSuperAdmin);
+        let {roles} = this.props
+        this.props.authenticate(
+            email, 
+            password, 
+            this.onAuthSuccessUser, 
+            this.onAuthSuccessAdmin, 
+            this.onAuthSuccessSuperAdmin, 
+            roles
+        );
       };
     
       onAuthSuccessUser = () => {
@@ -106,16 +114,17 @@ class Login extends React.Component {
 const mapStateToProps = (state) => {
     return {
         loginErrorMsg: state.auth.loginErrorMsg,
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        roles: state.auth.roles
     };
   };
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      authenticate: (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) =>
-        dispatch(authenticate(email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin)),
+      authenticate: (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, roles) =>
+        dispatch(authenticate(email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, roles)),
       loadSignInPage: () => dispatch(loadSignInPage()),
-      //get_role_id: () => dispatch(get_role_id())
+      get_role_id: () => dispatch(get_role_id())
     };
   };
   

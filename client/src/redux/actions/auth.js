@@ -72,9 +72,14 @@ export const registerUserStart = () => {
       
     };
   };
-
+  export const roles = (roles) => {
+    return {
+      type: actionTypes.AUTH_ROLES,
+      roles
+    };
+  };
   
-/*export const get_role_id = () => {
+export const get_role_id = () => {
     return async (dispatch) => {
       // send request
       
@@ -86,7 +91,7 @@ export const registerUserStart = () => {
         .then(async (data) => {
           console.log("role_data", data)
           
-          localStorage.setItem("roles-ssm", JSON.stringify(data.data));
+          dispatch(roles(data.data))
           
         })
         .catch((e) => {
@@ -94,7 +99,7 @@ export const registerUserStart = () => {
         
         });
     };
-  };*/
+  };
   // authenticate user start
 export const authStart = () => {
   return {
@@ -115,7 +120,7 @@ export const authFail = (msg) => {
   };
 };
 
-export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) => {
+export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, roles) => {
   
   return async (dispatch) => {
     // send request
@@ -130,24 +135,22 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
       },
     })
       .then(async (data) => {
-        //const roles = localStorage.getItem("roles-ssm");
-        //const roles2 = JSON.parse(roles)
-        //console.log(roles2)
         console.log("authenticate:", data);
         localStorage.setItem("auth-token-ssm", JSON.stringify(data.data.token));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
         localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));
-        const jwt_Token_decoded_roles = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+        //const jwt_Token_decoded_roles = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+        console.log(roles[0])
         if((data.data.email_exist === true)&&(data.data.password === true)){
-            if(data.data.role_id === jwt_Token_decoded_roles.roles.superadmin_role_id){
+            if(data.data.role_id === roles[0].superadmin_role_id){
               dispatch(authSuccess());
               onAuthSuccessSuperAdmin();
-            }else if(data.data.role_id === jwt_Token_decoded_roles.roles.admin_role_id){
+            }else if(data.data.role_id === roles[0].admin_role_id){
               dispatch(authSuccess());
               onAuthSuccessAdmin();
-            }else if(data.data.role_id === jwt_Token_decoded_roles.roles.user_role_id){
+            }else if(data.data.role_id === roles[0].user_role_id){
               dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
               onAuthSuccessUser();
             }
