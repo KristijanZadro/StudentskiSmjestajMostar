@@ -8,16 +8,28 @@
 
 .ad-cart{
     width: 29%;
-    height: 320px;
+    height: 300px;
     background-color: orange;
     margin: 20px;
+    margin-bottom: 25px;
+    background-color:white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.6);
 }
 
 .cart-title{
     width: 100%;
     height: 10%;
+    background-color: #ffa64d;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+    
 }
-
+.cart-title h4{
+    margin: 0;
+}
 .cart-img{
     width: 100%;
     height: 90%;
@@ -33,9 +45,17 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 30px;
-    height: 30px;
-    background-color: orange;
+    width: 55px;
+    height: 55px;
+    background:  #ffa64d;
+    border-radius: 0 55px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 8px;
+    font-weight: bold;
+    -moz-border-radius: 0 55px 0 0;
+    -webkit-border-radius: 0 55px 0 0;
 }
 
 .list-filter{
@@ -59,4 +79,17 @@
 .filters{
     display: flex;
     justify-content: center;
+}
+
+.review{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+}
+
+.review svg{
+    width: 1.2em;
+    height: 1.2em;
+    color: yellow;
 }
