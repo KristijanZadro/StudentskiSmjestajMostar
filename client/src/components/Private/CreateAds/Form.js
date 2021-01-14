@@ -84,6 +84,7 @@ const styles = theme => ({
         
 
     }
+    
     /*handleSubmit = () => {
         this.props.onSubmit({
             id: this.state.title.toLocaleLowerCase().replace(/ /g,'-'),
@@ -237,7 +238,9 @@ const styles = theme => ({
 const mapStateToProps = (state) => {
     return {
       isTitleAvailable: state.adv.isTitleAvailable,
-      createAdErrorMsg: state.adv.createAdErrorMsg
+      createAdErrorMsg: state.adv.createAdErrorMsg,
+      ads: state.adv.ads,
+      sortedAds: state.adv.sortedAds
 
     };
   };

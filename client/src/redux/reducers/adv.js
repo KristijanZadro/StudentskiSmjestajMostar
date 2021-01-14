@@ -11,7 +11,8 @@ const initialState = {
     desc: "",
     createAdErrorMsg: "",
     isTitleAvailable: false,
-    ads: []
+    ads: [],
+    sortedAds: []
 };
 
 const createAdStart = (state, action) => ({
@@ -58,7 +59,16 @@ const loadModal = (state, action) => ({
 
 const getAds = (state, action) => ({
   ...state,
-  ads: action.ads
+  ads: action.ads,
+  sortedAds: action.ads,
+  
+  
+});
+
+const filterAds = (state, action) => ({
+  ...state,
+  sortedAds: action.sortedAds,
+  
   
 });
 
@@ -76,6 +86,8 @@ const reducer = (state = initialState, action) => {
             return loadModal(state, action);
         case actionTypes.ADV_GET_ADS:
           return getAds(state, action);
+        case actionTypes.ADV_FILTER_ADS:
+          return filterAds(state, action);
         default:
           return state;
     }

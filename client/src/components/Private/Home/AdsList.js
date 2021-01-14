@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import AdCart from './AdCart';
 import "./Home.css"
 
-const AdsList = () => {
-    const ads = useSelector(state => state.adv.ads)
+const AdsList = (props) => {
+    const ads = useSelector(state => state.adv.sortedAds)
     const adsRender = ads.map((ad,index) => {
     return(
         <AdCart

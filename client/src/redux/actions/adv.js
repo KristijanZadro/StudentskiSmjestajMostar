@@ -104,6 +104,7 @@ export const createAdStart = () => {
           })
             .then((data) => {
               console.log("allAds:", data);
+              
               dispatch(getAdvs(data.data))
              
             
@@ -116,3 +117,28 @@ export const createAdStart = () => {
     
     };
   };
+
+  export const filterAdsSuccess = (sortedAds) => {
+    return {
+      type: actionTypes.ADV_FILTER_ADS,
+      sortedAds
+    };
+  };
+  
+  export const filterAds = (ads, price,size,balcony,pets) => {
+    return async (dispatch) => {
+      let sortedAds = [...ads]
+      sortedAds = sortedAds.filter(ad => ad.price <= price)
+      sortedAds = sortedAds.filter(ad => ad.size <= size)
+      if(balcony){
+        sortedAds = sortedAds.filter(ad => ad.balcony === 1)
+    }
+      if(pets){
+      sortedAds = sortedAds.filter(ad => ad.pets === 1)
+    }
+      //console.log("ads",sortedAds)
+      dispatch(filterAdsSuccess(sortedAds))
+
+    };
+  };
+

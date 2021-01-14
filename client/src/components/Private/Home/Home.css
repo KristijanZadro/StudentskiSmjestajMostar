@@ -37,3 +37,21 @@
     height: 30px;
     background-color: orange;
 }
+
+.list-filter{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.form-group{
+    margin: 30px;
+}
+
+.form-control{
+    margin: 10px;
+}
+
+.form-group label{
+    font-size: large;
+}
