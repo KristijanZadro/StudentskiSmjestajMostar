@@ -65,7 +65,7 @@ class ListFilter extends Component {
     render() {
         const {price, maxPrice, minPrice,size, maxSize, minSize, pets, balcony} = this.state
         return (
-            <div>
+            <div className="filters">
                 <div className="form-group">
                     <label htmlFor="price"> 
                         Price ${price}

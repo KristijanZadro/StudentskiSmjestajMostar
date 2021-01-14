@@ -7,7 +7,7 @@
 }
 
 .ad-cart{
-    width: 28%;
+    width: 29%;
     height: 320px;
     background-color: orange;
     margin: 20px;
@@ -54,4 +54,9 @@
 
 .form-group label{
     font-size: large;
+}
+
+.filters{
+    display: flex;
+    justify-content: center;
 }
