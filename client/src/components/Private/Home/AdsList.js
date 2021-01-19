@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector} from 'react-redux';
 import AdCart from './AdCart';
 import "./Home.css"
 
@@ -10,6 +10,7 @@ const AdsList = (props) => {
         <AdCart
             ad={ad}
             key={index}
+            
         />
     )
 })

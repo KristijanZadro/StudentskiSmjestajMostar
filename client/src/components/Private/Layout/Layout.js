@@ -17,6 +17,7 @@ import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
+import AdDetails from '../AdDetails/AdDetails'
 
 
 
@@ -103,6 +104,7 @@ export default class Layout extends Component {
                         <Route exact path="/private/myAds" component={MyAds} />
                         <Route exact path="/private/chat" component={Chat} />
                         <Route exact path="/private/settings" component={Settings} />
+                        <Route exact path="/private/details/:title" component={AdDetails} />
                     </Switch>
                 </div>
                 

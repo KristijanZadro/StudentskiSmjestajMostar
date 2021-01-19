@@ -14,7 +14,8 @@ const initialState = {
     isTitleAvailable: false,
     ads: [],
     sortedAds: [],
-    formData: ""
+    formData: "",
+    adDetails: {}
 };
 
 const createAdStart = (state, action) => ({
@@ -75,6 +76,13 @@ const filterAds = (state, action) => ({
   
   
 });
+const getAd = (state, action) => ({
+  ...state,
+  adDetails: action.ad
+  
+  
+  
+});
 
 
 
@@ -92,6 +100,8 @@ const reducer = (state = initialState, action) => {
           return getAds(state, action);
         case actionTypes.ADV_FILTER_ADS:
           return filterAds(state, action);
+        case actionTypes.ADV_GET_AD:
+          return getAd(state, action);
         default:
           return state;
     }

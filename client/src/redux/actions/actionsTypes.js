@@ -29,3 +29,5 @@ export const ADV_GET_ADS = "ADV_GET_ADS";
 export const ADV_FILTER_ADS = "ADV_FILTER_ADS";
 
 export const ADV_UPLOAD = "ADV_UPLOAD";
+
+export const ADV_GET_AD = "ADV_GET_AD";

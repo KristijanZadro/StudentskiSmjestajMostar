@@ -84,6 +84,22 @@ const getAdvController = (req,res,next) => {
     
 
 }
+const getAdController = (req,res,next) => {
+    const title = req.body.title
+    const SQL_SELECT = "SELECT * FROM advertisement WHERE title=?;"
+    db.query(SQL_SELECT, title, (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            res.send(result)
+            
+        }
+    })
+
+    
+
+}
 
     
 
@@ -98,6 +114,7 @@ const getAdvController = (req,res,next) => {
 module.exports = {
     advController,
     getAdvController,
+    getAdController
 
 
 }

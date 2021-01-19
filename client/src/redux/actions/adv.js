@@ -100,7 +100,6 @@ export const createAdStart = () => {
         })
             .catch((e) => {
               console.log(e);
-              dispatch(createAdFail());
             });
 
     
@@ -131,5 +130,39 @@ export const createAdStart = () => {
     };
   };
 
+
+  export const getAdSuccess = (ad) => {
+    return {
+      type: actionTypes.ADV_GET_AD,
+      ad
+    };
+  };
+  
+  export const getAd = (title) => {
+    return async (dispatch) => {
+      // send request
+
+          axios({
+            method: "POST",
+            url: "http://localhost:5000/api/adv/getAd",
+            data:{
+              title
+            }
+            
+          })
+            .then((data) => {
+              console.log("Ad:", data);
+              
+              dispatch(getAdSuccess(data.data[0]))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
   
 

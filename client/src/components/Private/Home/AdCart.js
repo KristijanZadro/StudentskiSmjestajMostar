@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import "./Home.css"
 import {AiFillStar} from 'react-icons/ai'
-
+import { NavLink} from "react-router-dom"
 //import cartImg from '../../../images/details-4.jpeg'
 
-export default class AdCart extends Component {
+class AdCart extends Component {
+    
     render(){
         const {title, price, images} = this.props.ad
         let cardImage = images.split(',')[0]
@@ -14,7 +15,14 @@ export default class AdCart extends Component {
                     <h4>{title}</h4>
                 </div>
                 <div className="cart-img">
-                    <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
+                    <NavLink to={{
+                        pathname: `/private/details/${title}`,
+                        state: this.props.ad
+
+                    }}>
+                        <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
+                    </NavLink>
+                    
                     <div className="cart-price">
                         ${price}
                     </div>
@@ -33,4 +41,7 @@ export default class AdCart extends Component {
     }
     
 }
+
+  
+  export default AdCart;
 
