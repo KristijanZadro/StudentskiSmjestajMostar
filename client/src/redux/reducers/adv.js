@@ -9,10 +9,12 @@ const initialState = {
     pets: false,
     balcony: false,
     desc: "",
+    images: [],
     createAdErrorMsg: "",
     isTitleAvailable: false,
     ads: [],
-    sortedAds: []
+    sortedAds: [],
+    formData: ""
 };
 
 const createAdStart = (state, action) => ({
@@ -23,16 +25,18 @@ const createAdStart = (state, action) => ({
 });
   const createAdSuccess = (state, action) => ({
     ...state,
-    title: action.title,
-    price: action.price,
-    address: action.address,
-    peopleAllowed: action.peopleAllowed,
-    size: action.size,
-    pets: action.pets,
-    balcony: action.balcony,
-    desc: action.desc,
+    title: action.formData.title,
+    price: action.formData.price,
+    address: action.formData.address,
+    peopleAllowed: action.formData.peopleAllowed,
+    size: action.formData.size,
+    pets: action.formData.pets,
+    balcony: action.formData.balcony,
+    desc: action.formData.desc,
+    images: action.formData.image,
     isTitleAvailable: action.title_available,
-    createAdErrorMsg: ""
+    createAdErrorMsg: "",
+    formData: action.formData
     
 });
   const createAdFail = (state, action) => ({

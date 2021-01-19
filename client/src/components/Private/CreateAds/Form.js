@@ -7,10 +7,12 @@ import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+//import { Input } from '@material-ui/core';
 //import Button from '@material-ui/core/Button';
 import './CreateAds.css'
 
 import {createAd,loadModal, getAllAds} from '../../../redux/actions/adv'
+
 
 import { connect } from "react-redux";
 
@@ -54,15 +56,15 @@ const styles = theme => ({
     constructor(){
         super()
         this.state = {
-            title:'', 
-            images: [], 
+            title:'',  
             price: "",
             address: '',
             peopleAllowed: "",
             size: "",
             pets: false,
             balcony: false,
-            desc: ''
+            desc: '',
+            image: null
 
         }
     }
@@ -80,9 +82,14 @@ const styles = theme => ({
         this.setState({
             [name]: checked
         })
-        console.log(this.state.pets)
         
 
+    }
+    handleImageChange = (e) => {
+        this.setState({
+            image: e.target.files
+        });
+        console.log(e.target.files)
     }
     
     /*handleSubmit = () => {
@@ -91,11 +98,19 @@ const styles = theme => ({
             ...this.state
         })
     }*/
+    /*getFormData = (object) => {
+        const formData = new FormData();
+        Object.keys(object).forEach(key => formData.append(key, object[key]));
+        return formData;
+    }*/
 
     onAdSend = (e) => {
         e.preventDefault()
-        const { title, images, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
-        this.props.createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, this.onCloseModal, this.getAds);
+        
+        
+        //let formData = this.getFormData(this.state)
+        
+        this.props.createAd(this.state, this.onCloseModal, this.getAds);
         
       };
 
@@ -196,6 +211,8 @@ const styles = theme => ({
                             <br/>
                             
                         </div>
+                        
+                        
                         <div className={this.props.classes.TextArea}>
                         <InputLabel id="desc">Description</InputLabel>
                             <TextareaAutosize
@@ -208,6 +225,13 @@ const styles = theme => ({
                             />
                               
                         </div>
+                        <input
+                            type="file"
+                            name="myImage"
+                            //value={this.state.image}
+                            onChange={this.handleImageChange}
+                            multiple
+                        />
                         {
                             !isTitleAvailable ?
                             <div className="errorMsg">
@@ -224,11 +248,10 @@ const styles = theme => ({
                                 Submit request
                             </button>
                         </div>
-                        
-                        
-                        
+                
                         
                     </form>
+                    
             </div>
         )
     }
@@ -247,10 +270,10 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      createAd: (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds) =>
-        dispatch(createAd(title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds)),
+      createAd: (state, onCloseModal, getAds ) =>
+        dispatch(createAd(state, onCloseModal, getAds)),
       loadModal: () => dispatch(loadModal()),
-      getAllAds: () => dispatch(getAllAds())
+      getAllAds: () => dispatch(getAllAds()),
     };
   };
   

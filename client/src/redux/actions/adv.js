@@ -1,27 +1,18 @@
 import * as actionTypes from "./actionsTypes";
 
 import axios from "axios";
-
-
+import * as FormData from 'form-data'
 
 export const createAdStart = () => {
     return {
       type: actionTypes.ADV_CREATE_AD_START,
     };
   };
-  export const createAdSuccess = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, title_available) => {
+  export const createAdSuccess = (formData, title_available) => {
     return {
       type: actionTypes.ADV_CREATE_AD_SUCCESS,
-      title, 
-      images, 
-      price, 
-      address, 
-      peopleAllowed, 
-      size, 
-      pets, 
-      balcony, 
-      desc,
-      title_available
+      title_available,
+      formData
       
     };
   };
@@ -32,32 +23,30 @@ export const createAdStart = () => {
     };
   };
 
-  export const createAd = (title, images, price, address, peopleAllowed, size, pets, balcony, desc, onCloseModal, getAds) => {
+  export const createAd = (state, onCloseModal, getAds) => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
-
-          axios({
-            method: "POST",
-            url: "http://localhost:5000/api/adv/create",
-            data: {
-                title, 
-                images, 
-                price, 
-                address, 
-                peopleAllowed, 
-                size, 
-                pets, 
-                balcony, 
-                desc,
-                
-              
-            },
-          })
+      
+            const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = state
+            let formData = new FormData();
+            formData.append('title',title);
+            formData.append('price',price);
+            formData.append('address',address);
+            formData.append('peopleAllowed',peopleAllowed);
+            formData.append('size',size);
+            formData.append('pets', pets);
+            formData.append('balcony',balcony);
+            formData.append('desc',desc);
+            for(let i = 0; i<image.length; i++) {
+              formData.append('myImage', image[i]);
+          }
+            console.log(formData)
+          axios.post("http://localhost:5000/api/adv/create", formData )
             .then((data) => {
               console.log("createAd:", data);
               if(data.data.title_available){
-                dispatch(createAdSuccess(title, images, price, address, peopleAllowed, size, pets, balcony, desc, data.data.title_available));
+                dispatch(createAdSuccess(formData, data.data.title_available));
                 onCloseModal();
                 getAds()
               }else{
@@ -141,4 +130,6 @@ export const createAdStart = () => {
 
     };
   };
+
+  
 
