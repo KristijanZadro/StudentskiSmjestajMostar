@@ -57,3 +57,7 @@
     color: royalblue;
     border-color: royalblue;
 }
+
+.infoButtons a button{
+    outline: none;
+}
