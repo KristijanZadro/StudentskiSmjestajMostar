@@ -9,6 +9,9 @@ class AdCart extends Component {
     render(){
         const {title, price, images} = this.props.ad
         let cardImage = images.split(',')[0]
+        let imagesDetails = images.split(',')
+        //console.log("imgdet",imagesDetails)
+
         return (
         <div className="ad-cart">
                 <div className="cart-title">
@@ -17,8 +20,7 @@ class AdCart extends Component {
                 <div className="cart-img">
                     <NavLink to={{
                         pathname: `/private/details/${title}`,
-                        state: this.props.ad
-
+                        state: {ad:this.props.ad, imagesDetails}
                     }}>
                         <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
                     </NavLink>

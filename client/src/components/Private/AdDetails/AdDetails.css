@@ -1,0 +1,26 @@
+.each-slide{
+    height: 400px;
+    width: 800px;
+}
+.slide-container{
+    width: 800px;
+    margin: auto;
+    text-align:center;
+    
+}
+.ad-details-title{
+    text-transform: capitalize;
+    height: 100px;
+}
+.ad-details-info{
+    display: flex;
+    flex-wrap: wrap;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffa64d;
+    margin-top: 40px;
+}
+.ad-details-info p{
+    width: 30%;
+}
