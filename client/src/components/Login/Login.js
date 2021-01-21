@@ -23,6 +23,10 @@ class Login extends React.Component {
     componentDidMount(){
         this.props.loadSignInPage()
         this.props.get_role_id()
+        const user = localStorage.getItem('auth-token-ssm') 
+        if (user && user !== 'undefined') {            
+            this.props.history.push('/private')               
+        }
     }
 
     onInputChange = (e) => {
