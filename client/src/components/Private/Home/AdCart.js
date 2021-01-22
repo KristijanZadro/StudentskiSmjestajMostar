@@ -6,12 +6,22 @@ import { NavLink} from "react-router-dom"
 
 class AdCart extends Component {
     
+    stars = () => {
+        let {average} = this.props.ad
+        let number = Math.round(average)
+        let arr = Array.from(Array(number).keys())
+        let stars = arr.map((star,index) => {
+            star = <AiFillStar key={index} />
+            return star
+        });
+        return stars
+    }
+    
     render(){
         const {title, price, images} = this.props.ad
         let cardImage = images.split(',')[0]
         let imagesDetails = images.split(',')
-        //console.log("imgdet",imagesDetails)
-
+        let stars = this.stars()
         return (
         <div className="ad-cart">
                 <div className="cart-title">
@@ -29,11 +39,7 @@ class AdCart extends Component {
                         ${price}
                     </div>
                     <div className="review">
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
+                       {stars}
                         
                     </div>
                 </div>

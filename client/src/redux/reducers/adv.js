@@ -15,7 +15,9 @@ const initialState = {
     ads: [],
     sortedAds: [],
     formData: "",
-    adDetails: {}
+    adDetails: {},
+    comment: "",
+    rating: "",
 };
 
 const createAdStart = (state, action) => ({
@@ -65,7 +67,7 @@ const loadModal = (state, action) => ({
 const getAds = (state, action) => ({
   ...state,
   ads: action.ads,
-  sortedAds: action.ads,
+  sortedAds: action.ads
   
   
 });
@@ -82,6 +84,11 @@ const getAd = (state, action) => ({
   
   
   
+});
+const createReview = (state, action) => ({
+  ...state,
+  comment: action.comment,
+  rating: action.rating.rating,
 });
 
 
@@ -102,6 +109,8 @@ const reducer = (state = initialState, action) => {
           return filterAds(state, action);
         case actionTypes.ADV_GET_AD:
           return getAd(state, action);
+        case actionTypes.ADV_CREATE_REVIEW:
+          return createReview(state, action);
         default:
           return state;
     }

@@ -31,3 +31,6 @@ export const ADV_FILTER_ADS = "ADV_FILTER_ADS";
 export const ADV_UPLOAD = "ADV_UPLOAD";
 
 export const ADV_GET_AD = "ADV_GET_AD";
+
+export const ADV_CREATE_REVIEW = "ADV_CREATE_REVIEW";
+

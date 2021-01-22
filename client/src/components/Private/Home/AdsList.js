@@ -5,6 +5,7 @@ import "./Home.css"
 
 const AdsList = (props) => {
     const ads = useSelector(state => state.adv.sortedAds)
+    //let avgRating = useSelector(state => state.adv.avgRating)
     const adsRender = ads.map((ad,index) => {
     return(
         <AdCart

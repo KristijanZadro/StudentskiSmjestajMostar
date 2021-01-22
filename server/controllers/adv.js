@@ -70,14 +70,16 @@ const advController = async (req,res,next) => {
 
 const getAdvController = (req,res,next) => {
 
-    const SQL_SELECT = "SELECT * FROM advertisement;"
+    const SQL_SELECT = `SELECT ad.title, ad.price, ad.address, ad.people_allowed, ad.size, ad.pets, ad.balcony, ad.description, ad.images, AVG(ratings.rating) AS average 
+                        FROM advertisement ad
+                        LEFT JOIN ratings ON ad.advertisement_id = ratings.id_adv 
+                        GROUP BY ad.title, ad.price, ad.address, ad.people_allowed, ad.size, ad.pets, ad.balcony, ad.description, ad.images;`
     db.query(SQL_SELECT, (err,result) => {
         if(err){
             console.log(err)
         }else{
             console.log(result)
             res.send(result)
-            
         }
     })
 
@@ -100,6 +102,60 @@ const getAdController = (req,res,next) => {
     
 
 }
+const ratingController = (req,res,next) => {
+    const rating = req.body.rating
+    const comment = req.body.comment
+    const title = req.body.title
+    const user_id = req.body.user_id
+
+    const SQL_SELECT_ADV_ID = "SELECT advertisement_id FROM advertisement WHERE title=?"
+    db.query(SQL_SELECT_ADV_ID, title, (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            const SQL_POST_RATING = "INSERT INTO ratings (comment,rating,id_adv,id_user) VALUES (?,?,?,?);"
+            db.query(SQL_POST_RATING, [comment,rating,result[0].advertisement_id, user_id], (err,result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send(result2)
+                }
+            })
+            
+        }
+    })
+
+}
+/*const getRatingController = (req,res,next) => {
+    const title = req.body.title
+    const SQL_SELECT_ADV_ID = "SELECT advertisement_id FROM advertisement WHERE title=?"
+    db.query(SQL_SELECT_ADV_ID, title, (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            const SQL_SELECT = "SELECT AVG(rating) AS average FROM ratings WHERE id_adv=?;"
+            db.query(SQL_SELECT, result[0].advertisement_id, (err,result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send({"avg": result2[0]})
+                    
+                }
+            })
+            
+        }
+    })
+    
+
+    
+
+}*/
+
+
 
     
 
@@ -114,7 +170,9 @@ const getAdController = (req,res,next) => {
 module.exports = {
     advController,
     getAdvController,
-    getAdController
+    getAdController,
+    ratingController,
+    
 
 
 }

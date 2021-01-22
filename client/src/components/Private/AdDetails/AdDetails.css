@@ -24,3 +24,7 @@
 .ad-details-info p{
     width: 30%;
 }
+.ad-details-review{
+    display: flex;
+    flex-direction: column;
+}

@@ -22,13 +22,14 @@ class Home extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-      ads: state.adv.ads,
+      ads: state.adv.ads
     };
   };
 
 const mapDispatchToProps = dispatch => {
     return {
         getAllAds: () => dispatch(getAllAds()),
+       
         
     }
 }

@@ -89,26 +89,6 @@ const loginController = (req,res,next) => {
                     }else{
                         
                         if(rows){
-                            /*const SQL_FIND_ID_ROLE = "SELECT * FROM roles;"
-                            db.query(SQL_FIND_ID_ROLE, (err, result5) => {
-                                if(err){
-                                    console.log(err)
-                                }else{
-                                    console.log(result5)
-                                    let user_role_id;
-                                    let superadmin_role_id;
-                                    let admin_role_id;
-                                    for(let i=0; i < result5.length; i++){
-                                        if(result5[i].role_name === 'user'){
-                                            user_role_id = result5[i].id_role
-                                        }else if(result5[i].role_name === 'superadmin'){
-                                            superadmin_role_id = result5[i].id_role
-                                        }else if(result5[i].role_name === 'admin'){
-                                            admin_role_id = result5[i].id_role
-                                        }
-                                    }
-                            */
-                            //console.log(result[0].id)
                             const token = jwt.sign({
                                 user: result[0], 
                                 /*roles: {

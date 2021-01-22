@@ -3,6 +3,8 @@ import * as actionTypes from "./actionsTypes";
 import axios from "axios";
 import * as FormData from 'form-data'
 
+import Jwt_Decode from "jwt-decode";
+
 export const createAdStart = () => {
     return {
       type: actionTypes.ADV_CREATE_AD_START,
@@ -164,5 +166,47 @@ export const createAdStart = () => {
     
     };
   };
+
+  export const createReviewSuccess = (comment,rating) => {
+    return {
+      type: actionTypes.ADV_CREATE_REVIEW,
+      comment,
+      rating
+    };
+  };
+  
+  export const createReview = (comment,rating,title) => {
+    return async (dispatch) => {
+      // send request
+          const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+          let user_id = jwt_Token_decoded.user.id
+          axios({
+            method: "POST",
+            url: "http://localhost:5000/api/adv/rating",
+            data:{
+              comment,
+              rating,
+              title,
+              user_id
+            }
+            
+          })
+            .then((data) => {
+              console.log("rating:", data);
+              //console.log("rating:", data.data.avg.average);
+              
+              
+              dispatch(createReviewSuccess(comment,rating))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+ 
   
 
