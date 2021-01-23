@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import 'react-slideshow-image/dist/styles.css'
 import { Slide } from 'react-slideshow-image';
-import {createReview, getAd} from "../../../redux/actions/adv"
+import {createReview, getAd,getAllComments} from "../../../redux/actions/adv"
 
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+
+import {AiFillStar} from 'react-icons/ai'
+import { CgProfile } from "react-icons/cg"
 
 import './AdDetails.css'
 import Title from '../../../containers/Title/Title';
@@ -27,6 +30,7 @@ class AdDetails extends Component {
         this.setState({
             images: this.props.location.state.imagesDetails
         })
+        this.props.getAllComments(this.props.location.state.ad.title)
         
     }
     handleChange = ({ target: { value, name } }) => { 
@@ -39,6 +43,7 @@ class AdDetails extends Component {
         //e.preventDefault()
         const {comment,rating} = this.state
         this.props.createReview(comment,rating,this.props.location.state.ad.title)
+        this.props.getAllComments(this.props.location.state.ad.title)
     }
     render(){
         //let images = this.state.images.split(',')
@@ -54,7 +59,7 @@ class AdDetails extends Component {
             )
         })
                     
-        const {adDetails} = this.props
+        const {adDetails,comments} = this.props
         const {comment,rating} = this.state
         const numbers = [1, 2, 3, 4, 5]
         return (
@@ -82,36 +87,64 @@ class AdDetails extends Component {
                     <label>Description:</label> 
                     <p>{adDetails.description}</p>
                 </div>
-                <div className="ad-details-review">
-                    <div className="comment">
-                        <InputLabel id="comment">Comment</InputLabel>
-                            <TextareaAutosize
-                                name="comment"
-                                value={comment}
-                                onChange={this.handleChange} 
-                                aria-label="minimum height" 
-                                rowsMin={5} 
-                                placeholder="" 
-                            />
-                    </div>
-                    <div className="rating">
-                        <InputLabel id="rating">Rating</InputLabel>
-                            <Select
-                                value={rating}
-                                name='rating'
-                                onChange={this.handleChange}
-                                
-                            >
-                                {
-                                        numbers.map((num, i) => 
-                                        <MenuItem key={i} name="num" value={num}>{num}</MenuItem>
-                                    )
-                                
+                <div className="review-parent">
+                    <div className="ad-details-review">
+                        <div className="comment">
+                            <InputLabel id="comment">Comment</InputLabel>
+                                <TextareaAutosize
+                                    name="comment"
+                                    value={comment}
+                                    onChange={this.handleChange} 
+                                    aria-label="minimum height" 
+                                    rowsMin={5} 
+                                    placeholder="" 
+                                />
+                        </div>
+                        <div className="rating">
+                            <InputLabel id="rating">Rating</InputLabel>
+                                <Select
+                                    value={rating}
+                                    name='rating'
+                                    onChange={this.handleChange}
+                                    id="select"
                                     
-                                }
-                            </Select>
+                                >
+                                    {
+                                            numbers.map((num, i) => 
+                                            <MenuItem key={i} name="num" value={num}>{num}</MenuItem>
+                                        )
+                                    
+                                        
+                                    }
+                                </Select>
+                        </div>
+                        <button type="submit" onClick={() => this.onReviewSend()}>Submit</button>
                     </div>
-                    <button type="submit" onClick={() => this.onReviewSend()}>Submit</button>
+                </div>
+                <div className="comments">
+                    {
+                        comments.map((comm,index) => {
+                            return(
+                                <div key={index} className="user-ad-comment">
+                                    <div className="comment-user-rating">
+                                        <div className="comment-user">
+                                            <CgProfile size={20} />
+                                            <div className="comment-user-info">
+                                                <span>{comm.name} {comm.surname}</span>
+                                            </div>
+                                        </div>
+                                        <div className="comment-rating">
+                                            <span>Rating: </span>{comm.rating}<AiFillStar />
+                                        </div>
+                                    </div>
+                                    <label>Comment:</label>
+                                    <div className="comment-comm">
+                                        {comm.comment}
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 
             </div>
@@ -121,14 +154,16 @@ class AdDetails extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-      adDetails: state.adv.adDetails
+      adDetails: state.adv.adDetails,
+      comments: state.adv.comments
 
     };
   };
   const mapDispatchToProps = (dispatch) => {
     return {
         getAd: (title) => dispatch(getAd(title)),
-        createReview: (comment,rating,title) => dispatch(createReview(comment,rating,title))
+        createReview: (comment,rating,title) => dispatch(createReview(comment,rating,title)),
+        getAllComments: (title) => dispatch(getAllComments(title))
     };
   };
   

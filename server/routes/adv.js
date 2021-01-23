@@ -13,7 +13,7 @@ router.post('/create', upload.array("myImage", 5), Controllers.advController)
 router.get('/getAdv', Controllers.getAdvController)
 router.post('/getAd', Controllers.getAdController)
 router.post('/rating', Controllers.ratingController)
-
+router.post('/getComments', Controllers.getCommentsController)
 
  
 

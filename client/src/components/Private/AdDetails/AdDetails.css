@@ -27,4 +27,103 @@
 .ad-details-review{
     display: flex;
     flex-direction: column;
+    width: 300px;
+    height: 280px;
+    background-color: royalblue;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    
+}
+.ad-details-review button{
+    width: 90px;
+    height: 40px;
+    background-color: #ffa64d;
+    border: 2pt solid whitesmoke;
+    border-radius: 8px;
+    color: whitesmoke;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+    margin: 10px;
+}
+.ad-details-review button:hover{
+    background-color: whitesmoke;
+    color:  #ffa64d;
+    border-color:  #ffa64d;
+}
+
+.comment{
+    width: 100%;
+    text-align: center;
+}
+.comment textarea{
+    width: 90%;
+    margin: 10px;
+    
+}
+.review-parent{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+#comment{
+    color: whitesmoke;
+}
+#rating{
+    color: whitesmoke;
+    margin-bottom: 5px;
+}
+#select{
+    color: whitesmoke;
+    background-color:  #ffa64d;
+    padding: 12px;
+
+}
+.comments{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.user-ad-comment{
+    width: 40%;
+    height: 15vh;
+    background-color: grey;
+    margin: 10px;
+    padding: 10px;
+}
+
+.comment-user{
+    display: flex;
+}
+.comment-user svg{
+    color: #ffa64d;
+}
+
+.comment-user-rating{
+    display: flex;
+    justify-content: space-between;
+}
+.comment-comm{
+    width: 90%;
+    height: 60%;
+    border: 2pt solid  #ffa64d;
+    color: whitesmoke;
+}
+.comment-rating svg{
+    color: yellow;
+}
+.comment-user-info span{
+    color: whitesmoke;
+}
+.comment-rating span{
+    color: whitesmoke;
+}
+.user-ad-comment label{
+    color: whitesmoke;
+}
+.comment-rating{
+    color: whitesmoke;
 }

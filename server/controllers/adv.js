@@ -128,21 +128,26 @@ const ratingController = (req,res,next) => {
     })
 
 }
-/*const getRatingController = (req,res,next) => {
+const getCommentsController = (req,res,next) => {
+    
     const title = req.body.title
-    const SQL_SELECT_ADV_ID = "SELECT advertisement_id FROM advertisement WHERE title=?"
+
+    const SQL_SELECT_ADV_ID = "SELECT advertisement_id FROM advertisement WHERE title=?;"
     db.query(SQL_SELECT_ADV_ID, title, (err,result) => {
         if(err){
             console.log(err)
         }else{
             console.log(result)
-            const SQL_SELECT = "SELECT AVG(rating) AS average FROM ratings WHERE id_adv=?;"
-            db.query(SQL_SELECT, result[0].advertisement_id, (err,result2) => {
+            const SQL_GET_COMMENTS = `SELECT r.comment,r.rating, u.name, u.surname 
+                                    FROM ratings r 
+                                    JOIN user u ON r.id_user = u.id
+                                    WHERE id_adv = ?;`
+            db.query(SQL_GET_COMMENTS, result[0].advertisement_id, (err,result2) => {
                 if(err){
                     console.log(err)
                 }else{
                     console.log(result2)
-                    res.send({"avg": result2[0]})
+                    res.send(result2)
                     
                 }
             })
@@ -153,7 +158,7 @@ const ratingController = (req,res,next) => {
 
     
 
-}*/
+}
 
 
 
@@ -172,6 +177,7 @@ module.exports = {
     getAdvController,
     getAdController,
     ratingController,
+    getCommentsController
     
 
 

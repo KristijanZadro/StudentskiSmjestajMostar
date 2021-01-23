@@ -208,5 +208,40 @@ export const createAdStart = () => {
     };
   };
  
+  export const getCommentsSuccess = (comments) => {
+    return {
+      type: actionTypes.ADV_GET_COMMENTS,
+      comments
+  
+    };
+  };
+  
+  export const getAllComments = (title) => {
+    return async (dispatch) => {
+      // send request
+          axios({
+            method: "POST",
+            url: "http://localhost:5000/api/adv/getComments",
+            data:{
+              title
+            }
+            
+          })
+            .then((data) => {
+              console.log("comments:", data);
+              //console.log("rating:", data.data.avg.average);
+              
+              
+              dispatch(getCommentsSuccess(data.data))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
   
 

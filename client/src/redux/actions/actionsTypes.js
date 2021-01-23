@@ -34,3 +34,5 @@ export const ADV_GET_AD = "ADV_GET_AD";
 
 export const ADV_CREATE_REVIEW = "ADV_CREATE_REVIEW";
 
+export const ADV_GET_COMMENTS = "ADV_GET_COMMENTS";
+
