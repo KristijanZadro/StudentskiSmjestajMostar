@@ -18,11 +18,13 @@ export default class Create extends React.Component{
             open: false,
         }
     }
+
     handleToggle = () => {
         const openCopy = !this.state.open
         this.setState({
             open: openCopy
         })
+        
     }
     /*handleFormSubmit = exercise => {
         this.handleToggle()
@@ -39,15 +41,16 @@ export default class Create extends React.Component{
                     </Fab>
                 </div>
                 <Dialog open={this.state.open} onClose={this.handleToggle}>
-                    <DialogTitle>Create a new advertisement</DialogTitle>
+                    <DialogTitle id="dialogTitle">Create a new advertisement</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
+                        <DialogContentText id="dialogTitle">
                             Please Fill out the form below.
                         </DialogContentText>
-                        <Form />
+                        <Form onClose={this.handleToggle} />
                     </DialogContent>
                 </Dialog>
             </div>
         )
     }
 }
+

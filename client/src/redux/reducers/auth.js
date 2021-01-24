@@ -14,6 +14,7 @@ const initialState = {
     registerErrorMsg: "",
     loginErrorMsg: "",
     checkTokenLoading: false,
+    roles: []
 };
 
 // register
@@ -55,6 +56,8 @@ const authSuccess = (state, action) => ({
     authSuccess: true,
     isAuthenticated: true,
     loginErrorMsg: "",
+    userName: action.name,
+    userSurname: action.surname
 });
 const authFail = (state, action) => ({
     ...state,
@@ -93,12 +96,27 @@ const authCheckTokenSuccess = (state, action) => ({
   ...state,
   isAuthenticated: true,
   checkTokenLoading: false,
+  userName: action.name,
+  userSurname: action.surname
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,
   isAuthenticated: false,
   checkTokenLoading: false,
 })
+
+const logout = (state, action) => ({
+  ...state,
+  isAuthenticated: false,
+  authSuccess: false
+}) 
+
+const roles = (state, action) => ({
+  ...state,
+  roles: [action.roles]
+}) 
+
+
 
 
   const reducer = (state = initialState, action) => {
@@ -125,6 +143,10 @@ const authCheckTokenFail = (state, action) => ({
         return authCheckTokenSuccess(state, action);
       case actionTypes.AUTH_CHECK_TOKEN_FAIL:
         return authCheckTokenFail(state, action);
+      case actionTypes.AUTH_LOGOUT:
+        return logout(state,action)
+      case actionTypes.AUTH_ROLES:
+        return roles(state,action)
       default:
         return state;
     }

@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
+    "form-data": "^2.3.3",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -17,6 +18,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-simple-image-slider": "^2.0.1",
+    "react-slideshow-image": "^3.4.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "web-vitals": "^0.2.4"

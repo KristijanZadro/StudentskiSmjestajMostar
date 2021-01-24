@@ -8,12 +8,18 @@ import Profile from '../Profile/Profile'
 import MyAds from '../MyAds/MyAds'
 import Chat from '../Chat/Chat'
 import Settings from '../Settings/Settings'
+import Create from '../CreateAds/Create'
+
+
 
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
+import AdDetails from '../AdDetails/AdDetails'
+
+
 
 export default class Layout extends Component {
     componentDidMount(){
@@ -21,23 +27,26 @@ export default class Layout extends Component {
       //this.props.history.push("/private")
       //window.location.reload();
       console.log("isAuth",this.props.isAuthenticated)
+      //this.props.getUserInfo()
       
     }
+    logOut = () => {
+        localStorage.clear()
+        this.props.logout()
+    }
+
     render() {
         return (
             <div className="layout">
-                <Header title="Studentski Smjestaj Mostar" />
+                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>}/>
                 <div className="layout-sidebar">
                     <div className="sidebar-profile">
-                        <div className="sidebar-avatar">
-                            <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-                                alt="User profile"
-                            />
-                        </div>
+                        
+                        <h2>WELCOME</h2>
+                       
                         <div className="sidebar-name">
-                            John <br />
-                            Smith
+                            {this.props.name} <br />
+                            {this.props.surname}
                         </div>
                     
 
@@ -81,6 +90,11 @@ export default class Layout extends Component {
                         </div>
 
                     </div>
+                    <div className="logout">
+                        <button onClick={this.logOut}>log out</button>
+                    </div>
+                    
+                    
 
                 </div>
                 <div className="layout-content">
@@ -90,6 +104,7 @@ export default class Layout extends Component {
                         <Route exact path="/private/myAds" component={MyAds} />
                         <Route exact path="/private/chat" component={Chat} />
                         <Route exact path="/private/settings" component={Settings} />
+                        <Route exact path="/private/details/:title" component={AdDetails} />
                     </Switch>
                 </div>
                 
@@ -97,3 +112,4 @@ export default class Layout extends Component {
         )
     }
 }
+
