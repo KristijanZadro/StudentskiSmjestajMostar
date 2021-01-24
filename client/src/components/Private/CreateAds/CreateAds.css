@@ -1,0 +1,45 @@
+
+.create{
+    flex: 1;
+    display: flex; 
+    justify-content: flex-end;   
+}
+.createButton{
+    width: 40px;
+    margin-right: 50px;
+}
+
+#input{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+#desc{
+    margin-bottom: 5px;
+}
+
+#dialogTitle{
+    text-align: center;
+}
+
+.dialogFormButton{
+    margin-top: 30px;
+    width: 150px;
+    height: 40px;
+    margin: 10px;
+    background-color: royalblue;
+    border: 2pt solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+}
+
+.dialogFormButton:hover{
+    background-color: transparent;
+    color: royalblue;
+    border-color: royalblue;
+}

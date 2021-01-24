@@ -5,9 +5,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(to bottom left, royalblue,#99bbff);
+    background-image: linear-gradient(to right, royalblue,#3385ff);
+
 }
 
-.header h1{
+.header-title{
     color: white;
+    flex: 5;
+    text-align: center;
+    
+    
 }
