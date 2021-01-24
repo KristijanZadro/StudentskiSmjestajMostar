@@ -2,6 +2,8 @@ import * as actionTypes from "./actionsTypes";
 
 import axios from "axios";
 
+import Jwt_Decode from "jwt-decode";
+
 
 // register user start
 export const registerUserStart = () => {
@@ -70,7 +72,12 @@ export const registerUserStart = () => {
       
     };
   };
-
+  export const roles = (roles) => {
+    return {
+      type: actionTypes.AUTH_ROLES,
+      roles
+    };
+  };
   
 export const get_role_id = () => {
     return async (dispatch) => {
@@ -83,7 +90,8 @@ export const get_role_id = () => {
       })
         .then(async (data) => {
           console.log("role_data", data)
-          localStorage.setItem("roles-ssm", JSON.stringify(data.data));
+          
+          dispatch(roles(data.data))
           
         })
         .catch((e) => {
@@ -98,10 +106,11 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (email_exists) => {
+export const authSuccess = (name, surname) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
-    email_exists,
+    name, 
+    surname
   };
 };
 export const authFail = (msg) => {
@@ -111,7 +120,7 @@ export const authFail = (msg) => {
   };
 };
 
-export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin) => {
+export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAdmin, onAuthSuccessSuperAdmin, roles) => {
   
   return async (dispatch) => {
     // send request
@@ -126,23 +135,23 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
       },
     })
       .then(async (data) => {
-        const roles = localStorage.getItem("roles-ssm");
-        const roles2 = JSON.parse(roles)
-        console.log(roles2)
         console.log("authenticate:", data);
-        localStorage.setItem("auth-token-ssm", JSON.stringify(data.data));
+        localStorage.setItem("auth-token-ssm", JSON.stringify(data.data.token));
         console.log("pass",data.data.password)
         console.log("exist",data.data.email_exist)
-        
+        localStorage.setItem("isAuth", JSON.stringify(data.data.email_exist));
+        //const jwt_Token_decoded_roles = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+        const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+        console.log(roles[0])
         if((data.data.email_exist === true)&&(data.data.password === true)){
-            if(data.data.role_id === roles2.superadmin_role_id){
+            if(data.data.role_id === roles[0].superadmin_role_id){
               dispatch(authSuccess());
               onAuthSuccessSuperAdmin();
-            }else if(data.data.role_id === roles2.admin_role_id){
+            }else if(data.data.role_id === roles[0].admin_role_id){
               dispatch(authSuccess());
               onAuthSuccessAdmin();
-            }else if(data.data.role_id === roles2.user_role_id){
-              dispatch(authSuccess());
+            }else if(data.data.role_id === roles[0].user_role_id){
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
               onAuthSuccessUser();
             }
 
@@ -160,6 +169,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
       });
   };
 };
+
 
 // reset state on load sign in page
 export const resetStateLogin = () => {
@@ -192,9 +202,12 @@ export const authCheckTokenStart = () => {
     type: actionTypes.AUTH_CHECK_TOKEN_START,
   };
 };
-export const authCheckTokenSuccess = () => {
+export const authCheckTokenSuccess = (name, surname) => {
   return {
     type: actionTypes.AUTH_CHECK_TOKEN_SUCCESS,
+    name,
+    surname
+    
   };
 };
 export const authCheckTokenFail = (errorMsg) => {
@@ -211,18 +224,41 @@ export const authCheckToken = () => {
     dispatch(authCheckTokenStart());
     console.log("Checking token ...");
 
-    let authUser = localStorage.getItem("auth-token-ssm");
+    if (localStorage.getItem("auth-token-ssm")) {
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      console.log(jwt_Token_decoded)
+      console.log(jwt_Token_decoded.exp * 1000);
+      console.log(Date.now());
+      console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
+      if (jwt_Token_decoded.exp * 1000 < Date.now()) {
+        localStorage.clear();
+      } 
+    
+
+    /*let authUser = localStorage.getItem("auth-token-ssm");
     if (authUser !== null) {
       let authObj = JSON.parse(authUser);
 
-      console.log("Authenticated user: ", authObj);
+      console.log("Authenticated user: ", authObj);*/
       
-      dispatch(authCheckTokenSuccess());
+      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
 
       // this.setState({ isAuthenticated: true, loading: false });
     } else {
       // this.setState({ loading: false });
       dispatch(authCheckTokenFail());
     }
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const logOut = () => {
+  return (dispatch) => {
+    dispatch(logoutUser());
   };
 };

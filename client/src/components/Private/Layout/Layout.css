@@ -1,0 +1,118 @@
+.layout {
+    width: 100%;
+    height: 100vh;
+}
+
+.layout-sidebar {
+    width: 256px;
+    height: 100%;
+    background-color: royalblue;
+    background-image: linear-gradient(to bottom, royalblue,#3385ff);
+    float: left;
+    border-top: 1px solid whitesmoke;
+}
+
+.layout-content {
+    height: 100%;
+    min-height: 100%;
+    margin-left: 256px;
+    overflow-y: auto;
+  }
+
+  .sidebar-profile {
+    display: flex;
+    align-items: center;
+    margin: 16px;
+    padding: 10px;
+}
+
+.sidebar-profile h2{
+  color: white;
+}
+  
+  .sidebar-name {
+    width: 71px;
+    height: 40px;
+  
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  
+    color: #ffffff;
+    margin-left: 16px;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 16px;
+  }
+  
+  .sidebar-nav a div {
+    width: 224px;
+    height: 40px;
+    left: 16px;
+    top: 104px;
+  
+    border-radius: 8px;
+    margin: 5px 0;
+    cursor: pointer;
+  
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    color: #fcfafa;
+    box-sizing: border-box;
+    background: inherit;
+  }
+  
+  .sidebar-nav a div:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-nav > a > div > span {
+    width: 54px;
+    height: 20px;
+  
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  
+    color: #fcfafa;
+    margin-left: 11px;
+  }
+  
+  .nav-link-item {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .logout{
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    margin-left: 25px;
+  }
+
+  .logout button{
+    width: 90px;
+    height: 40px;
+    background-color: #3385ff;
+    border: 2pt solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+  }
+
+  .logout button:hover{
+    background-color: white;
+    color: #3385ff;
+  }
+  

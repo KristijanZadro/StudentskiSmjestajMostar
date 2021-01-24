@@ -89,8 +89,13 @@ const loginController = (req,res,next) => {
                     }else{
                         
                         if(rows){
-                            //console.log(result[0].id)
-                            const token = jwt.sign({id: result[0].id}, process.env.TOKEN_SECRET, {expiresIn: 3600})
+                            const token = jwt.sign({
+                                user: result[0], 
+                                /*roles: {
+                                    user_role_id: user_role_id, 
+                                    superadmin_role_id: superadmin_role_id, 
+                                    admin_role_id: admin_role_id
+                                }*/}, process.env.TOKEN_SECRET, {expiresIn: 3600})
                             res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
                             const SQL_FIND_ROLE = "SELECT id_role FROM user_role WHERE id_user = ?;"
@@ -99,10 +104,13 @@ const loginController = (req,res,next) => {
                                     console.log(err)
                                 }else{
                                     res.send({token: token, "password": rows, "email_exist": true, "role_id": result_2[0].id_role })
+                                    res.locals.email = email
+                                    next()
                             
                                 }
 
                             })
+                        //}})
                         }else{
                             res.send({"password": rows, "email_exist": true})
                             
@@ -150,7 +158,6 @@ const role_id_Controller = (req,res,next) => {
     
             })
 }
-
 
 
 const verifyToken = (req,res,next) => {
@@ -227,7 +234,8 @@ module.exports = {
     loginController,
     verifyToken,
     roleController,
-    role_id_Controller
+    role_id_Controller,
+ 
     //test
     //checkEmailController,
     //checkPasswordController

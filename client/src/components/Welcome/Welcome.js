@@ -6,7 +6,7 @@ import Footer from '../../containers/Footer/Footer'
 export default function Welcome() {
     return (
         <div>
-            <Header title="Studentski Smještaj Mostar" />
+            <Header title="Studentski Smještaj Mostar"  componentToPassDown=""/>
             <Content />
             <Footer />
         </div>

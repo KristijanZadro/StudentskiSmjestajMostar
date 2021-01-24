@@ -5,14 +5,20 @@
 }
 .register{
     width: 20%;
-    height: 60vh;
-    border: 2pt solid royalblue;
+    height: 66vh;
+    background-color: royalblue;
+    background-image: linear-gradient(to bottom,#5997f5, rgb(105, 141, 248));
     text-align: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border: 3pt solid #ffa64d ;
+    border-radius: 5px;
     
+}
+.register label{
+    color:whitesmoke;
 }
 
 .register button{
@@ -20,10 +26,10 @@
     width: 90px;
     height: 40px;
     margin: 10px;
-    background-color: royalblue;
-    border: 2pt solid white;
+    background-color:  #ffa64d;
+    border: 2pt solid whitesmoke;
     border-radius: 8px;
-    color: white;
+    color: whitesmoke;
     font-weight: bold;
     cursor: pointer;
     font-size: medium;
@@ -31,18 +37,19 @@
 }
 
 .register button:hover{
-    background-color: transparent;
-    color: royalblue;
-    border-color: royalblue;
+    background-color: whitesmoke;
+    color:  #ffa64d;
+    border-color:  #ffa64d;
 }
 
 .register p{
     padding: 5px;
+    color: whitesmoke;
     
 }
 
 .register h1{
-    color: royalblue;
+    color: whitesmoke;
 }
 
 .errorMsg{
