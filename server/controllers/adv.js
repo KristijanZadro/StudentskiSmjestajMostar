@@ -18,9 +18,6 @@ const advController = async (req,res,next) => {
         )
     }
     
-    console.log(req.body)
-    console.log(req.files)
-
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -33,8 +30,7 @@ const advController = async (req,res,next) => {
         let fileType = image.mimetype.split("/")[1]
         return image.filename + '.' + fileType
     })
-    
-    
+    const user_id = req.params.id
     //await pipeline(image.stream, fs.createWriteStream(`${__dirname}/../public/uploads/${image}`))
 
     const SQL_SELECT = "SELECT * FROM advertisement WHERE title = ?;"
@@ -46,8 +42,8 @@ const advController = async (req,res,next) => {
                 console.log("title is already in use")
                 res.send({"title_available": false})
             }else{
-               const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images) VALUES (?,?,?,?,?,?,?,?,?);"
-                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()]], (err, result) => {
+               const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images, user_id) VALUES (?,?,?,?,?,?,?,?,?,?);"
+                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id], (err, result) => {
                     if(err){
                         console.log(err)
                     }else{
@@ -56,16 +52,9 @@ const advController = async (req,res,next) => {
                         
                     }
                 })
-
-            
-                
             }
-            
         }
     })
-
-    
-
 }
 
 const getAdvController = (req,res,next) => {
@@ -154,10 +143,20 @@ const getCommentsController = (req,res,next) => {
             
         }
     })
+}
+const getMyAdsController = (req,res,next) => {
     
+    const user_id = req.body.user_id
 
-    
-
+    const SQL_SELECT_ADV_ID = "SELECT * FROM advertisement WHERE user_id=?;"
+    db.query(SQL_SELECT_ADV_ID, user_id, (err,result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            res.send(result)
+        }
+    })
 }
 
 
@@ -177,7 +176,8 @@ module.exports = {
     getAdvController,
     getAdController,
     ratingController,
-    getCommentsController
+    getCommentsController,
+    getMyAdsController
     
 
 

@@ -1,0 +1,15 @@
+.my-ad{
+    width: 80%;
+    height: 40vh;
+    border: 1px solid orange;
+    margin: 20px;
+}
+.my-ad-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.my-ad-info p{
+    width: 30%;
+    
+}

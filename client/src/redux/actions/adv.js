@@ -43,8 +43,11 @@ export const createAdStart = () => {
             for(let i = 0; i<image.length; i++) {
               formData.append('myImage', image[i]);
           }
+            const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+            let user_id = jwt_Token_decoded.user.id;
+            
             console.log(formData)
-          axios.post("http://localhost:5000/api/adv/create", formData )
+          axios.post(`http://localhost:5000/api/adv/create/${user_id}`, formData)
             .then((data) => {
               console.log("createAd:", data);
               if(data.data.title_available){
@@ -244,5 +247,41 @@ export const createAdStart = () => {
     };
   };
 
+  export const getMyAdSuccess = (myAds) => {
+    return {
+      type: actionTypes.ADV_GET_MYAD,
+      myAds
+  
+    };
+  };
+  
+  export const getMyAd = () => {
+    return async (dispatch) => {
+      // send request
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      let user_id = jwt_Token_decoded.user.id
+          axios({
+            method: "POST",
+            url: "http://localhost:5000/api/adv/getMyAd",
+            data:{
+              user_id
+            }
+            
+          })
+            .then((data) => {
+              console.log("myAd:", data);
+              //console.log("rating:", data.data.avg.average);
+              
+              
+              dispatch(getMyAdSuccess(data.data))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
 
+    
+    };
+  };
 
