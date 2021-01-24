@@ -175,7 +175,7 @@ export const createAdStart = () => {
     };
   };
   
-  export const createReview = (comment,rating,title) => {
+  export const createReview = (comment,rating,title,resetReview) => {
     return async (dispatch) => {
       // send request
           const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
@@ -197,7 +197,7 @@ export const createAdStart = () => {
               
               
               dispatch(createReviewSuccess(comment,rating))
-             
+              resetReview()
             
         })
             .catch((e) => {
@@ -243,5 +243,6 @@ export const createAdStart = () => {
     
     };
   };
-  
+
+
 

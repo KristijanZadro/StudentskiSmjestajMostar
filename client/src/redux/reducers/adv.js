@@ -99,6 +99,7 @@ const getComments = (state, action) => ({
 
 
 
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADV_CREATE_AD_START:

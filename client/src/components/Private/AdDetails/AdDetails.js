@@ -11,9 +11,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import {AiFillStar} from 'react-icons/ai'
 import { CgProfile } from "react-icons/cg"
+import {BsPencilSquare} from "react-icons/bs"
 
 import './AdDetails.css'
 import Title from '../../../containers/Title/Title';
+
 
 class AdDetails extends Component {
     constructor(){
@@ -21,7 +23,8 @@ class AdDetails extends Component {
         this.state = {
             images: [],
             comment: "",
-            rating: ""
+            rating: "",
+            
         }
     }
     componentDidMount(){
@@ -33,6 +36,12 @@ class AdDetails extends Component {
         this.props.getAllComments(this.props.location.state.ad.title)
         
     }
+    resetReview = () => {
+        this.setState({
+            comment: "",
+            rating: ""
+        })
+    }
     handleChange = ({ target: { value, name } }) => { 
         this.setState({
             [name]: value
@@ -40,11 +49,13 @@ class AdDetails extends Component {
 
     }
     onReviewSend = (e) => {
-        //e.preventDefault()
+        e.preventDefault()
         const {comment,rating} = this.state
-        this.props.createReview(comment,rating,this.props.location.state.ad.title)
+        this.props.createReview(comment,rating,this.props.location.state.ad.title,this.resetReview)
         this.props.getAllComments(this.props.location.state.ad.title)
+        
     }
+    
     render(){
         //let images = this.state.images.split(',')
         //console.log("splitani images", this.state.images)
@@ -76,50 +87,61 @@ class AdDetails extends Component {
                     </div>
                 </div>
                 <div className="ad-details-info">
-                    <p>Price: {adDetails.price}$</p>
-                    <p>Size: {adDetails.size}&#109;&sup2;</p>
-                    <p>Address: {adDetails.address}</p>
-                    <p>People allowed: {adDetails.people_allowed}</p>
-                    <p>{adDetails.pets && adDetails.balcony ? "Pets allowed and balcony included" : adDetails.pets ? "Pets allowed" : adDetails.balcony ? "Balcony included" : ""}</p>
+                    <p>- <span>Price:</span> {adDetails.price}$</p>
+                    <p>- <span>Size:</span> {adDetails.size}&#109;&sup2;</p>
+                    <p>- <span>Address:</span> {adDetails.address}</p>
+                    <p>- <span>People allowed:</span> {adDetails.people_allowed}</p>
+                    <p>- {adDetails.pets && adDetails.balcony ? "Pets allowed and balcony included" : adDetails.pets ? "Pets allowed" : adDetails.balcony ? "Balcony included" : ""}</p>
 
                 </div>
                 <div className="ad-details-desc">
-                    <label>Description:</label> 
-                    <p>{adDetails.description}</p>
+                    <div className="ad-details-desc-title">
+                        <span>Description</span> 
+                    </div>
+                    <div className="ad-details-desc-body">
+                        <p>{adDetails.description}</p>
+                    </div>
+                    
                 </div>
                 <div className="review-parent">
-                    <div className="ad-details-review">
-                        <div className="comment">
-                            <InputLabel id="comment">Comment</InputLabel>
-                                <TextareaAutosize
-                                    name="comment"
-                                    value={comment}
-                                    onChange={this.handleChange} 
-                                    aria-label="minimum height" 
-                                    rowsMin={5} 
-                                    placeholder="" 
-                                />
-                        </div>
-                        <div className="rating">
-                            <InputLabel id="rating">Rating</InputLabel>
-                                <Select
-                                    value={rating}
-                                    name='rating'
-                                    onChange={this.handleChange}
-                                    id="select"
-                                    
-                                >
-                                    {
-                                            numbers.map((num, i) => 
-                                            <MenuItem key={i} name="num" value={num}>{num}</MenuItem>
-                                        )
-                                    
+                    <form onSubmit={this.onReviewSend}>
+                        <div className="ad-details-review">
+                            <div className="review-title">
+                                <span>Review</span>
+                            </div>
+                            <div className="comment">
+                                <InputLabel id="comment">Comment</InputLabel>
+                                    <TextareaAutosize
+                                        name="comment"
+                                        value={comment}
+                                        onChange={this.handleChange} 
+                                        aria-label="minimum height" 
+                                        rowsMin={5} 
+                                        placeholder="" 
+                                    />
+                            </div>
+                            <div className="rating">
+                                <InputLabel id="rating">Rating</InputLabel>
+                                    <Select
+                                        value={rating}
+                                        name='rating'
+                                        onChange={this.handleChange}
+                                        id="select"
                                         
-                                    }
-                                </Select>
+                                    >
+                                        {
+                                                numbers.map((num, i) => 
+                                                <MenuItem key={i} name="num" value={num}>{num}</MenuItem>
+                                            )
+                                        
+                                            
+                                        }
+                                    </Select>
+                            </div>
+                            <button>Submit</button>
                         </div>
-                        <button type="submit" onClick={() => this.onReviewSend()}>Submit</button>
-                    </div>
+                    </form>
+                    
                 </div>
                 <div className="comments">
                     {
@@ -138,9 +160,13 @@ class AdDetails extends Component {
                                         </div>
                                     </div>
                                     <label>Comment:</label>
-                                    <div className="comment-comm">
-                                        {comm.comment}
+                                    <div className="comment-box">
+                                        <div className="comment-comm" >
+                                            {comm.comment}
+                                        </div>
+                                        <button><BsPencilSquare /></button>
                                     </div>
+                                    
                                 </div>
                             )
                         })
@@ -162,8 +188,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return {
         getAd: (title) => dispatch(getAd(title)),
-        createReview: (comment,rating,title) => dispatch(createReview(comment,rating,title)),
-        getAllComments: (title) => dispatch(getAllComments(title))
+        createReview: (comment,rating,title,resetReview) => dispatch(createReview(comment,rating,title,resetReview)),
+        getAllComments: (title) => dispatch(getAllComments(title)),
     };
   };
   
