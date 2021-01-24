@@ -18,7 +18,8 @@ const initialState = {
     adDetails: {},
     comment: "",
     rating: "",
-    comments: []
+    comments: [],
+    myAds: []
 };
 
 const createAdStart = (state, action) => ({
@@ -97,7 +98,10 @@ const getComments = (state, action) => ({
   comments: action.comments
 });
 
-
+const getMyAds = (state, action) => ({
+  ...state,
+  myAds: action.myAds
+});
 
 
 const reducer = (state = initialState, action) => {
@@ -120,6 +124,8 @@ const reducer = (state = initialState, action) => {
           return createReview(state, action);
         case actionTypes.ADV_GET_COMMENTS:
           return getComments(state, action);
+        case actionTypes.ADV_GET_MYAD:
+          return getMyAds(state, action);
         default:
           return state;
     }
