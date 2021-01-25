@@ -2,18 +2,23 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import './Profile.css'
 import { getMyAd } from '../../../redux/actions/adv';
+import { authCheckToken } from '../../../redux/actions/auth';
 
 import { CgProfile } from "react-icons/cg"
+import Title from '../../../containers/Title/Title';
 
 class Profile extends Component {
     componentDidMount(){
+        //this.props.authCheckToken()
         this.props.getMyAd()
     }
     render() {
         const {user, myAds} = this.props
         let myAdsNumber = myAds.length
         return (
-            <div className="user-profile">
+           <div>
+               <Title title="Profile" />
+                <div className="user-profile">
                 <div className="profile-cv">
                     <div className="profile-info">
                         <div className="profile-name">
@@ -40,6 +45,8 @@ class Profile extends Component {
                     
                 </div>
             </div>
+           </div> 
+            
         )
     }
 }
@@ -54,7 +61,8 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-        getMyAd: ()=>dispatch(getMyAd())
+        getMyAd: ()=>dispatch(getMyAd()),
+        authCheckToken: () => dispatch(authCheckToken()),
     };
   };
  
