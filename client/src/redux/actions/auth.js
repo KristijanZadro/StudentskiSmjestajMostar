@@ -226,7 +226,7 @@ export const authCheckToken = () => {
 
     if (localStorage.getItem("auth-token-ssm")) {
       const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
-      console.log(jwt_Token_decoded)
+      console.log(jwt_Token_decoded.user)
       console.log(jwt_Token_decoded.exp * 1000);
       console.log(Date.now());
       console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
