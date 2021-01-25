@@ -14,7 +14,8 @@ const initialState = {
     registerErrorMsg: "",
     loginErrorMsg: "",
     checkTokenLoading: false,
-    roles: []
+    roles: [],
+    user: {}
 };
 
 // register
@@ -97,7 +98,8 @@ const authCheckTokenSuccess = (state, action) => ({
   isAuthenticated: true,
   checkTokenLoading: false,
   userName: action.name,
-  userSurname: action.surname
+  userSurname: action.surname,
+  user: action.user
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
+import Title from '../../../containers/Title/Title';
 import { getMyAd } from '../../../redux/actions/adv';
 import "./MyAds.css"
 class MyAds extends Component {
@@ -8,20 +9,31 @@ class MyAds extends Component {
     }
     
     render() {
+        //let images = this.props.myAds.images.split(',')
         let myAdsRender = this.props.myAds.map((myAd, index)=>{
+            let images = myAd.images.split(',')
             return(
                 <div key={index} className="my-ad">
                     <div className="my-ad-title">
                         {myAd.title}
                     </div>
-                    <div className="my-ad-images">slike</div>
+                    <div className="my-ad-images">
+                        {
+                            images.map((image, index) => {
+                                return (
+                                    <div className="my-ad-image" key={index} >
+                                        <img src={`http://localhost:5000/static/${image}`}  alt="" />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                     <div className="my-ad-info">
-                        <p>Price: {myAd.price}</p>
+                        <p>Price: {myAd.price}$</p>
                         <p>Address: {myAd.address}</p>
                         <p>People allowed: {myAd.people_allowed}</p>
-                        <p>Size: {myAd.size}</p>
-                        <p>Pets: {myAd.pets}</p>
-                        <p>Balcony: {myAd.balcony}</p>
+                        <p>Size: {myAd.size}&#109;&sup2;</p>
+                        <p>{myAd.pets && myAd.balcony ? "Pets allowed and balcony included" : myAd.pets ? "Pets allowed" : myAd.balcony ? "Balcony included" : ""}</p>
                     </div>
                     <div className="my-ad-desc">
                         {myAd.description}
@@ -30,8 +42,10 @@ class MyAds extends Component {
             )
         })
         return (
-            <div>
-                {myAdsRender}
+            <div className="my-adss">
+                <Title title="My Ads" />
+               {myAdsRender}
+               
             </div>
         )
     }

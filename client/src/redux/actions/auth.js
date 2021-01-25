@@ -202,11 +202,12 @@ export const authCheckTokenStart = () => {
     type: actionTypes.AUTH_CHECK_TOKEN_START,
   };
 };
-export const authCheckTokenSuccess = (name, surname) => {
+export const authCheckTokenSuccess = (name, surname, user) => {
   return {
     type: actionTypes.AUTH_CHECK_TOKEN_SUCCESS,
     name,
-    surname
+    surname,
+    user
     
   };
 };
@@ -226,7 +227,7 @@ export const authCheckToken = () => {
 
     if (localStorage.getItem("auth-token-ssm")) {
       const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
-      console.log(jwt_Token_decoded)
+      console.log(jwt_Token_decoded.user)
       console.log(jwt_Token_decoded.exp * 1000);
       console.log(Date.now());
       console.log(JSON.parse(localStorage.getItem("auth-token-ssm")))
@@ -241,7 +242,7 @@ export const authCheckToken = () => {
 
       console.log("Authenticated user: ", authObj);*/
       
-      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
+      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user));
 
       // this.setState({ isAuthenticated: true, loading: false });
     } else {
