@@ -1,8 +1,8 @@
 .my-ad{
-    width: 80%;
-    height: 40vh;
-    border: 1px solid orange;
-    margin: 20px;
+    width: 70%;
+    height: 50vh;
+    margin: 60px auto;
+    box-shadow: 0 0 10px 7px #f88b1e;
 }
 .my-ad-info{
     display: flex;
@@ -13,3 +13,45 @@
     width: 30%;
     
 }
+.my-ad-images{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+.my-ad-image{
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+.my-ad-image img{
+    width: 100%;
+    height: 100%;
+}
+.my-ad-title{
+    background-color: royalblue;
+    height: 10%;
+    color: whitesmoke;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+    text-transform: capitalize;
+
+}
+
+.my-ad-info{
+    background-color: royalblue;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.my-ad-info p{
+    width: 30%;
+    font-size: larger;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.my-ad-desc{
+    padding: 10px;
+}
+
