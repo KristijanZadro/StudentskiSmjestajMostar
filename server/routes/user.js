@@ -10,6 +10,7 @@ router.get('/get_role_id', Controllers.role_id_Controller)
 router.post('/login',  Controllers.loginController,  )
 router.put('/ChangeNameSurname', Controllers.changeNameSurnameController)
 router.put('/ChangeEmail', Controllers.changeEmailController)
+router.put('/ChangePassword', Controllers.changePasswordController)
 
 //router.get('/get_user_info', Controllers.get_name_surname_Controller)
 //router.post('/test', Controllers.verifyToken,  Controllers.test)

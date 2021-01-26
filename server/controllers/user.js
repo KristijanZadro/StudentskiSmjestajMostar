@@ -179,8 +179,8 @@ const changeNameSurnameController = (req,res,next) => {
     const newSurname = req.body.newSurname
     const user_id = req.body.user_id
 
-    const SQL_FIND_EMAIL = "UPDATE user SET Name=?, Surname=? WHERE id=?;"
-    db.query(SQL_FIND_EMAIL, [newName,newSurname,user_id], (err, result) => {
+    const SQL_CHANGE_NAME_SURNAME = "UPDATE user SET Name=?, Surname=? WHERE id=?;"
+    db.query(SQL_CHANGE_NAME_SURNAME, [newName,newSurname,user_id], (err, result) => {
         if(err){
             console.log(err)
         }else{
@@ -196,8 +196,8 @@ const changeEmailController = (req,res,next) => {
     const newEmail = req.body.newEmail
     const user_id = req.body.user_id
     
-    const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
-    db.query(SQL_FIND_EMAIL, newEmail, (err, result) => {
+    const SQL_CHANGE_EMAIL = "SELECT * FROM user WHERE Email = ?;"
+    db.query(SQL_CHANGE_EMAIL, newEmail, (err, result) => {
         if(err){
             console.log(err)
         }else{
@@ -214,49 +214,26 @@ const changeEmailController = (req,res,next) => {
                         res.send(result2)
                         
                     }
-            
                 })
             }
-            
-            
         }
-
     })
-
-    
 }
+const changePasswordController = (req,res,next) => {
+    const newPassword = req.body.newPassword
+    const user_id = req.body.user_id
 
-const checkPasswordController = (req,res,next) => {
-    const email = req.body.email
-    const password = req.body.password
-    
-        const SQL_FIND_EMAIL = "SELECT Password FROM user WHERE Email = ?;"
-        db.query(SQL_FIND_EMAIL, email, (err, result) => {
-            
+    bcrypt.hash(newPassword, 10, (err, hash) => {
+        const SQL_CHANGE_PASSWORD = "UPDATE user SET Password=? WHERE id=?;"
+        db.query(SQL_CHANGE_PASSWORD, [hash, user_id], (err, result) => {
             if(err){
                 console.log(err)
-                res.send("email not valid")
-                
             }else{
-                if(result.length == 1){
-                    bcrypt.compare(password, result[0].Password, (err,res)=> {
-                        if(err){
-                            console.log(err)
-                            res.send("pass not valid")
-                        }else{
-                            console.log("compare:",res)
-                            res.send("login succesfull")
-                        }
-                    })
-
-                }
                 console.log(result)
                 res.send(result)
             }
-
         })
-    
-    
+    })
     
 }
 
@@ -268,7 +245,8 @@ module.exports = {
     roleController,
     role_id_Controller,
     changeNameSurnameController,
-    changeEmailController
+    changeEmailController,
+    changePasswordController
  
     //test
     //checkEmailController,
