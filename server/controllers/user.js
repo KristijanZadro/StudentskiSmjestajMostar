@@ -192,6 +192,39 @@ const changeNameSurnameController = (req,res,next) => {
     })
     
 }
+const changeEmailController = (req,res,next) => {
+    const newEmail = req.body.newEmail
+    const user_id = req.body.user_id
+    
+    const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
+    db.query(SQL_FIND_EMAIL, newEmail, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            if(result.length > 0){
+                console.log("email is already in use")
+                res.send({"email_available": false})
+            }else{
+                const SQL_FIND_EMAIL = "UPDATE user SET Email=? WHERE id=?;"
+                db.query(SQL_FIND_EMAIL, [newEmail,user_id], (err, result2) => {
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log(err)
+                        res.send(result2)
+                        
+                    }
+            
+                })
+            }
+            
+            
+        }
+
+    })
+
+    
+}
 
 const checkPasswordController = (req,res,next) => {
     const email = req.body.email
@@ -234,7 +267,8 @@ module.exports = {
     verifyToken,
     roleController,
     role_id_Controller,
-    changeNameSurnameController
+    changeNameSurnameController,
+    changeEmailController
  
     //test
     //checkEmailController,
