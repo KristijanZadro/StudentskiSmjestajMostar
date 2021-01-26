@@ -9,7 +9,7 @@ import Title from '../../../containers/Title/Title';
 
 class Profile extends Component {
     componentDidMount(){
-        this.props.authCheckToken()
+        //this.props.authCheckToken()
         this.props.getMyAd()
     }
     render() {

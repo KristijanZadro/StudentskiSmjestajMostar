@@ -153,6 +153,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
             }else if(data.data.role_id === roles[0].user_role_id){
               dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
               onAuthSuccessUser();
+              
             }
 
         }
@@ -261,5 +262,154 @@ export const logoutUser = () => {
 export const logOut = () => {
   return (dispatch) => {
     dispatch(logoutUser());
+  };
+};
+
+export const changeNameSurnameStart = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_NAME_SURNAME_START,
+  };
+};
+export const changeNameSurnameSuccess = (newName,newSurname,user) => {
+  return {
+    type: actionTypes.AUTH_CHANGE_NAME_SURNAME_SUCCESS,
+    newName,
+    newSurname,
+    user
+   
+  };
+};
+export const changeNameSurnameFail = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_NAME_SURNAME_FAIL,
+  };
+};
+
+export const changeNameSurname = (newName,newSurname) => {
+  return async (dispatch) => {
+    // send request
+    dispatch(changeNameSurnameStart());
+    
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      let user_id = jwt_Token_decoded.user.id
+        axios({
+          method: "PUT",
+          url: "http://localhost:5000/api/user/ChangeNameSurname",
+          data: {
+           newName,
+           newSurname,
+           user_id
+          },
+        })
+          .then((data) => {
+            console.log("changeNameSurname:", data);
+              dispatch(changeNameSurnameSuccess(newName,newSurname,jwt_Token_decoded.user));
+             
+          })
+          .catch((e) => {
+            console.log(e);
+            dispatch(changeNameSurnameFail());
+          });
+  };
+};
+
+export const changeEmailStart = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_EMAIL_START,
+  };
+};
+export const changeEmailSuccess = (newEmail) => {
+  return {
+    type: actionTypes.AUTH_CHANGE_EMAIL_SUCCESS,
+    newEmail
+  };
+};
+export const changeEmailFail = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_EMAIL_FAIL,
+  };
+};
+
+export const changeEmail = (newEmail) => {
+  return async (dispatch) => {
+    // send request
+    dispatch(changeEmailStart());
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let test = re.test(String(newEmail).toLowerCase());
+    const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+    let user_id = jwt_Token_decoded.user.id
+    if(test){
+        axios({
+          method: "PUT",
+          url: "http://localhost:5000/api/user/changeEmail",
+          data: {
+            newEmail,
+            user_id
+          },
+        })
+          .then((data) => {
+            console.log("changeEmail:", data);
+            //console.log(data.data.email_available)
+            if(data.data.email_available === true){
+              dispatch(changeEmailSuccess(newEmail));
+            }else{
+              dispatch(changeEmailFail("Email not valid or already exists!"));
+            }
+            
+          })
+          .catch((e) => {
+            console.log(e);
+            dispatch(changeEmailFail("Email not valid or already exists!"));
+          });
+
+    }else{
+      dispatch(changeEmailFail("Email is not valid"))
+    }
+
+  };
+};
+
+export const changePasswordStart = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_PASSWORD_START,
+  };
+};
+export const changePasswordSuccess = (newPassword) => {
+  return {
+    type: actionTypes.AUTH_CHANGE_PASSWORD_SUCCESS,
+    newPassword
+   
+  };
+};
+export const changePasswordFail = () => {
+  return {
+    type: actionTypes.AUTH_CHANGE_PASSWORD_FAIL,
+  };
+};
+
+export const changePassword = (newPassword) => {
+  return async (dispatch) => {
+    // send request
+    dispatch(changePasswordStart());
+    
+      const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+      let user_id = jwt_Token_decoded.user.id
+        axios({
+          method: "PUT",
+          url: "http://localhost:5000/api/user/ChangePassword",
+          data: {
+           newPassword,
+           user_id
+          },
+        })
+          .then((data) => {
+            console.log("changePass:", data);
+              dispatch(changePasswordSuccess(newPassword));
+             
+          })
+          .catch((e) => {
+            console.log(e);
+            dispatch(changePasswordFail());
+          });
   };
 };

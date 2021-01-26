@@ -211,7 +211,7 @@ const changeEmailController = (req,res,next) => {
                         console.log(err)
                     }else{
                         console.log(err)
-                        res.send(result2)
+                        res.send({"email_available": true})
                         
                     }
                 })

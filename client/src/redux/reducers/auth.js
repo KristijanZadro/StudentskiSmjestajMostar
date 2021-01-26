@@ -118,6 +118,50 @@ const roles = (state, action) => ({
   roles: [action.roles]
 }) 
 
+const changeNameSurnameStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changeNameSurnameSuccess = (state, action) => ({
+  ...state,
+    userName: action.newName,
+    userSurname: action.newSurname,
+    user: action.user
+}) 
+const changeNameSurnameFail = (state, action) => ({
+  ...state,
+
+  
+}) 
+
+const changeEmailStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changeEmailSuccess = (state, action) => ({
+  ...state,
+  userEmail: action.newEmail,
+}) 
+const changeEmailFail = (state, action) => ({
+  ...state,
+
+  
+}) 
+const changePasswordStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changePasswordSuccess = (state, action) => ({
+  ...state,
+  userPassword: action.newPassword,
+  
+}) 
+const changePasswordFail = (state, action) => ({
+  ...state,
+
+  
+}) 
+
 
 
 
@@ -149,6 +193,24 @@ const roles = (state, action) => ({
         return logout(state,action)
       case actionTypes.AUTH_ROLES:
         return roles(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_START:
+        return changeNameSurnameStart(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_SUCCESS:
+        return changeNameSurnameSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_FAIL:
+        return changeNameSurnameFail(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_START:
+        return changeEmailStart(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_SUCCESS:
+        return changeEmailSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_FAIL:
+        return changeEmailFail(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_START:
+        return changePasswordStart(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_SUCCESS:
+        return changePasswordSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_FAIL:
+        return changePasswordFail(state,action)
       default:
         return state;
     }

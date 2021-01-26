@@ -3,7 +3,11 @@ import Title from '../../../containers/Title/Title'
 import Input from '../../../containers/Input/Input'
 import './Settings.css'
 
-export default class Settings extends Component {
+import { connect } from "react-redux";
+import { changeEmail, changePassword, changeNameSurname } from '../../../redux/actions/auth';
+
+
+class Settings extends Component {
     constructor(){
         super()
         this.state = {
@@ -17,11 +21,26 @@ export default class Settings extends Component {
         this.setState({ [e.target.name]: e.target.value });
         
       };
+    onChangeNameSurnameSend = (e) => {
+        e.preventDefault()
+        const {newName,newSurname} = this.state
+        this.props.changeNameSurname(newName,newSurname)
+    }
+    onChangeEmailSend = (e) => {
+        e.preventDefault()
+        const {newEmail} = this.state
+        this.props.changeEmail(newEmail)
+    }
+    onChangePasswordSend = (e) => {
+        e.preventDefault()
+        const {newPassword} = this.state
+        this.props.changePassword(newPassword)
+    }
     render() {
         const {newName,newSurname,newEmail,newPassword} = this.state
         return (
                 <div className="settings">
-                    <form>
+                    <form onSubmit={this.onChangeNameSurnameSend}>
                         <Title title="Settings" />
                         <p>Please fill in this form to change your account informations.</p>
                         
@@ -45,7 +64,7 @@ export default class Settings extends Component {
                         />
                         <button type="submit" className="confirmChangeInfo" >Confirm</button>
                     </form>
-                    <form>
+                    <form onSubmit={this.onChangeEmailSend}>
 
                         <label><b>Email</b></label>
                         <Input 
@@ -57,7 +76,7 @@ export default class Settings extends Component {
                         />
                         <button type="submit" className="confirmChangeInfo" >Confirm</button>
                     </form>
-                    <form>
+                    <form onSubmit={this.onChangePasswordSend}>
                         <label><b>Password</b></label>
                         <Input
                             type="password" 
@@ -74,3 +93,14 @@ export default class Settings extends Component {
         )
     }
 }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        changeNameSurname: (newName,newSurname) => dispatch(changeNameSurname(newName,newSurname)),
+        changeEmail: (newEmail) => dispatch(changeEmail(newEmail)),
+        changePassword: (newPassword) => dispatch(changePassword(newPassword))
+    };
+  };
+  
+  
+  export default connect(null, mapDispatchToProps)(Settings);
