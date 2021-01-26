@@ -173,20 +173,19 @@ const verifyToken = (req,res,next) => {
     }
 }
 
-/*const test = (req,res) => {
-    res.send("post")
-}
-*/
-/*const checkEmailController = (req,res,next) => {
-    const email = req.query.email
-    const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
-    db.query(SQL_FIND_EMAIL, email, (err, result) => {
-        if(result>0){
-            console.log("email is already in use")
-            res.send("email is already in use")
-            
+
+const changeNameSurnameController = (req,res,next) => {
+    const newName = req.body.newName
+    const newSurname = req.body.newSurname
+    const user_id = req.body.user_id
+
+    const SQL_FIND_EMAIL = "UPDATE user SET Name=?, Surname=? WHERE id=?;"
+    db.query(SQL_FIND_EMAIL, [newName,newSurname,user_id], (err, result) => {
+        if(err){
+            console.log(err)
         }else{
             console.log(err)
+            res.send(result)
             
         }
 
@@ -227,7 +226,7 @@ const checkPasswordController = (req,res,next) => {
     
     
 }
-*/
+
 
 module.exports = {
     registerController,
@@ -235,6 +234,7 @@ module.exports = {
     verifyToken,
     roleController,
     role_id_Controller,
+    changeNameSurnameController
  
     //test
     //checkEmailController,
