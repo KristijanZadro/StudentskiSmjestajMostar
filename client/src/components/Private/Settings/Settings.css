@@ -1,0 +1,27 @@
+.settings{
+    width: 50%;
+    margin-left: 50px;
+}
+.settings form{
+    margin-bottom: 30px;
+}
+
+.confirmChangeInfo{
+    margin-top: 15px;
+    width: 90px;
+    height: 40px;
+    background-color:  #ffa64d;
+    border: 2pt solid whitesmoke;
+    border-radius: 8px;
+    color: whitesmoke;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+}
+
+.confirmChangeInfo:hover{
+    background-color: whitesmoke;
+    color:  #ffa64d;
+    border-color:  #ffa64d;
+}

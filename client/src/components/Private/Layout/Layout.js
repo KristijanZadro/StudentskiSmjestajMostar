@@ -45,8 +45,8 @@ export default class Layout extends Component {
                         <h2>WELCOME</h2>
                        
                         <div className="sidebar-name">
-                            {this.props.name} <br />
-                            {this.props.surname}
+                            {this.props.user.Name} <br />
+                            {this.props.user.Surname}
                         </div>
                     
 
@@ -100,7 +100,7 @@ export default class Layout extends Component {
                 <div className="layout-content">
                     <Switch>
                         <Route exact path="/private" component={Home}  />
-                        <Route exact path="/private/profile" render={() => <Profile {...this.props} />}  />
+                        <Route exact path="/private/profile" render={() => <Profile {...this.props} user={this.props.user} />}  />
                         <Route exact path="/private/myAds" component={MyAds} />
                         <Route exact path="/private/chat" component={Chat} />
                         <Route exact path="/private/settings" component={Settings} />
