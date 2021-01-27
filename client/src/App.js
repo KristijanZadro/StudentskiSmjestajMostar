@@ -18,7 +18,7 @@ class App extends React.Component {
   render() {
     const {isAuthenticated} = this.props
     const {checkTokenLoading} = this.props
-    const {user} = this.props
+    const {userName,userSurname} = this.props
     return (
       <div>
         {
@@ -26,7 +26,7 @@ class App extends React.Component {
           <p>loading...</p> : (
           <>
             <Public />
-            <Private isAuthenticated={isAuthenticated} Component={Layout} user={user}  logout={this.props.logOut} />
+            <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname}  logout={this.props.logOut} />
             
           </>
           )}
@@ -40,7 +40,8 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     checkTokenLoading: state.auth.checkTokenLoading,
-    user: state.auth.user,
+    userName: state.auth.userName,
+    userSurname: state.auth.userSurname
     
 
   };
