@@ -106,11 +106,12 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (name, surname) => {
+export const authSuccess = (name, surname, user) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     name, 
-    surname
+    surname,
+    user
   };
 };
 export const authFail = (msg) => {
@@ -151,7 +152,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
               dispatch(authSuccess());
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles[0].user_role_id){
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user));
               onAuthSuccessUser();
               
             }

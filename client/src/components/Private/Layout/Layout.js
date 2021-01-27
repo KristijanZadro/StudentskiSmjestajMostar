@@ -10,8 +10,6 @@ import Chat from '../Chat/Chat'
 import Settings from '../Settings/Settings'
 import Create from '../CreateAds/Create'
 
-
-
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
@@ -45,8 +43,8 @@ export default class Layout extends Component {
                         <h2>WELCOME</h2>
                        
                         <div className="sidebar-name">
-                            {this.props.user.Name} <br />
-                            {this.props.user.Surname}
+                            {this.props.name} <br />
+                            {this.props.surname}
                         </div>
                     
 
