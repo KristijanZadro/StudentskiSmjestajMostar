@@ -6,17 +6,20 @@ import Public from './components/Public/Public';
 import {authCheckToken, logOut, } from './redux/actions/auth'
 
 import Layout from "./components/Private/Layout/Layout"
+import AdminLayout from "./adminPanel/AdminLayout/AdminLayout"
 
 import {connect} from "react-redux"
 
 
 
 class App extends React.Component {
+  
   componentDidMount(){
     this.props.authCheckToken()
+   
   }
   render() {
-    const {isAuthenticated} = this.props
+    const {isAuthenticated,isAdmin} = this.props
     const {checkTokenLoading} = this.props
     const {userName,userSurname} = this.props
     return (
@@ -26,7 +29,13 @@ class App extends React.Component {
           <p>loading...</p> : (
           <>
             <Public />
-            <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname}  logout={this.props.logOut} />
+            {
+              isAdmin ?
+              <Private isAuthenticated={isAuthenticated} Component={AdminLayout} name={userName} surname={userSurname}  logout={this.props.logOut} /> :
+              <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname}  logout={this.props.logOut} />
+            }
+            
+            
             
           </>
           )}
@@ -41,7 +50,8 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     checkTokenLoading: state.auth.checkTokenLoading,
     userName: state.auth.userName,
-    userSurname: state.auth.userSurname
+    userSurname: state.auth.userSurname,
+    isAdmin: state.auth.isAdmin
     
 
   };

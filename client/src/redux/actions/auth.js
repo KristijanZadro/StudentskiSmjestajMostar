@@ -106,12 +106,14 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (name, surname, user) => {
+export const authSuccess = (name, surname, user, isAdmin) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     name, 
     surname,
-    user
+    user,
+    isAdmin
+    
   };
 };
 export const authFail = (msg) => {
@@ -144,15 +146,19 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         //const jwt_Token_decoded_roles = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         console.log(roles[0])
+        let isAdmin = false
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles[0].superadmin_role_id){
               dispatch(authSuccess());
               onAuthSuccessSuperAdmin();
             }else if(data.data.role_id === roles[0].admin_role_id){
-              dispatch(authSuccess());
+              isAdmin = true
+              localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user,isAdmin));
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles[0].user_role_id){
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user));
+              isAdmin = false
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user,isAdmin));
               onAuthSuccessUser();
               
             }

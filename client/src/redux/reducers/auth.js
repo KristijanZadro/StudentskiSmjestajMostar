@@ -15,7 +15,8 @@ const initialState = {
     loginErrorMsg: "",
     checkTokenLoading: false,
     roles: [],
-    user: {}
+    user: {},
+    isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false
 };
 
 // register
@@ -59,7 +60,8 @@ const authSuccess = (state, action) => ({
     loginErrorMsg: "",
     userName: action.name,
     userSurname: action.surname,
-    user: action.user
+    user: action.user,
+    isAdmin: action.isAdmin
 });
 const authFail = (state, action) => ({
     ...state,
@@ -101,6 +103,7 @@ const authCheckTokenSuccess = (state, action) => ({
   userName: action.name,
   userSurname: action.surname,
   user: action.user
+  
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,

@@ -3,6 +3,7 @@ import "./Home.css"
 import {AiFillStar} from 'react-icons/ai'
 import { NavLink} from "react-router-dom"
 //import cartImg from '../../../images/details-4.jpeg'
+import { connect } from "react-redux";
 
 class AdCart extends Component {
     
@@ -19,6 +20,7 @@ class AdCart extends Component {
     
     render(){
         const {title, price, images} = this.props.ad
+        const {isAdmin} = this.props
         let cardImage = images.split(',')[0]
         let imagesDetails = images.split(',')
         let stars = this.stars()
@@ -29,7 +31,7 @@ class AdCart extends Component {
                 </div>
                 <div className="cart-img">
                     <NavLink to={{
-                        pathname: `/private/details/${title}`,
+                        pathname: isAdmin ? `/private/admin/details/${title}` : `/private/details/${title}`,
                         state: {ad:this.props.ad, imagesDetails}
                     }}>
                         <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
@@ -51,5 +53,13 @@ class AdCart extends Component {
 }
 
   
-  export default AdCart;
+const mapStateToProps = (state) => {
+    return {
+        isAdmin: state.auth.isAdmin
+    };
+  };
+  
+
+  
+  export default connect(mapStateToProps, null)(AdCart);
 
