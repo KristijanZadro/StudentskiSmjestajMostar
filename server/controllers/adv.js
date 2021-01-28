@@ -42,8 +42,8 @@ const advController = async (req,res,next) => {
                 console.log("title is already in use")
                 res.send({"title_available": false})
             }else{
-               const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images, user_id) VALUES (?,?,?,?,?,?,?,?,?,?);"
-                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id], (err, result) => {
+               const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images, user_id,approved) VALUES (?,?,?,?,?,?,?,?,?,?,?);"
+                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id, null], (err, result) => {
                     if(err){
                         console.log(err)
                     }else{
