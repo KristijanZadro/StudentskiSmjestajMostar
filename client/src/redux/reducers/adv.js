@@ -19,7 +19,8 @@ const initialState = {
     comment: "",
     rating: "",
     comments: [],
-    myAds: []
+    myAds: [],
+    adminAds: []
 };
 
 const createAdStart = (state, action) => ({
@@ -103,6 +104,11 @@ const getMyAds = (state, action) => ({
   myAds: action.myAds
 });
 
+const getAdsAdmin = (state, action) => ({
+  ...state,
+  adminAds: action.adminAds
+});
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -126,6 +132,8 @@ const reducer = (state = initialState, action) => {
           return getComments(state, action);
         case actionTypes.ADV_GET_MYAD:
           return getMyAds(state, action);
+        case actionTypes.ADV_GET_ADS_ADMIN:
+          return getAdsAdmin(state, action);
         default:
           return state;
     }

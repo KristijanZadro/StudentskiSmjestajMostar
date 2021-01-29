@@ -29,7 +29,8 @@ export const createAdStart = () => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
-      
+          const isAdmin = localStorage.getItem("isAdmin");
+
             const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = state
             let formData = new FormData();
             formData.append('title',title);
@@ -42,7 +43,8 @@ export const createAdStart = () => {
             formData.append('desc',desc);
             for(let i = 0; i<image.length; i++) {
               formData.append('myImage', image[i]);
-          }
+            }
+            formData.append('isAdmin',isAdmin);
             const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
             let user_id = jwt_Token_decoded.user.id;
             
@@ -100,6 +102,35 @@ export const createAdStart = () => {
               console.log("allAds:", data);
               
               dispatch(getAdvs(data.data))
+             
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+  export const getAdvsAdmin = (adminAds) => {
+    return {
+      type: actionTypes.ADV_GET_ADS_ADMIN,
+      adminAds
+    };
+  };
+  
+  export const getAllAdsAdmin = () => {
+    return async (dispatch) => {
+      // send request
+
+          axios({
+            method: "GET",
+            url: "http://localhost:5000/api/adv/getAdvAdmin",
+          })
+            .then((data) => {
+              console.log("allAdsAdmin:", data);
+              
+              dispatch(getAdvsAdmin(data.data))
              
             
         })
@@ -275,6 +306,71 @@ export const createAdStart = () => {
               
               dispatch(getMyAdSuccess(data.data))
              
+            
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+
+  
+  export const changeApprovedSuccess = () => {
+    return {
+      type: actionTypes.ADV_CHANGE_APPROVED_SUCCES,
+      
+     
+    };
+  };
+ 
+  
+  export const changeApproved = (approved,title,getAllAdminAds) => {
+    return async (dispatch) => {
+      
+          axios({
+            method: "PUT",
+            url: "http://localhost:5000/api/adv/changeApproved",
+            data: {
+             approved,
+             title
+            },
+          })
+            .then((data) => {
+              console.log("changeApproved:", data);
+                dispatch(changeApprovedSuccess());
+                getAllAdminAds()
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+    };
+  };
+
+  export const deleteAdsSuccess = () => {
+    return {
+      type: actionTypes.ADV_DELETE_ADS,
+      
+    };
+  };
+  
+  export const deleteAds = (images,title,getAllAdminAds) => {
+    return async (dispatch) => {
+      // send request
+          axios({
+            method: "DELETE",
+            url: "http://localhost:5000/api/adv/deleteAdv",
+            data:{
+              images,
+              title
+            }
+          })
+            .then((data) => {
+              console.log("deleteAdv:", data);
+              
+              dispatch(deleteAdsSuccess())
+              getAllAdminAds()
             
         })
             .catch((e) => {

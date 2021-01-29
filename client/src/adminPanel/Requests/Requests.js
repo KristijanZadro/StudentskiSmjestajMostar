@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import RequestsList from './RequestsList'
+import {connect} from "react-redux"
+import { getAllAdsAdmin } from '../../redux/actions/adv'
 
-export default class Requests extends Component {
+class Requests extends Component {
+    componentDidMount(){
+        this.props.getAllAdsAdmin()
+    }
     render() {
         return (
             <div>
@@ -10,3 +15,14 @@ export default class Requests extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getAllAdsAdmin: () => dispatch(getAllAdsAdmin()),
+       
+        
+    }
+}
+
+ export default connect(null, mapDispatchToProps)(Requests)
+
