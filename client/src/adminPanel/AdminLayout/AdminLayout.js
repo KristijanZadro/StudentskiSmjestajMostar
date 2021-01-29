@@ -16,6 +16,8 @@ import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
+import {GoRequestChanges} from "react-icons/go"
+import Requests from '../Requests/Requests'
 
 
 
@@ -80,18 +82,20 @@ export default class AdminLayout extends Component {
                                 </div>
                             </NavLink>
 
+                            <NavLink to={`/private/admin/requests`} exact className="nav-link-item">
+                                <div>
+                                    <GoRequestChanges size={15} />
+                                    <span>Requests</span>
+                                </div>
+                            </NavLink>
+
                             <NavLink to={`/private/admin/settings`} exact className="nav-link-item">
                                 <div>
                                     <RiSettings5Fill size={15} />
                                     <span>Settings</span>
                                 </div>
                             </NavLink>
-                            <NavLink to={`/private/admin/settings`} exact className="nav-link-item">
-                                <div>
-                                    <RiSettings5Fill size={15} />
-                                    <span>Settings</span>
-                                </div>
-                            </NavLink>
+                            
                         </div>
 
                     </div>
@@ -109,6 +113,7 @@ export default class AdminLayout extends Component {
                         <Route exact path="/private/admin/myAds" component={MyAds} />
                         <Route exact path="/private/admin/chat" component={Chat} />
                         <Route exact path="/private/admin/settings" component={Settings} />
+                        <Route exact path="/private/admin/requests" component={Requests} />
                         <Route exact path="/private/admin/details/:title" component={AdDetails} />
                     </Switch>
                 </div>
