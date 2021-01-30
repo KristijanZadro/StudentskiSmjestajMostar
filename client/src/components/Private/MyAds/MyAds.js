@@ -7,13 +7,11 @@ class MyAds extends Component {
     componentDidMount(){
         this.props.getMyAd()
     }
-    
-    render() {
-        //let images = this.props.myAds.images.split(',')
-        let myAdsRender = this.props.myAds.map((myAd, index)=>{
+    renderMyAdsLists=(array)=>{
+        let myAdsRender = array.map((myAd, index)=>{
             let images = myAd.images.split(',')
             return(
-                <div key={index} className="my-ad">
+                <div key={index} className={myAd.approved === 1 ? "my-ad" : "my-ad-unapproved"}>
                     <div className="my-ad-title">
                         {myAd.title}
                     </div>
@@ -41,10 +39,33 @@ class MyAds extends Component {
                 </div>
             )
         })
+        return myAdsRender
+    }
+    
+    render() {
+        let approvedMyAds = []
+        let unApprovedMyAds = []
+        this.props.myAds.forEach((myAd)=>{
+            if (myAd.approved===1){
+                approvedMyAds.push(myAd)
+            }
+            else{
+                unApprovedMyAds.push(myAd)
+            }
+    
+        })
+        let approvedMyAdsRender=this.renderMyAdsLists(approvedMyAds)
+        let unApprovedMyAdsRender=this.renderMyAdsLists(unApprovedMyAds)
+
+        //let images = this.props.myAds.images.split(',')
+        let isAdmin = localStorage.getItem("isAdmin")
+
         return (
             <div className="my-adss">
-                <Title title="My Ads" />
-               {myAdsRender}
+                <Title title="My Approved Ads" />
+               {approvedMyAdsRender}
+               <Title title={isAdmin ? "" : "Waiting to be published"} />
+               {unApprovedMyAdsRender}
                
             </div>
         )

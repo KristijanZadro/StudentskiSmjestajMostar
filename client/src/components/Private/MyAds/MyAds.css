@@ -4,6 +4,15 @@
     margin: 60px auto;
     box-shadow: 0 0 10px 7px #f88b1e;
 }
+
+.my-ad-unapproved{
+    width: 70%;
+    height: 50vh;
+    margin: 60px auto;
+    opacity: .65;
+    box-shadow: 0 0 10px 7px gray;
+}
+
 .my-ad-info{
     display: flex;
     flex-wrap: wrap;
