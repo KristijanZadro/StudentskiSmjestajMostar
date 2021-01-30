@@ -420,3 +420,28 @@ export const changePassword = (newPassword) => {
           });
   };
 };
+
+export const getUsersSuccess = (users) => {
+  return {
+    type: actionTypes.AUTH_GET_USERS,
+    users
+  };
+};
+
+export const getUsers = () => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "GET",
+        url: "http://localhost:5000/api/user/getUsers",
+      })
+        .then((data) => {
+          console.log("getUsers:", data);
+            dispatch(getUsersSuccess(data.data));
+            
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};

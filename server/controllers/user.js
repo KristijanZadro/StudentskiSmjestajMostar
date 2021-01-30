@@ -237,6 +237,19 @@ const changePasswordController = (req,res,next) => {
     
 }
 
+const getUsersController = (req,res,next) => {
+    const SQL_GET_USER = "SELECT * FROM user;"
+    db.query(SQL_GET_USER, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            res.send(result)
+        }
+    })
+    
+}
+
 
 module.exports = {
     registerController,
@@ -246,7 +259,8 @@ module.exports = {
     role_id_Controller,
     changeNameSurnameController,
     changeEmailController,
-    changePasswordController
+    changePasswordController,
+    getUsersController
  
     //test
     //checkEmailController,

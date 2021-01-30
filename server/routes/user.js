@@ -11,6 +11,7 @@ router.post('/login',  Controllers.loginController,  )
 router.put('/ChangeNameSurname', Controllers.changeNameSurnameController)
 router.put('/ChangeEmail', Controllers.changeEmailController)
 router.put('/ChangePassword', Controllers.changePasswordController)
+router.get('/getUsers', Controllers.getUsersController)
 
 //router.get('/get_user_info', Controllers.get_name_surname_Controller)
 //router.post('/test', Controllers.verifyToken,  Controllers.test)

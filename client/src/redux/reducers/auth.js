@@ -16,7 +16,8 @@ const initialState = {
     checkTokenLoading: false,
     roles: [],
     user: {},
-    isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false
+    isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
+    users: []
 };
 
 // register
@@ -162,7 +163,10 @@ const changePasswordSuccess = (state, action) => ({
 }) 
 const changePasswordFail = (state, action) => ({
   ...state,
-
+}) 
+const getUsersSuccess = (state, action) => ({
+  ...state,
+  users: action.users,
   
 }) 
 
@@ -215,6 +219,8 @@ const changePasswordFail = (state, action) => ({
         return changePasswordSuccess(state,action)
       case actionTypes.AUTH_CHANGE_PASSWORD_FAIL:
         return changePasswordFail(state,action)
+      case actionTypes.AUTH_GET_USERS:
+        return getUsersSuccess(state,action)
       default:
         return state;
     }
