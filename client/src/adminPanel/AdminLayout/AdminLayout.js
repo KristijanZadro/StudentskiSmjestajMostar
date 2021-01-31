@@ -17,6 +17,8 @@ import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
 import {GoRequestChanges} from "react-icons/go"
+import {BsCardList} from 'react-icons/bs'
+
 import Requests from '../Requests/Requests'
 import UserList from '../UserList/UserList'
 
@@ -92,7 +94,7 @@ export default class AdminLayout extends Component {
 
                             <NavLink to={`/private/admin/userList`} exact className="nav-link-item">
                                 <div>
-                                    <RiSettings5Fill size={15} />
+                                    <BsCardList size={15} />
                                     <span>User List</span>
                                 </div>
                             </NavLink>

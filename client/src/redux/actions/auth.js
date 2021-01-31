@@ -445,3 +445,31 @@ export const getUsers = () => {
         });
   };
 };
+
+export const deleteUserSuccess = () => {
+  return {
+    type: actionTypes.AUTH_DELETE_USER,
+    
+  };
+};
+
+export const deleteUser = (user_id,getAllUsers) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "DELETE",
+        url: "http://localhost:5000/api/user/deleteUser",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("deleteUser:", data);
+            dispatch(deleteUserSuccess());
+            getAllUsers()
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};

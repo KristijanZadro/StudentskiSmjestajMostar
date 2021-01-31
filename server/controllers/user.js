@@ -252,7 +252,7 @@ const getUsersController = (req,res,next) => {
 const deleteUserController = (req,res,next) => {
     const user_id = req.body.user_id
     
-    const SQL_DELETE_USER_ROLE = "DELETE FROM user_role WHERE id_user=;?"
+    const SQL_DELETE_USER_ROLE = "DELETE FROM user_role WHERE id_user=?;"
     db.query(SQL_DELETE_USER_ROLE, user_id, (err, result) => {
         if(err){
             console.log(err)

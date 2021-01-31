@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { getUsers } from '../../redux/actions/auth';
+import { deleteUser, getUsers } from '../../redux/actions/auth';
 import "./UserList.css"
 import Title from '../../containers/Title/Title'
+import {MdDelete} from 'react-icons/md'
 
 class UserList extends Component {
     componentDidMount(){
+        this.getAllUsers()
+    }
+    getAllUsers = () => {
         this.props.getUsers()
+    }
+    onDeleteUser = (id) => {
+        this.props.deleteUser(id,this.getAllUsers)
     }
     
     render() {
@@ -17,7 +24,7 @@ class UserList extends Component {
                     <td>{user.Name}</td>
                     <td>{user.Surname}</td>
                     <td>{user.Email}</td>
-                    <td>Delete</td>
+                    <td onClick={()=> this.onDeleteUser(user.id)}><MdDelete /></td>
                 </tr>
                 </tbody>
             )
@@ -49,7 +56,9 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-        getUsers: ()=>(dispatch(getUsers()))
+        getUsers: ()=> dispatch(getUsers()),
+        deleteUser: (id,getAllUsers) => dispatch(deleteUser(id,getAllUsers))
+
     };
   };
  
