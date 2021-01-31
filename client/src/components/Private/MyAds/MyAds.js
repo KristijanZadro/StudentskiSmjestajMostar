@@ -21,6 +21,7 @@ class MyAds extends Component {
                                 return (
                                     <div className="my-ad-image" key={index} >
                                         <img src={`http://localhost:5000/static/${image}`}  alt="" />
+                                        {/*<img src={`http://${window.location.hostname}/static/${image}`}  alt="" />*/}
                                     </div>
                                 )
                             })

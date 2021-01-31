@@ -237,6 +237,40 @@ const changePasswordController = (req,res,next) => {
     
 }
 
+const getUsersController = (req,res,next) => {
+    const SQL_GET_USER = "SELECT * FROM user;"
+    db.query(SQL_GET_USER, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            res.send(result)
+        }
+    })
+    
+}
+const deleteUserController = (req,res,next) => {
+    const user_id = req.body.user_id
+    
+    const SQL_DELETE_USER_ROLE = "DELETE FROM user_role WHERE id_user=?;"
+    db.query(SQL_DELETE_USER_ROLE, user_id, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            const SQL_DELETE_USER = "DELETE FROM user WHERE id=?;"
+            db.query(SQL_DELETE_USER, user_id, (err, result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(err)
+                    res.send(result2)
+                    
+                }
+            })  
+            
+        }
+    })
+}
 
 module.exports = {
     registerController,
@@ -246,7 +280,9 @@ module.exports = {
     role_id_Controller,
     changeNameSurnameController,
     changeEmailController,
-    changePasswordController
+    changePasswordController,
+    getUsersController,
+    deleteUserController
  
     //test
     //checkEmailController,

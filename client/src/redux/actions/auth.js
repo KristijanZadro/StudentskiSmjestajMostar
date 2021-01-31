@@ -420,3 +420,56 @@ export const changePassword = (newPassword) => {
           });
   };
 };
+
+export const getUsersSuccess = (users) => {
+  return {
+    type: actionTypes.AUTH_GET_USERS,
+    users
+  };
+};
+
+export const getUsers = () => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "GET",
+        url: "http://localhost:5000/api/user/getUsers",
+      })
+        .then((data) => {
+          console.log("getUsers:", data);
+            dispatch(getUsersSuccess(data.data));
+            
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+
+export const deleteUserSuccess = () => {
+  return {
+    type: actionTypes.AUTH_DELETE_USER,
+    
+  };
+};
+
+export const deleteUser = (user_id,getAllUsers) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "DELETE",
+        url: "http://localhost:5000/api/user/deleteUser",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("deleteUser:", data);
+            dispatch(deleteUserSuccess());
+            getAllUsers()
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};

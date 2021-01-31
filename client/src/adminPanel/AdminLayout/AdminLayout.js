@@ -17,7 +17,10 @@ import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
 import {GoRequestChanges} from "react-icons/go"
+import {BsCardList} from 'react-icons/bs'
+
 import Requests from '../Requests/Requests'
+import UserList from '../UserList/UserList'
 
 
 
@@ -89,6 +92,13 @@ export default class AdminLayout extends Component {
                                 </div>
                             </NavLink>
 
+                            <NavLink to={`/private/admin/userList`} exact className="nav-link-item">
+                                <div>
+                                    <BsCardList size={15} />
+                                    <span>User List</span>
+                                </div>
+                            </NavLink>
+
                             <NavLink to={`/private/admin/settings`} exact className="nav-link-item">
                                 <div>
                                     <RiSettings5Fill size={15} />
@@ -114,6 +124,7 @@ export default class AdminLayout extends Component {
                         <Route exact path="/private/admin/chat" component={Chat} />
                         <Route exact path="/private/admin/settings" component={Settings} />
                         <Route exact path="/private/admin/requests" component={Requests} />
+                        <Route exact path="/private/admin/userList" component={UserList} />
                         <Route exact path="/private/admin/details/:title" component={AdDetails} />
                     </Switch>
                 </div>
