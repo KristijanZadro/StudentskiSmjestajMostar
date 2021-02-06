@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./Layout.css"
+
+import { connect } from "react-redux";
 import Header from '../../../containers/Header/Header'
 
 import Home from '../Home/Home'
@@ -10,6 +12,8 @@ import Chat from '../Chat/Chat'
 import Settings from '../Settings/Settings'
 import Create from '../CreateAds/Create'
 
+import {getMe} from '../../../redux/actions/auth'
+
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
@@ -18,14 +22,13 @@ import { RiSettings5Fill } from "react-icons/ri";
 import AdDetails from '../AdDetails/AdDetails'
 
 
-
-export default class Layout extends Component {
+class Layout extends Component {
     componentDidMount(){
       //console.log(window.location.pathname)
       //this.props.history.push("/private")
       //window.location.reload();
       console.log("isAuth",this.props.isAuthenticated)
-      //this.props.getUserInfo()
+      //this.props.getMe()
       
     }
     logOut = () => {
@@ -111,3 +114,13 @@ export default class Layout extends Component {
     }
 }
 
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getMe: () => dispatch(getMe())
+    };
+};
+
+
+export default connect(null, mapDispatchToProps)(Layout);

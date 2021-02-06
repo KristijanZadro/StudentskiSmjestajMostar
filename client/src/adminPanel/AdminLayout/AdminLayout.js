@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./AdminLayout.css"
 import Header from '../../containers/Header/Header'
-
+import { connect } from "react-redux";
 import Home from '../../components/Private/Home/Home'
 import Profile from '../../components/Private/Profile/Profile'
 import MyAds from '../../components/Private/MyAds/MyAds'
@@ -10,7 +10,7 @@ import Chat from '../../components/Private/Chat/Chat'
 import Settings from '../../components/Private/Settings/Settings'
 import Create from '../../components/Private/CreateAds/Create'
 import AdDetails from '../../components/Private/AdDetails/AdDetails'
-
+import {getMe} from '../../redux/actions/auth'
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
@@ -22,15 +22,17 @@ import {BsCardList} from 'react-icons/bs'
 import Requests from '../Requests/Requests'
 import UserList from '../UserList/UserList'
 
+//import Jwt_Decode from "jwt-decode";
 
 
-
-export default class AdminLayout extends Component {
+class AdminLayout extends Component {
     componentDidMount(){
       //console.log(window.location.pathname)
       //this.props.history.push("/private")
       //window.location.reload();
-      console.log("isAuth",this.props.isAuthenticated)
+      //console.log("isAuth",this.props.isAuthenticated)
+      
+      //this.props.getMe()
       //this.props.getUserInfo()
       
     }
@@ -134,3 +136,16 @@ export default class AdminLayout extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        roles: state.auth.roles
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getMe: () => dispatch(getMe())
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout);

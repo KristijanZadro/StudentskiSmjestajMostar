@@ -60,5 +60,9 @@ export const AUTH_GET_USERS = "AUTH_GET_USERS";
 
 export const AUTH_DELETE_USER = "AUTH_DELETE_USER";
 
+export const AUTH_GET_ME = "AUTH_GET_ME";
+
+export const AUTH_GET_ME_LOADING = "AUTH_GET_ME_LOADING";
+
 
 

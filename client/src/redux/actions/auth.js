@@ -153,12 +153,12 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
               onAuthSuccessSuperAdmin();
             }else if(data.data.role_id === roles[0].admin_role_id){
               isAdmin = true
-              localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user,isAdmin));
+              //localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles[0].user_role_id){
               isAdmin = false
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user,isAdmin));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
               onAuthSuccessUser();
               
             }
@@ -242,7 +242,8 @@ export const authCheckToken = () => {
       if (jwt_Token_decoded.exp * 1000 < Date.now()) {
         localStorage.clear();
       } 
-    
+      /*let isAdmin
+    if(jwt_Token_decoded.user.id_role === 2){isAdmin = true}*/
 
     /*let authUser = localStorage.getItem("auth-token-ssm");
     if (authUser !== null) {
@@ -250,7 +251,7 @@ export const authCheckToken = () => {
 
       console.log("Authenticated user: ", authObj);*/
       
-      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user));
+      dispatch(authCheckTokenSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user,));
 
       // this.setState({ isAuthenticated: true, loading: false });
     } else {
@@ -467,6 +468,47 @@ export const deleteUser = (user_id,getAllUsers) => {
           console.log("deleteUser:", data);
             dispatch(deleteUserSuccess());
             getAllUsers()
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+export const getMeLoading = () => {
+  return {
+    type: actionTypes.AUTH_GET_ME_LOADING,
+  };
+};
+
+export const getMeSuccess = () => {
+  return {
+    type: actionTypes.AUTH_GET_ME,
+  };
+};
+
+export const getMe =  () => {
+  return async (dispatch) => {
+    // send request
+    dispatch(getMeLoading());
+    const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
+    let role_id = jwt_Token_decoded.user.id_role
+      axios({
+        method: "POST",
+        url: "http://localhost:5000/api/user/getMe",
+        data: {
+          role_id
+        }
+      })
+        .then((data) => {
+          console.log("getMe:", data);
+          if (localStorage.getItem("auth-token-ssm")) {
+          if(data.data[0].role_name === "admin"){
+            console.log("getmesucc")
+            dispatch(getMeSuccess());
+          }
+           
+        }
+          
         })
         .catch((e) => {
           console.log(e);

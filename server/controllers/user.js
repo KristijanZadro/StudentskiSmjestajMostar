@@ -73,7 +73,10 @@ const loginController = (req,res,next) => {
     const email = req.body.email
     const password = req.body.password
     
-    const SQL_FIND_EMAIL = "SELECT * FROM user WHERE Email = ?;"
+    const SQL_FIND_EMAIL = `SELECT u.id, u.Name, u.Surname, u.Email, u.Password, ur.id_role
+                            FROM user u
+                            JOIN user_role ur ON u.id = ur.id_user
+                            WHERE u.Email = ?;`
     db.query(SQL_FIND_EMAIL, email, (err, result) => {
         
         if(err){
@@ -271,6 +274,19 @@ const deleteUserController = (req,res,next) => {
         }
     })
 }
+const getMeController = (req,res,next) => {
+    const role_id = req.body.role_id
+    //console.log(user_id)
+    const SQL_GET_ME = `SELECT role_name FROM roles WHERE id_role = ? ;`
+    db.query(SQL_GET_ME, role_id, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(err)
+            res.send(result)
+        }
+    })
+}
 
 module.exports = {
     registerController,
@@ -282,7 +298,8 @@ module.exports = {
     changeEmailController,
     changePasswordController,
     getUsersController,
-    deleteUserController
+    deleteUserController,
+    getMeController
  
     //test
     //checkEmailController,

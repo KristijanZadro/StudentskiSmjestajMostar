@@ -13,6 +13,7 @@ router.put('/ChangeEmail', Controllers.changeEmailController)
 router.put('/ChangePassword', Controllers.changePasswordController)
 router.get('/getUsers', Controllers.getUsersController)
 router.delete('/deleteUser', Controllers.deleteUserController)
+router.post('/getMe', Controllers.getMeController)
 
 //router.get('/get_user_info', Controllers.get_name_surname_Controller)
 //router.post('/test', Controllers.verifyToken,  Controllers.test)

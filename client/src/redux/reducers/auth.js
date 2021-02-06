@@ -16,8 +16,11 @@ const initialState = {
     checkTokenLoading: false,
     roles: [],
     user: {},
-    isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
-    users: []
+    //isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
+    users: [],
+    admin: false,
+    superadmin: false,
+    adminLoading: false
 };
 
 // register
@@ -62,7 +65,8 @@ const authSuccess = (state, action) => ({
     userName: action.name,
     userSurname: action.surname,
     user: action.user,
-    isAdmin: action.isAdmin
+    admin: action.isAdmin
+    
 });
 const authFail = (state, action) => ({
     ...state,
@@ -103,8 +107,8 @@ const authCheckTokenSuccess = (state, action) => ({
   checkTokenLoading: false,
   userName: action.name,
   userSurname: action.surname,
-  user: action.user
-  
+  user: action.user,
+ 
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,
@@ -169,6 +173,18 @@ const getUsersSuccess = (state, action) => ({
   users: action.users,
   
 }) 
+const getMeLoading = (state, action) => ({
+  ...state,
+  adminLoading: true,
+  
+  
+}) 
+const getMeSuccess = (state, action) => ({
+  ...state,
+  adminLoading: false,
+  admin: true
+  
+}) 
 
 
 
@@ -221,6 +237,10 @@ const getUsersSuccess = (state, action) => ({
         return changePasswordFail(state,action)
       case actionTypes.AUTH_GET_USERS:
         return getUsersSuccess(state,action)
+      case actionTypes.AUTH_GET_ME_LOADING:
+        return getMeLoading(state,action)
+      case actionTypes.AUTH_GET_ME:
+        return getMeSuccess(state,action)
       default:
         return state;
     }

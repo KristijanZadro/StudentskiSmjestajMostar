@@ -4,13 +4,13 @@ import Title from '../../../containers/Title/Title';
 import { getMyAd } from '../../../redux/actions/adv';
 import "./MyAds.css"
 class MyAds extends Component {
-    componentDidMount(){
+    componentDidMount() {
         this.props.getMyAd()
     }
-    renderMyAdsLists=(array)=>{
-        let myAdsRender = array.map((myAd, index)=>{
+    renderMyAdsLists = (array) => {
+        let myAdsRender = array.map((myAd, index) => {
             let images = myAd.images.split(',')
-            return(
+            return (
                 <div key={index} className={myAd.approved === 1 ? "my-ad" : "my-ad-unapproved"}>
                     <div className="my-ad-title">
                         {myAd.title}
@@ -20,7 +20,7 @@ class MyAds extends Component {
                             images.map((image, index) => {
                                 return (
                                     <div className="my-ad-image" key={index} >
-                                        <img src={`http://localhost:5000/static/${image}`}  alt="" />
+                                        <img src={`http://localhost:5000/static/${image}`} alt="" />
                                         {/*<img src={`http://${window.location.hostname}/static/${image}`}  alt="" />*/}
                                     </div>
                                 )
@@ -42,21 +42,21 @@ class MyAds extends Component {
         })
         return myAdsRender
     }
-    
+
     render() {
         let approvedMyAds = []
         let unApprovedMyAds = []
-        this.props.myAds.forEach((myAd)=>{
-            if (myAd.approved===1){
+        this.props.myAds.forEach((myAd) => {
+            if (myAd.approved === 1) {
                 approvedMyAds.push(myAd)
             }
-            else{
+            else {
                 unApprovedMyAds.push(myAd)
             }
-    
+
         })
-        let approvedMyAdsRender=this.renderMyAdsLists(approvedMyAds)
-        let unApprovedMyAdsRender=this.renderMyAdsLists(unApprovedMyAds)
+        let approvedMyAdsRender = this.renderMyAdsLists(approvedMyAds)
+        let unApprovedMyAdsRender = this.renderMyAdsLists(unApprovedMyAds)
 
         //let images = this.props.myAds.images.split(',')
         let isAdmin = localStorage.getItem("isAdmin")
@@ -64,24 +64,24 @@ class MyAds extends Component {
         return (
             <div className="my-adss">
                 <Title title="My Approved Ads" />
-               {approvedMyAdsRender}
-               <Title title={isAdmin ? "" : "Waiting to be published"} />
-               {unApprovedMyAdsRender}
-               
+                {approvedMyAdsRender}
+                <Title title={isAdmin ? "" : "Waiting to be published"} />
+                {unApprovedMyAdsRender}
+
             </div>
         )
     }
 }
 const mapStateToProps = (state) => {
     return {
-      myAds: state.adv.myAds
+        myAds: state.adv.myAds
     };
-  };
-  const mapDispatchToProps = (dispatch) => {
+};
+const mapDispatchToProps = (dispatch) => {
     return {
-        getMyAd: ()=>dispatch(getMyAd())
+        getMyAd: () => dispatch(getMyAd())
     };
-  };
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(MyAds);
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAds);

@@ -25,7 +25,7 @@ class Login extends React.Component {
         this.props.get_role_id()
         const user = localStorage.getItem('auth-token-ssm') 
         if (user && user !== 'undefined') {
-            this.props.isAdmin ?
+            this.props.admin ?
             this.props.history.push('/private/admin') :    
             this.props.history.push('/private')               
         }
@@ -122,7 +122,7 @@ const mapStateToProps = (state) => {
         loginErrorMsg: state.auth.loginErrorMsg,
         authError: state.auth.authError,
         roles: state.auth.roles,
-        isAdmin: state.auth.isAdmin
+        admin: state.auth.admin
     };
   };
   
