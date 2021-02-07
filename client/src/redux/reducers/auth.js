@@ -182,7 +182,7 @@ const getMeLoading = (state, action) => ({
 const getMeSuccess = (state, action) => ({
   ...state,
   adminLoading: false,
-  admin: true
+  admin: action.isAdmin
   
 }) 
 

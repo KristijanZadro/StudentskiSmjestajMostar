@@ -480,9 +480,10 @@ export const getMeLoading = () => {
   };
 };
 
-export const getMeSuccess = () => {
+export const getMeSuccess = (isAdmin) => {
   return {
     type: actionTypes.AUTH_GET_ME,
+    isAdmin
   };
 };
 
@@ -502,9 +503,13 @@ export const getMe =  () => {
         .then((data) => {
           console.log("getMe:", data);
           if (localStorage.getItem("auth-token-ssm")) {
+            let isAdmin
           if(data.data[0].role_name === "admin"){
-            console.log("getmesucc")
-            dispatch(getMeSuccess());
+            isAdmin = true
+            dispatch(getMeSuccess(isAdmin));
+          }else if(data.data[0].role_name === "user"){
+            isAdmin = false
+            dispatch(getMeSuccess(isAdmin));
           }
            
         }
