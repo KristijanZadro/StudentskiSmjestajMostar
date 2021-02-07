@@ -65,7 +65,8 @@ const authSuccess = (state, action) => ({
     userName: action.name,
     userSurname: action.surname,
     user: action.user,
-    admin: action.isAdmin
+    admin: action.isAdmin,
+    superadmin: action.isSuperAdmin
     
 });
 const authFail = (state, action) => ({
@@ -182,8 +183,8 @@ const getMeLoading = (state, action) => ({
 const getMeSuccess = (state, action) => ({
   ...state,
   adminLoading: false,
-  admin: action.isAdmin
-  
+  admin: action.isAdmin,
+  superadmin: action.isSuperAdmin
 }) 
 
 

@@ -106,13 +106,14 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (name, surname, user, isAdmin) => {
+export const authSuccess = (name, surname, user, isAdmin, isSuperAdmin) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     name, 
     surname,
     user,
-    isAdmin
+    isAdmin,
+    isSuperAdmin
     
   };
 };
@@ -147,18 +148,23 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         console.log(roles[0])
         let isAdmin = false
+        let isSuperAdmin = false
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles[0].superadmin_role_id){
-              dispatch(authSuccess());
+              isSuperAdmin = true
+              isAdmin = false
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessSuperAdmin();
             }else if(data.data.role_id === roles[0].admin_role_id){
               isAdmin = true
+              isSuperAdmin = false
               //localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles[0].user_role_id){
               isAdmin = false
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
+              isSuperAdmin = false
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessUser();
               
             }
@@ -480,10 +486,11 @@ export const getMeLoading = () => {
   };
 };
 
-export const getMeSuccess = (isAdmin) => {
+export const getMeSuccess = (isAdmin,isSuperAdmin) => {
   return {
     type: actionTypes.AUTH_GET_ME,
-    isAdmin
+    isAdmin,
+    isSuperAdmin
   };
 };
 
@@ -503,17 +510,52 @@ export const getMe =  () => {
         .then((data) => {
           console.log("getMe:", data);
           if (localStorage.getItem("auth-token-ssm")) {
-            let isAdmin
+          let isAdmin = false
+          let isSuperAdmin = false
           if(data.data[0].role_name === "admin"){
             isAdmin = true
-            dispatch(getMeSuccess(isAdmin));
+            isSuperAdmin = false
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
           }else if(data.data[0].role_name === "user"){
             isAdmin = false
-            dispatch(getMeSuccess(isAdmin));
+            isSuperAdmin = false
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
+          }else if(data.data[0].role_name === "superadmin"){
+            isAdmin = false
+            isSuperAdmin = true
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
           }
            
         }
           
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+
+export const setAdminSucces = () => {
+  return {
+    type: actionTypes.AUTH_SET_ADMIN,
+    
+  };
+};
+
+export const setAdmin = (user_id,getAllUsers) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "PUT",
+        url: "http://localhost:5000/api/user/setAdmin",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("setAdmin:", data);
+            dispatch(setAdminSucces());
+            getAllUsers()
         })
         .catch((e) => {
           console.log(e);

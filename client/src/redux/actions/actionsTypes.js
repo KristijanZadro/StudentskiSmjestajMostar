@@ -64,5 +64,7 @@ export const AUTH_GET_ME = "AUTH_GET_ME";
 
 export const AUTH_GET_ME_LOADING = "AUTH_GET_ME_LOADING";
 
+export const AUTH_SET_ADMIN = "AUTH_SET_ADMIN";
+
 
 

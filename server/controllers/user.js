@@ -241,13 +241,24 @@ const changePasswordController = (req,res,next) => {
 }
 
 const getUsersController = (req,res,next) => {
-    const SQL_GET_USER = "SELECT * FROM user;"
-    db.query(SQL_GET_USER, (err, result) => {
+    const SQL_GET_USER_ROLE = "SELECT id_role FROM roles WHERE role_name = 'user';"
+    db.query(SQL_GET_USER_ROLE, (err, result) => {
         if(err){
             console.log(err)
         }else{
             console.log(result)
-            res.send(result)
+            const SQL_GET_USER = `SELECT *
+                                FROM user u
+                                JOIN user_role ur ON u.id = ur.id_user
+                                WHERE ur.id_role = ?;`
+            db.query(SQL_GET_USER, result[0].id_role, (err, result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send(result2)
+                }
+            })
         }
     })
     
@@ -287,6 +298,28 @@ const getMeController = (req,res,next) => {
         }
     })
 }
+const setAdminController = (req,res,next) => {
+    const user_id = req.body.user_id
+    //console.log(user_id)
+    const SQL_SELECT_ADMIN_ROLE = "SELECT id_role FROM roles WHERE role_name = 'admin';"
+    db.query(SQL_SELECT_ADMIN_ROLE, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            const SQL_SET_ADMIN= "UPDATE user_role SET id_role = ? WHERE id_user = ?;"
+            db.query(SQL_SET_ADMIN, [result[0].id_role, user_id], (err, result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send(result2)
+                    
+                }
+            })
+        }
+    })
+}
 
 module.exports = {
     registerController,
@@ -299,7 +332,8 @@ module.exports = {
     changePasswordController,
     getUsersController,
     deleteUserController,
-    getMeController
+    getMeController,
+    setAdminController
  
     //test
     //checkEmailController,

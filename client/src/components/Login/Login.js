@@ -26,7 +26,9 @@ class Login extends React.Component {
         const user = localStorage.getItem('auth-token-ssm') 
         if (user && user !== 'undefined') {
             this.props.admin ?
-            this.props.history.push('/private/admin') :    
+            this.props.history.push('/private/admin') :
+            this.props.superadmin ?
+            this.props.history.push('/private/superadmin') :   
             this.props.history.push('/private')               
         }
     }
@@ -58,7 +60,7 @@ class Login extends React.Component {
       };
 
       onAuthSuccessSuperAdmin = () => {
-        this.props.history.push("/private/super-admin");
+        this.props.history.push("/private/superadmin");
       };
 
     render() {
@@ -122,7 +124,8 @@ const mapStateToProps = (state) => {
         loginErrorMsg: state.auth.loginErrorMsg,
         authError: state.auth.authError,
         roles: state.auth.roles,
-        admin: state.auth.admin
+        admin: state.auth.admin,
+        superadmin: state.auth.superadmin
     };
   };
   
