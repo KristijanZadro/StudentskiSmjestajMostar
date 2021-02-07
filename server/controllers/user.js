@@ -263,6 +263,29 @@ const getUsersController = (req,res,next) => {
     })
     
 }
+const getAdminsController = (req,res,next) => {
+    const SQL_GET_USER_ROLE = "SELECT id_role FROM roles WHERE role_name = 'admin';"
+    db.query(SQL_GET_USER_ROLE, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            const SQL_GET_USER = `SELECT *
+                                FROM user u
+                                JOIN user_role ur ON u.id = ur.id_user
+                                WHERE ur.id_role = ?;`
+            db.query(SQL_GET_USER, result[0].id_role, (err, result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send(result2)
+                }
+            })
+        }
+    })
+    
+}
 const deleteUserController = (req,res,next) => {
     const user_id = req.body.user_id
     
@@ -333,7 +356,8 @@ module.exports = {
     getUsersController,
     deleteUserController,
     getMeController,
-    setAdminController
+    setAdminController,
+    getAdminsController
  
     //test
     //checkEmailController,

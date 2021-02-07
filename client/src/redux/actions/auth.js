@@ -452,6 +452,30 @@ export const getUsers = () => {
         });
   };
 };
+export const getAdminsSuccess = (admins) => {
+  return {
+    type: actionTypes.AUTH_GET_ADMINS,
+    admins
+  };
+};
+
+export const getAdmins = () => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "GET",
+        url: "http://localhost:5000/api/user/getAdmins",
+      })
+        .then((data) => {
+          console.log("getAdmins:", data);
+            dispatch(getAdminsSuccess(data.data));
+            
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
 
 export const deleteUserSuccess = () => {
   return {
