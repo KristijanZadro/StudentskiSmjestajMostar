@@ -15,7 +15,12 @@ const initialState = {
     loginErrorMsg: "",
     checkTokenLoading: false,
     roles: [],
-    user: {}
+    user: {},
+    //isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
+    users: [],
+    admin: false,
+    superadmin: false,
+    adminLoading: false
 };
 
 // register
@@ -58,7 +63,10 @@ const authSuccess = (state, action) => ({
     isAuthenticated: true,
     loginErrorMsg: "",
     userName: action.name,
-    userSurname: action.surname
+    userSurname: action.surname,
+    user: action.user,
+    admin: action.isAdmin
+    
 });
 const authFail = (state, action) => ({
     ...state,
@@ -99,7 +107,8 @@ const authCheckTokenSuccess = (state, action) => ({
   checkTokenLoading: false,
   userName: action.name,
   userSurname: action.surname,
-  user: action.user
+  user: action.user,
+ 
 })
 const authCheckTokenFail = (state, action) => ({
   ...state,
@@ -116,6 +125,65 @@ const logout = (state, action) => ({
 const roles = (state, action) => ({
   ...state,
   roles: [action.roles]
+}) 
+
+const changeNameSurnameStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changeNameSurnameSuccess = (state, action) => ({
+  ...state,
+    userName: action.newName,
+    userSurname: action.newSurname,
+    user: action.user
+}) 
+const changeNameSurnameFail = (state, action) => ({
+  ...state,
+
+  
+}) 
+
+const changeEmailStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changeEmailSuccess = (state, action) => ({
+  ...state,
+  userEmail: action.newEmail,
+}) 
+const changeEmailFail = (state, action) => ({
+  ...state,
+
+  
+}) 
+const changePasswordStart = (state, action) => ({
+  ...state,
+  
+}) 
+const changePasswordSuccess = (state, action) => ({
+  ...state,
+  userPassword: action.newPassword,
+  
+}) 
+const changePasswordFail = (state, action) => ({
+  ...state,
+}) 
+const getUsersSuccess = (state, action) => ({
+  ...state,
+  users: action.users,
+  
+}) 
+const getMeLoading = (state, action) => ({
+  ...state,
+  adminLoading: true,
+  
+  
+}) 
+const getMeSuccess = (state, action) => ({
+  ...state,
+  adminLoading: false,
+  admin: action.isAdmin
+  
 }) 
 
 
@@ -149,6 +217,30 @@ const roles = (state, action) => ({
         return logout(state,action)
       case actionTypes.AUTH_ROLES:
         return roles(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_START:
+        return changeNameSurnameStart(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_SUCCESS:
+        return changeNameSurnameSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_NAME_SURNAME_FAIL:
+        return changeNameSurnameFail(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_START:
+        return changeEmailStart(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_SUCCESS:
+        return changeEmailSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_EMAIL_FAIL:
+        return changeEmailFail(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_START:
+        return changePasswordStart(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_SUCCESS:
+        return changePasswordSuccess(state,action)
+      case actionTypes.AUTH_CHANGE_PASSWORD_FAIL:
+        return changePasswordFail(state,action)
+      case actionTypes.AUTH_GET_USERS:
+        return getUsersSuccess(state,action)
+      case actionTypes.AUTH_GET_ME_LOADING:
+        return getMeLoading(state,action)
+      case actionTypes.AUTH_GET_ME:
+        return getMeSuccess(state,action)
       default:
         return state;
     }

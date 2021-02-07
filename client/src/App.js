@@ -3,30 +3,42 @@ import './App.css';
 import Private from './components/Private/Private';
 //import {Switch, Route} from 'react-router-dom'
 import Public from './components/Public/Public';
-import {authCheckToken, logOut, } from './redux/actions/auth'
+import {authCheckToken, logOut, getMe } from './redux/actions/auth'
 
 import Layout from "./components/Private/Layout/Layout"
-
+import AdminLayout from "./adminPanel/AdminLayout/AdminLayout"
+import Loading from './containers/Loading/Loading'
 import {connect} from "react-redux"
 
 
 
 class App extends React.Component {
+  
   componentDidMount(){
     this.props.authCheckToken()
+    if (localStorage.getItem("auth-token-ssm")) {
+    this.props.getMe()
+    }
+   
   }
   render() {
-    const {isAuthenticated} = this.props
+    const {isAuthenticated,admin,adminLoading} = this.props
     const {checkTokenLoading} = this.props
-    const {userName, userSurname} = this.props
+    const {userName,userSurname,user} = this.props
     return (
       <div>
         {
-          checkTokenLoading ?
-          <p>loading...</p> : (
+          checkTokenLoading ||  adminLoading ?
+          <Loading /> : (
           <>
             <Public />
-            <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname} logout={this.props.logOut} />
+            {
+              admin ?
+              <Private isAuthenticated={isAuthenticated} Component={AdminLayout} name={userName} surname={userSurname} user={user}  logout={this.props.logOut} /> :
+              <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname} user={user} logout={this.props.logOut} />
+            }
+            
+            
             
           </>
           )}
@@ -41,7 +53,11 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     checkTokenLoading: state.auth.checkTokenLoading,
     userName: state.auth.userName,
-    userSurname: state.auth.userSurname
+    userSurname: state.auth.userSurname,
+    isAdmin: state.auth.isAdmin,
+    user: state.auth.user,
+    admin: state.auth.admin,
+    adminLoading: state.auth.adminLoading
     
 
   };
@@ -50,7 +66,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     authCheckToken: () => dispatch(authCheckToken()),
-    logOut: () => dispatch(logOut())
+    logOut: () => dispatch(logOut()),
+    getMe: () => dispatch(getMe())
     
   };
 };

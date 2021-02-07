@@ -1,34 +1,39 @@
 import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
-import "./Layout.css"
-
+import "./AdminLayout.css"
+import Header from '../../containers/Header/Header'
 import { connect } from "react-redux";
-import Header from '../../../containers/Header/Header'
-
-import Home from '../Home/Home'
-import Profile from '../Profile/Profile'
-import MyAds from '../MyAds/MyAds'
-import Chat from '../Chat/Chat'
-import Settings from '../Settings/Settings'
-import Create from '../CreateAds/Create'
-
-import {getMe} from '../../../redux/actions/auth'
-
+import Home from '../../components/Private/Home/Home'
+import Profile from '../../components/Private/Profile/Profile'
+import MyAds from '../../components/Private/MyAds/MyAds'
+import Chat from '../../components/Private/Chat/Chat'
+import Settings from '../../components/Private/Settings/Settings'
+import Create from '../../components/Private/CreateAds/Create'
+import AdDetails from '../../components/Private/AdDetails/AdDetails'
+import {getMe} from '../../redux/actions/auth'
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
-import AdDetails from '../AdDetails/AdDetails'
+import {GoRequestChanges} from "react-icons/go"
+import {BsCardList} from 'react-icons/bs'
+
+import Requests from '../Requests/Requests'
+import UserList from '../UserList/UserList'
+
+//import Jwt_Decode from "jwt-decode";
 
 
-class Layout extends Component {
+class AdminLayout extends Component {
     componentDidMount(){
       //console.log(window.location.pathname)
       //this.props.history.push("/private")
       //window.location.reload();
-      console.log("isAuth",this.props.isAuthenticated)
+      //console.log("isAuth",this.props.isAuthenticated)
+      
       //this.props.getMe()
+      //this.props.getUserInfo()
       
     }
     logOut = () => {
@@ -54,40 +59,55 @@ class Layout extends Component {
                     </div>
                     <div className="sidebar-links">
                         <div className="sidebar-nav">
-                            <NavLink to={`/private`} exact className="nav-link-item">
+                            <NavLink to={`/private/admin`} exact className="nav-link-item">
                                 <div>
                                     <HiHome size={18} />
                                     <span>Home</span>
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/profile`} exact className="nav-link-item">
+                            <NavLink to={`/private/admin/profile`} exact className="nav-link-item">
                                 <div>
                                     <CgProfile size={17} />
                                     <span>Profile</span>
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/myAds`} exact className="nav-link-item">
+                            <NavLink to={`/private/admin/myAds`} exact className="nav-link-item">
                                 <div>
                                     <RiAdvertisementLine size={15} />
                                     <span>My ads</span>
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/chat`} exact className="nav-link-item">
+                            <NavLink to={`/private/admin/chat`} exact className="nav-link-item">
                                 <div>
                                     <BiChat size={15} />
                                     <span>Chat</span>
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/settings`} exact className="nav-link-item">
+                            <NavLink to={`/private/admin/requests`} exact className="nav-link-item">
+                                <div>
+                                    <GoRequestChanges size={15} />
+                                    <span>Requests</span>
+                                </div>
+                            </NavLink>
+
+                            <NavLink to={`/private/admin/userList`} exact className="nav-link-item">
+                                <div>
+                                    <BsCardList size={15} />
+                                    <span>User List</span>
+                                </div>
+                            </NavLink>
+
+                            <NavLink to={`/private/admin/settings`} exact className="nav-link-item">
                                 <div>
                                     <RiSettings5Fill size={15} />
                                     <span>Settings</span>
                                 </div>
                             </NavLink>
+                            
                         </div>
 
                     </div>
@@ -100,12 +120,14 @@ class Layout extends Component {
                 </div>
                 <div className="layout-content">
                     <Switch>
-                        <Route exact path="/private" component={Home}  />
-                        <Route exact path="/private/profile" render={() => <Profile {...this.props} user={this.props.user} />}  />
-                        <Route exact path="/private/myAds" component={MyAds} />
-                        <Route exact path="/private/chat" component={Chat} />
-                        <Route exact path="/private/settings" component={Settings} />
-                        <Route exact path="/private/details/:title" component={AdDetails} />
+                        <Route exact path="/private/admin" component={Home}  />
+                        <Route exact path="/private/admin/profile" render={() => <Profile {...this.props} user={this.props.user} />}  />
+                        <Route exact path="/private/admin/myAds" component={MyAds} />
+                        <Route exact path="/private/admin/chat" component={Chat} />
+                        <Route exact path="/private/admin/settings" component={Settings} />
+                        <Route exact path="/private/admin/requests" component={Requests} />
+                        <Route exact path="/private/admin/userList" component={UserList} />
+                        <Route exact path="/private/admin/details/:title" component={AdDetails} />
                     </Switch>
                 </div>
                 
@@ -114,8 +136,11 @@ class Layout extends Component {
     }
 }
 
-
-
+const mapStateToProps = (state) => {
+    return {
+        roles: state.auth.roles
+    };
+};
 const mapDispatchToProps = (dispatch) => {
     return {
         getMe: () => dispatch(getMe())
@@ -123,4 +148,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(null, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout);

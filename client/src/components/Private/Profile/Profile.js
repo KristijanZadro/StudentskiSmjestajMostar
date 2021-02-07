@@ -14,7 +14,13 @@ class Profile extends Component {
     }
     render() {
         const {user, myAds} = this.props
-        let myAdsNumber = myAds.length
+        let approvedMyAds = []
+        myAds.forEach((myAd)=>{
+            if (myAd.approved===1){
+                approvedMyAds.push(myAd)
+            }
+        })
+        let myAdsNumber = approvedMyAds.length
         return (
            <div>
                <Title title="Profile" />
