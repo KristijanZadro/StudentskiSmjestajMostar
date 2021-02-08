@@ -146,7 +146,7 @@ const getCommentsController = (req, res, next) => {
             console.log(err)
         } else {
             console.log(result)
-            const SQL_GET_COMMENTS = `SELECT r.comment,r.rating, u.name, u.surname 
+            const SQL_GET_COMMENTS = `SELECT r.id_ratings, r.comment,r.rating,r.id_user, u.name, u.surname 
                                     FROM ratings r 
                                     JOIN user u ON r.id_user = u.id
                                     WHERE id_adv = ?;`
@@ -160,6 +160,19 @@ const getCommentsController = (req, res, next) => {
                 }
             })
 
+        }
+    })
+}
+const updateCommentController = (req,res,next) => {
+    const id_rating = req.body.id_rating
+    const comment = req.body.comment
+    const SQL_UPDATE_COMMENT = "UPDATE ratings SET comment=? WHERE id_ratings=?;"
+    db.query(SQL_UPDATE_COMMENT, [comment, id_rating], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(result)
+            res.send(result)
         }
     })
 }
@@ -256,7 +269,8 @@ module.exports = {
     getMyAdsController,
     getAdvAdminController,
     changeApprovedController,
-    deleteAdvController
+    deleteAdvController,
+    updateCommentController
 
 
 

@@ -241,6 +241,12 @@ export const createAdStart = () => {
     
     };
   };
+  export const getCommentsLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_COMMENTS_LOADING,
+      
+    };
+  };
  
   export const getCommentsSuccess = (comments) => {
     return {
@@ -253,6 +259,7 @@ export const createAdStart = () => {
   export const getAllComments = (title) => {
     return async (dispatch) => {
       // send request
+      dispatch(getCommentsLoading())
           axios({
             method: "POST",
             url: "http://localhost:5000/api/adv/getComments",
@@ -378,6 +385,36 @@ export const createAdStart = () => {
             });
 
     
+    };
+  };
+
+  export const updateCommentSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_COMMENT,
+      
+     
+    };
+  };
+ 
+  
+  export const updateComment = (id_rating, comment) => {
+    return async (dispatch) => {
+      
+          axios({
+            method: "PUT",
+            url: "http://localhost:5000/api/adv/updateComment",
+            data: {
+             id_rating,
+             comment
+            },
+          })
+            .then((data) => {
+              console.log("updateComment:", data);
+                dispatch(updateCommentSuccess());
+            })
+            .catch((e) => {
+              console.log(e);
+            });
     };
   };
 

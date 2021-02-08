@@ -20,7 +20,8 @@ const initialState = {
     rating: "",
     comments: [],
     myAds: [],
-    adminAds: []
+    adminAds: [],
+    commentLoading: false
 };
 
 const createAdStart = (state, action) => ({
@@ -93,10 +94,15 @@ const createReview = (state, action) => ({
   comment: action.comment,
   rating: action.rating.rating,
 });
+const commentLoading = (state, action) => ({
+  ...state,
+  commentLoading: true
+});
 
 const getComments = (state, action) => ({
   ...state,
-  comments: action.comments
+  comments: action.comments,
+  commentLoading: false
 });
 
 const getMyAds = (state, action) => ({
@@ -134,6 +140,8 @@ const reducer = (state = initialState, action) => {
           return getMyAds(state, action);
         case actionTypes.ADV_GET_ADS_ADMIN:
           return getAdsAdmin(state, action);
+        case actionTypes.ADV_GET_COMMENTS_LOADING:
+          return commentLoading(state, action);
         default:
           return state;
     }

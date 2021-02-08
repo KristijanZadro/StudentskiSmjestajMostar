@@ -126,66 +126,10 @@
     justify-content: space-around;
     flex-wrap: wrap;
 }
-.user-ad-comment{
+.comm-container{
     width: 40%;
     height: 20vh;
     background-color: grey;
     margin: 10px;
     padding: 10px;
-}
-
-.comment-user{
-    display: flex;
-}
-.comment-user svg{
-    color: #ffa64d;
-}
-
-.comment-user-rating{
-    display: flex;
-    justify-content: space-between;
-}
-.comment-comm{
-    width: 90%;
-    
-    border: 2pt solid  #ffa64d;
-    color: whitesmoke;
-    margin-top: 7px;
-}
-.comment-box{
-    display: flex;
-    height: 60%;
-}
-.comment-box button{
-    height: 30px;
-    width: 30px;
-    margin: 7px 5px;
-    outline: none;
-}
-.comment-rating svg{
-    color: yellow;
-}
-.comment-user-info span{
-    color: whitesmoke;
-}
-.comment-rating span{
-    color: whitesmoke;
-    margin-right: 4px;
-}
-.user-ad-comment label{
-    color: whitesmoke;
-}
-.comment-rating{
-    color: whitesmoke;
-    display: flex;
-    align-items: center;
-}
-.comment-user-info{
-    text-transform: capitalize;
-    font-size: larger;
-    margin-left: 4px;
-}
-.comment-user{
-    display: flex;
-    align-items: center;
 }

@@ -18,6 +18,7 @@ router.post('/getComments', Controllers.getCommentsController)
 router.post('/getMyAd', Controllers.getMyAdsController)
 router.put('/changeApproved', Controllers.changeApprovedController)
 router.delete('/deleteAdv', Controllers.deleteAdvController)
+router.put('/updateComment', Controllers.updateCommentController)
  
 
 module.exports = router
