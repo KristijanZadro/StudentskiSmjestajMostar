@@ -20,6 +20,11 @@
     color: whitesmoke;
     margin-top: 7px;
 }
+.comment-comm-select{
+    width: 90%;
+    color: whitesmoke;
+    margin-top: 7px;
+}
 .comment-comm textarea{
     width: 97%;
     height: 92%;
@@ -30,10 +35,16 @@
     outline: none;
     
 }
-.comment-comm textarea:focus{
+.comment-comm-select textarea{
     background-color: whitesmoke;
     color: black;
+    width: 97%;
+    height: 92%;
+    border: 2pt solid  #ffa64d;
+    font-size: medium;
+    outline: none;
 }
+
 .comment-box{
     display: flex;
     height: 60%;
