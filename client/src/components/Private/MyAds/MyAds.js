@@ -2,10 +2,31 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import Title from '../../../containers/Title/Title';
 import { getMyAd } from '../../../redux/actions/adv';
+//import Create from '../CreateAds/Create';
+
+
 import "./MyAds.css"
+import Create from '../CreateAds/Create';
+
 class MyAds extends Component {
+    constructor(){
+        super()
+        this.state = {
+            isEdit: false
+        }
+    }
+    
+
+    changeEdit = () => {
+        this.setState({
+            isEdit: true,
+            
+        })
+        
+    }
     componentDidMount() {
         this.props.getMyAd()
+        this.changeEdit()
     }
     renderMyAdsLists = (array) => {
         let myAdsRender = array.map((myAd, index) => {
@@ -37,6 +58,11 @@ class MyAds extends Component {
                     <div className="my-ad-desc">
                         {myAd.description}
                     </div>
+                    <div className="edit-myads">
+                        <Create isEdit={this.state.isEdit} myAd={myAd} />
+                    </div>
+                    
+                   
                 </div>
             )
         })
@@ -59,13 +85,13 @@ class MyAds extends Component {
         let unApprovedMyAdsRender = this.renderMyAdsLists(unApprovedMyAds)
 
         //let images = this.props.myAds.images.split(',')
-        let isAdmin = localStorage.getItem("isAdmin")
+        //let isAdmin = localStorage.getItem("isAdmin")
 
         return (
             <div className="my-adss">
                 <Title title="My Approved Ads" />
                 {approvedMyAdsRender}
-                <Title title={isAdmin ? "" : "Waiting to be published"} />
+                <Title title="Waiting to be published" />
                 {unApprovedMyAdsRender}
 
             </div>

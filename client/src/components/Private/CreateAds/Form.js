@@ -15,6 +15,7 @@ import {createAd,loadModal, getAllAds} from '../../../redux/actions/adv'
 
 
 import { connect } from "react-redux";
+//import MyAds from '../MyAds/MyAds';
 
 const styles = theme => ({
     FormControl: {
@@ -56,20 +57,35 @@ const styles = theme => ({
     constructor(){
         super()
         this.state = {
-            title:'',  
-            price: "",
+            title: '',  
+            price: '',
             address: '',
-            peopleAllowed: "",
-            size: "",
+            peopleAllowed: '',
+            size: '',
             pets: false,
             balcony: false,
             desc: '',
-            image: null
+            image: ''
 
         }
     }
-    /*componentDidMount(){
-    }*/
+    componentDidMount(){
+        if(this.props.isEdit){
+            this.setState({
+                title: this.props.myAd.title || '',  
+                price: this.props.myAd.price || '',
+                address: this.props.myAd.address || '',
+                peopleAllowed: this.props.myAd.people_allowed || '',
+                size: this.props.myAd.size || '',
+                pets: this.props.myAd.pets || false,
+                balcony: this.props.myAd.balcony || false,
+                desc: this.props.myAd.description || '',
+                image: this.props.myAd.image || ''
+            }) 
+        }
+        
+       
+    }
     
     
     handleChange = ({ target: { value, name } }) => { 
@@ -125,7 +141,7 @@ const styles = theme => ({
 
     render() {
         const { title, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
-        const {isTitleAvailable, createAdErrorMsg} = this.props
+        const {isTitleAvailable, createAdErrorMsg, isEdit} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
         return (
             <div>
@@ -245,7 +261,7 @@ const styles = theme => ({
                                 className="dialogFormButton"
                                 //onClick={isTitleAvailable ? this.onCloseModal() : null}
                             >
-                                Submit request
+                                {isEdit ? 'Edit' : 'Submit request' } 
                             </button>
                         </div>
                 

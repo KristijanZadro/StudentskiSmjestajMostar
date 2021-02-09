@@ -64,3 +64,30 @@
     padding: 10px;
 }
 
+.edit-myads{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 50px;
+   
+}
+.edit-myads button{
+    height: 30px;
+    margin: 10px;
+    width: 50px;
+    background-color: #ffa64d;
+    border: 2pt solid whitesmoke;
+    border-radius: 8px;
+    color: whitesmoke;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+    outline: none;
+    padding: 5px;
+}
+.edit-myads button:hover{
+    background-color: whitesmoke;
+    color:  #ffa64d;
+    border-color:  #ffa64d;
+}
+

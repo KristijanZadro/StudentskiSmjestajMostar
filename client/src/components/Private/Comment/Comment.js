@@ -14,7 +14,7 @@ class Comment extends Component {
             comment: "",
             isFocus: false,
             isOwner: false,
-            isPressed: false
+           
         }
         // create a ref to store the textInput DOM element
         this.textInput = React.createRef();
@@ -46,7 +46,7 @@ class Comment extends Component {
         if(e.key === 'Enter'){
             this.setState({
                 isFocus: false,
-                isPressed: true
+               
             })
             this.props.updateComment(this.props.comm.id_ratings, this.state.comment)
         }
@@ -63,7 +63,7 @@ class Comment extends Component {
       }
     render() {
         const {comm} = this.props
-        const {comment,isFocus,isOwner,isPressed} = this.state
+        const {comment,isFocus,isOwner} = this.state
         return (
             <div  className="user-ad-comment">
                 <div className="comment-user-rating">
