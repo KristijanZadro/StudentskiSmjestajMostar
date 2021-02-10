@@ -7,6 +7,7 @@ import { getMyAd } from '../../../redux/actions/adv';
 
 import "./MyAds.css"
 import Create from '../CreateAds/Create';
+//import Loading from '../../../containers/Loading/Loading';
 
 class MyAds extends Component {
     constructor(){
@@ -40,10 +41,20 @@ class MyAds extends Component {
                         {
                             images.map((image, index) => {
                                 return (
-                                    <div className="my-ad-image" key={index} >
-                                        <img src={`http://localhost:5000/static/${image}`} alt="" />
-                                        {/*<img src={`http://${window.location.hostname}/static/${image}`}  alt="" />*/}
+                                    <div key={index}>
+                                        {
+                                            image ?
+                                            <div className="my-ad-image" >
+                                                <img 
+                                                src={ `http://localhost:5000/static/${image}`} 
+                                                alt="" 
+                                            />
+                                            
+                                            </div> :
+                                            ""
+                                        }
                                     </div>
+                                    
                                 )
                             })
                         }
@@ -100,7 +111,8 @@ class MyAds extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        myAds: state.adv.myAds
+        myAds: state.adv.myAds,
+        getMyAdLoading: state.adv.getMyAdLoading
     };
 };
 const mapDispatchToProps = (dispatch) => {

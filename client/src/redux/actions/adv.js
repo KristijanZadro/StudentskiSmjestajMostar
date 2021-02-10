@@ -70,6 +70,72 @@ export const createAdStart = () => {
     
     };
   };
+  export const updateAdvStart = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_START,
+    };
+  };
+  export const updateAdvSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_SUCCESS,
+      
+    };
+  };
+
+  export const updateAdv = (state, onCloseModal, adv_id) => {
+    return async (dispatch) => {
+      // send request
+      dispatch(updateAdvStart());
+            
+          axios.put(`http://localhost:5000/api/adv/updateAdv/${adv_id}`, state)
+            .then((data) => {
+              console.log("updateAdv:", data);
+              if(data.data.title_available){
+                dispatch(updateAdvSuccess());
+                onCloseModal();
+                getMyAd()
+              }
+             
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+  export const deleteImageSuccess = () => {
+    return {
+      type: actionTypes.ADV_DELETE_IMAGE,
+      
+    };
+  };
+
+  export const deleteImage = (clickedImage, image , adv_id) => {
+    return async (dispatch) => {
+      // send request
+          /*let formData = new FormData();
+          formData.append('modal-image',clickedImage);
+          for(let i = 0; i<image.length; i++) {
+            formData.append('myImage', image[i]);
+          }*/
+          axios.put(`http://localhost:5000/api/adv/deleteImage/${adv_id}`, {clickedImage, image})
+            .then((data) => {
+              console.log("deleteImage:", data);
+             
+                dispatch(deleteImageSuccess());
+                
+                
+              
+             
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
 
   export const resetStateModalForm = () => {
     return {
@@ -284,7 +350,13 @@ export const createAdStart = () => {
     
     };
   };
-
+  export const getMyAdLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_MYAD_LOADING,
+      
+  
+    };
+  };
   export const getMyAdSuccess = (myAds) => {
     return {
       type: actionTypes.ADV_GET_MYAD,
@@ -296,6 +368,7 @@ export const createAdStart = () => {
   export const getMyAd = () => {
     return async (dispatch) => {
       // send request
+      dispatch(getMyAdLoading())
       const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
       let user_id = jwt_Token_decoded.user.id
           axios({

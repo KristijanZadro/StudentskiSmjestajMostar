@@ -19,6 +19,8 @@ router.post('/getMyAd', Controllers.getMyAdsController)
 router.put('/changeApproved', Controllers.changeApprovedController)
 router.delete('/deleteAdv', Controllers.deleteAdvController)
 router.put('/updateComment', Controllers.updateCommentController)
+router.put('/updateAdv/:id', Controllers.updateAdvControllers)
+router.put('/deleteImage/:id', Controllers.deleteImageController)
  
 
 module.exports = router

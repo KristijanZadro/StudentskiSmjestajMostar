@@ -10,9 +10,15 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 //import { Input } from '@material-ui/core';
 //import Button from '@material-ui/core/Button';
 import './CreateAds.css'
+//import ImageModal from './ImageModal'
 
-import {createAd,loadModal, getAllAds} from '../../../redux/actions/adv'
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
+import {createAd,loadModal, getAllAds, updateAdv, getMyAd,deleteImage} from '../../../redux/actions/adv'
+import {CgRemove} from 'react-icons/cg'
 
 import { connect } from "react-redux";
 //import MyAds from '../MyAds/MyAds';
@@ -65,26 +71,65 @@ const styles = theme => ({
             pets: false,
             balcony: false,
             desc: '',
-            image: ''
+            image: [],
+            isOpen: false,
+            clickedImage: '',
+            isDeleted: false
+       
+            
 
         }
     }
     componentDidMount(){
         if(this.props.isEdit){
+            console.log("myad images",this.props.myAd.images)
+            let images = this.props.myAd.images.split(',')
             this.setState({
                 title: this.props.myAd.title || '',  
                 price: this.props.myAd.price || '',
                 address: this.props.myAd.address || '',
                 peopleAllowed: this.props.myAd.people_allowed || '',
                 size: this.props.myAd.size || '',
-                pets: this.props.myAd.pets || false,
-                balcony: this.props.myAd.balcony || false,
+                pets: this.props.myAd.pets === 1 ? true : false,
+                balcony: this.props.myAd.balcony === 1 ? true : false,
                 desc: this.props.myAd.description || '',
-                image: this.props.myAd.image || ''
+                image: images || []
             }) 
         }
         
        
+    }
+    handleToggle = (index) => {
+        const openCopy = !this.state.isOpen
+        if(index !== null ){
+            let images = [...this.state.image]
+            let image = images[index]
+            this.setState({
+                clickedImage: image,
+                
+         
+            })
+        }
+        
+        this.setState({
+            isOpen: openCopy,
+            
+        })
+        
+        
+    }
+    onDeleteImage = (modalImage) => {
+        const {image} = this.state
+        let images = [...image]
+        let filterImages = images.filter(img => img !== modalImage)
+        this.setState({
+            image: filterImages,
+            isDeleted: true,
+            isOpen: false
+        })
+        
+        this.props.deleteImage(modalImage, filterImages, this.props.myAd.advertisement_id)
+        //console.log(modalImage)
     }
     
     
@@ -129,6 +174,10 @@ const styles = theme => ({
         this.props.createAd(this.state, this.onCloseModal, this.getAds);
         
       };
+      onAdUpdate = (e) => {
+          e.preventDefault()
+          this.props.updateAdv(this.state, this.onCloseModal, this.props.myAd.advertisement_id)
+      }
 
       getAds = () => {
         this.props.getAllAds()
@@ -137,15 +186,38 @@ const styles = theme => ({
       onCloseModal = () => {
           this.props.onClose()
           this.props.loadModal()
+          this.props.getMyAd()
       }
+   
 
     render() {
-        const { title, price, address, peopleAllowed, size, pets, balcony, desc } = this.state
+        const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = this.state
         const {isTitleAvailable, createAdErrorMsg, isEdit} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
+      
+        let imagesRender = image.map((image, index) => {
+            return (
+                <div key={index} >
+                     {
+                    image ?
+                    <div className="form-image" >
+                        <img 
+                        src={ `http://localhost:5000/static/${image}`} 
+                        alt="" 
+                        onClick={() => this.handleToggle(index)}
+                    />
+                       
+                    </div> :
+                    ""
+                }
+                </div>
+               
+               
+            )
+        })
         return (
             <div>
-                <form className={this.props.classes.FormControl} onSubmit={this.onAdSend}>
+                <form className={this.props.classes.FormControl} onSubmit={isEdit ? this.onAdUpdate : this.onAdSend}>
                         <TextField
                             label="Title"
                             value={title}
@@ -241,13 +313,45 @@ const styles = theme => ({
                             />
                               
                         </div>
+                        {
+                            isEdit ?
+                            <div className="form-images">
+                                {imagesRender}
+                                <Dialog open={this.state.isOpen} onClose={() => this.handleToggle(null)}>
+                                    <DialogTitle id="dialogTitle"></DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="dialogTitle">
+                                            
+                                        </DialogContentText>
+                                        <div className="modal-image">
+                                            <img 
+                                                src={`http://localhost:5000/static/${this.state.clickedImage}`} 
+                                                alt="" 
+                                                className="clicked-image"
+                                                name="modal-image"
+                                            
+                                            
+                                            />
+                                            <div className="button-x" onClick={() => this.onDeleteImage(this.state.clickedImage)}><CgRemove /></div>
+                                        </div>
+                                        
+                                    </DialogContent>
+                                </Dialog>
+                                
+                            </div> :
+                            null
+                        }
+                       { 
+                        isEdit  ?
+                        "" :
                         <input
-                            type="file"
-                            name="myImage"
-                            //value={this.state.image}
-                            onChange={this.handleImageChange}
-                            multiple
+                                type="file"
+                                name="myImage"
+                                //value={this.state.image}
+                                onChange={this.handleImageChange}
+                                multiple
                         />
+                        }
                         {
                             !isTitleAvailable ?
                             <div className="errorMsg">
@@ -290,6 +394,9 @@ const mapStateToProps = (state) => {
         dispatch(createAd(state, onCloseModal, getAds)),
       loadModal: () => dispatch(loadModal()),
       getAllAds: () => dispatch(getAllAds()),
+      updateAdv: (state, onCloseModal, adv_id) => dispatch(updateAdv(state, onCloseModal, adv_id)),
+      getMyAd: () => dispatch(getMyAd()),
+      deleteImage: (clickedImage,image,adv_id) => dispatch(deleteImage(clickedImage,image,adv_id))
     };
   };
   

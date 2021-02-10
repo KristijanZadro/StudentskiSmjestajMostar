@@ -21,7 +21,8 @@ const initialState = {
     comments: [],
     myAds: [],
     adminAds: [],
-    commentLoading: false
+    commentLoading: false,
+    getMyAdLoading: false
 };
 
 const createAdStart = (state, action) => ({
@@ -104,10 +105,15 @@ const getComments = (state, action) => ({
   comments: action.comments,
   commentLoading: false
 });
+const getMyAdsLoading = (state, action) => ({
+  ...state,
+  getMyAdLoading: true
+});
 
 const getMyAds = (state, action) => ({
   ...state,
-  myAds: action.myAds
+  myAds: action.myAds,
+  getMyAdLoading: false
 });
 
 const getAdsAdmin = (state, action) => ({
@@ -142,6 +148,8 @@ const reducer = (state = initialState, action) => {
           return getAdsAdmin(state, action);
         case actionTypes.ADV_GET_COMMENTS_LOADING:
           return commentLoading(state, action);
+        case actionTypes.ADV_GET_MYAD_LOADING:
+          return getMyAdsLoading(state, action);
         default:
           return state;
     }
