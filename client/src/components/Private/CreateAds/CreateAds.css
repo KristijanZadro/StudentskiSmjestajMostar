@@ -98,3 +98,28 @@
     
     
 }
+.choose-file{
+    width: 80px;
+    height: 85px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    position: relative;
+}
+.input-file {
+    display: none;
+}
+.add-new-image{
+   position: absolute;
+   top: 25%;
+   left: 25%;
+}
+.add-new-image svg{
+    width: 50px;
+    height: 50px;
+}
+.choose-file img{
+    height: 100px;
+    width: 100px;
+}

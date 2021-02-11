@@ -22,7 +22,8 @@ const initialState = {
     myAds: [],
     adminAds: [],
     commentLoading: false,
-    getMyAdLoading: false
+    getMyAdLoading: false,
+    uploadLoading: false
 };
 
 const createAdStart = (state, action) => ({
@@ -120,6 +121,14 @@ const getAdsAdmin = (state, action) => ({
   ...state,
   adminAds: action.adminAds
 });
+const uploadLoading = (state, action) => ({
+  ...state,
+  uploadLoading: true
+});
+const uploadSuccess = (state, action) => ({
+  ...state,
+  uploadLoading: false
+});
 
 
 const reducer = (state = initialState, action) => {
@@ -150,6 +159,10 @@ const reducer = (state = initialState, action) => {
           return commentLoading(state, action);
         case actionTypes.ADV_GET_MYAD_LOADING:
           return getMyAdsLoading(state, action);
+        case actionTypes.ADV_UPLOAD_NEW_IMAGE_SUCCESS:
+          return uploadSuccess(state, action);
+        case actionTypes.ADV_UPLOAD_NEW_IMAGE_LOADING:
+          return uploadLoading(state, action);
         default:
           return state;
     }

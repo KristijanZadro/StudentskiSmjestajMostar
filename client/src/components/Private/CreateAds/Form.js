@@ -17,10 +17,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import {createAd,loadModal, getAllAds, updateAdv, getMyAd,deleteImage} from '../../../redux/actions/adv'
+import {createAd,loadModal, getAllAds, updateAdv, getMyAd,deleteImage,uploadNewImage} from '../../../redux/actions/adv'
 import {CgRemove} from 'react-icons/cg'
 
 import { connect } from "react-redux";
+import {AiOutlinePlus} from "react-icons/ai"
+//import { Input } from '@material-ui/core';
 //import MyAds from '../MyAds/MyAds';
 
 const styles = theme => ({
@@ -74,7 +76,12 @@ const styles = theme => ({
             image: [],
             isOpen: false,
             clickedImage: '',
-            isDeleted: false
+            isDeleted: false,
+            newImage: '',
+            showNewImage: '',
+            isClicked : false,
+            chooseFiles: []
+           
        
             
 
@@ -84,6 +91,7 @@ const styles = theme => ({
         if(this.props.isEdit){
             console.log("myad images",this.props.myAd.images)
             let images = this.props.myAd.images.split(',')
+           
             this.setState({
                 title: this.props.myAd.title || '',  
                 price: this.props.myAd.price || '',
@@ -93,8 +101,11 @@ const styles = theme => ({
                 pets: this.props.myAd.pets === 1 ? true : false,
                 balcony: this.props.myAd.balcony === 1 ? true : false,
                 desc: this.props.myAd.description || '',
-                image: images || []
-            }) 
+                image: images || [],
+                
+            })
+          
+           
         }
         
        
@@ -153,6 +164,40 @@ const styles = theme => ({
         console.log(e.target.files)
     }
     
+    handleNewImageUpload = (e) => {
+        const {image,chooseFiles} = this.state
+        let newImageCopy = e.target.files[0]
+        let chooseFilesCopy = [...chooseFiles, newImageCopy]
+        this.setState({
+            newImage: newImageCopy,
+            //image: [...image, newImageCopy],
+            chooseFiles: chooseFilesCopy,
+            image: [...image, newImageCopy.name],
+            isClicked: true,
+            clickedImage: newImageCopy
+           
+        });
+        
+        
+        this.props.uploadNewImage(newImageCopy,image)
+        console.log(e.target.files[0])
+        /*this.props.uploadLoading ?
+            <p>Loading..</p> :
+   
+            <img 
+            src={`http://localhost:5000/static/${this.state.clickedImage.name}`} 
+            alt="" 
+            
+        /> */
+    
+        
+        
+    }
+    handleClick = (index) => {
+        console.log(index)
+    }
+    
+    
     /*handleSubmit = () => {
         this.props.onSubmit({
             id: this.state.title.toLocaleLowerCase().replace(/ /g,'-'),
@@ -188,13 +233,46 @@ const styles = theme => ({
           this.props.loadModal()
           this.props.getMyAd()
       }
+      ChooseFileRender = () => {
+        let {image} = this.state
+        console.log(image)
+        let imageNumber = image.length
+        console.log("length",image.length)
+        let number = 5
+        let arr = Array.from(Array(number-imageNumber).keys())
+        
+       
+
+        let chooseFiles = arr.map((file,index) => {
+            
+                file =  <label className="choose-file" key={index}>
+                                    <input 
+                                        type="file" 
+                                        placeholder="" 
+                                        name={"newImage"}  
+                                        onChange={this.handleNewImageUpload}
+                                        className="input-file"
+
+                                    />
+                                    <div className="add-new-image" ><AiOutlinePlus /></div>  
+                      
+                        </label> 
+                return file
+                
+        });
+       
+        
+        return chooseFiles
+        
+        
+      }
    
 
     render() {
         const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = this.state
         const {isTitleAvailable, createAdErrorMsg, isEdit} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
-      
+        let chooseFiles = this.ChooseFileRender()
         let imagesRender = image.map((image, index) => {
             return (
                 <div key={index} >
@@ -202,7 +280,7 @@ const styles = theme => ({
                     image ?
                     <div className="form-image" >
                         <img 
-                        src={ `http://localhost:5000/static/${image}`} 
+                        src={`http://localhost:5000/static/${image}`} 
                         alt="" 
                         onClick={() => this.handleToggle(index)}
                     />
@@ -210,11 +288,15 @@ const styles = theme => ({
                     </div> :
                     ""
                 }
+              
                 </div>
                
                
             )
         })
+        
+        
+           
         return (
             <div>
                 <form className={this.props.classes.FormControl} onSubmit={isEdit ? this.onAdUpdate : this.onAdSend}>
@@ -317,6 +399,9 @@ const styles = theme => ({
                             isEdit ?
                             <div className="form-images">
                                 {imagesRender}
+                                
+                               {chooseFiles}
+                               
                                 <Dialog open={this.state.isOpen} onClose={() => this.handleToggle(null)}>
                                     <DialogTitle id="dialogTitle"></DialogTitle>
                                     <DialogContent>
@@ -383,7 +468,8 @@ const mapStateToProps = (state) => {
       isTitleAvailable: state.adv.isTitleAvailable,
       createAdErrorMsg: state.adv.createAdErrorMsg,
       ads: state.adv.ads,
-      sortedAds: state.adv.sortedAds
+      sortedAds: state.adv.sortedAds,
+      uploadLoading: state.adv.uploadLoading
 
     };
   };
@@ -396,7 +482,8 @@ const mapStateToProps = (state) => {
       getAllAds: () => dispatch(getAllAds()),
       updateAdv: (state, onCloseModal, adv_id) => dispatch(updateAdv(state, onCloseModal, adv_id)),
       getMyAd: () => dispatch(getMyAd()),
-      deleteImage: (clickedImage,image,adv_id) => dispatch(deleteImage(clickedImage,image,adv_id))
+      deleteImage: (clickedImage,image,adv_id) => dispatch(deleteImage(clickedImage,image,adv_id)),
+      uploadNewImage: (image, imageArr) => dispatch(uploadNewImage(image,imageArr))
     };
   };
   

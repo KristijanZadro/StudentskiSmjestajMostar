@@ -104,6 +104,41 @@ export const createAdStart = () => {
     
     };
   };
+  export const uploadNewImageLoading = () => {
+    return {
+      type: actionTypes.ADV_UPLOAD_NEW_IMAGE_LOADING,
+      
+    };
+  };
+  export const uploadNewImageSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPLOAD_NEW_IMAGE_SUCCESS,
+      
+    };
+  };
+
+  export const uploadNewImage = (image,imageArr) => {
+    return async (dispatch) => {
+      // send request
+      dispatch(uploadNewImageLoading());
+            let formData = new FormData();
+            formData.append('newImage',image);
+          
+            console.log(formData)
+          axios.post(`http://localhost:5000/api/adv/uploadNewImage`, formData, {imageArr})
+            .then((data) => {
+              console.log("upload new:", data);
+                dispatch(uploadNewImageSuccess());
+            
+             
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
   export const deleteImageSuccess = () => {
     return {
       type: actionTypes.ADV_DELETE_IMAGE,
