@@ -566,7 +566,7 @@ export const setAdminSucces = () => {
   };
 };
 
-export const setAdmin = (user_id,getAllUsers) => {
+export const setAdmin = (user_id,getAllUsers,getAllAdmins) => {
   return async (dispatch) => {
     // send request
       axios({
@@ -580,6 +580,36 @@ export const setAdmin = (user_id,getAllUsers) => {
           console.log("setAdmin:", data);
             dispatch(setAdminSucces());
             getAllUsers()
+            getAllAdmins()
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+
+export const setUserSucces = () => {
+  return {
+    type: actionTypes.AUTH_SET_USER,
+    
+  };
+};
+
+export const setUser = (user_id,getAllUsers,getAllAdmins) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "PUT",
+        url: "http://localhost:5000/api/user/setUser",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("setUser:", data);
+            dispatch(setUserSucces());
+            getAllUsers()
+            getAllAdmins()
         })
         .catch((e) => {
           console.log(e);

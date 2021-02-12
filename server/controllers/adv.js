@@ -68,8 +68,9 @@ const updateAdvControllers = (req, res, next) => {
     const pets = req.body.pets == "true" ? true : false
     const balcony = req.body.balcony == "true" ? true : false
     const desc = req.body.desc
-    const updateImages = req.body.updateImages
+    const updateImages = req.body.image
     const adv_id = req.params.id
+    console.log("updateimg", updateImages)
     //const isAdmin = req.body.isAdmin == "true" ? true : false
     //await pipeline(image.stream, fs.createWriteStream(`${__dirname}/../public/uploads/${image}`))
 
@@ -83,8 +84,8 @@ const updateAdvControllers = (req, res, next) => {
                 res.send({ "title_available": false })
             } else {
                 
-                const SQL_UPDATE = "UPDATE advertisement SET title=?, price=?, address=?, people_allowed=?, size=?, pets=?, balcony=?, description=? WHERE advertisement_id=?;"
-                db.query(SQL_UPDATE, [title, price, address, peopleAllowed, size, pets, balcony, desc, adv_id], (err, result2) => {
+                const SQL_UPDATE = "UPDATE advertisement SET title=?, price=?, address=?, people_allowed=?, size=?, pets=?, balcony=?, description=?, images=? WHERE advertisement_id=?;"
+                db.query(SQL_UPDATE, [title, price, address, peopleAllowed, size, pets, balcony, desc, [updateImages.join().split(",").map(i => i).join()], adv_id], (err, result2) => {
                     if (err) {
                         console.log(err)
                     } else {

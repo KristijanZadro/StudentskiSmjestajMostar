@@ -16,6 +16,7 @@ router.get('/getAdmins', Controllers.getAdminsController)
 router.delete('/deleteUser', Controllers.deleteUserController)
 router.post('/getMe', Controllers.getMeController)
 router.put('/setAdmin', Controllers.setAdminController)
+router.put('/setUser', Controllers.setUserController)
 
 //router.get('/get_user_info', Controllers.get_name_surname_Controller)
 //router.post('/test', Controllers.verifyToken,  Controllers.test)

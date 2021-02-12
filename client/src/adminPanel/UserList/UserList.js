@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { deleteUser, getAdmins, getUsers, setAdmin } from '../../redux/actions/auth';
+import { deleteUser, getAdmins, getUsers, setAdmin, setUser } from '../../redux/actions/auth';
 import "./UserList.css"
 import Title from '../../containers/Title/Title'
 import {MdDelete} from 'react-icons/md'
@@ -21,10 +21,10 @@ class UserList extends Component {
         this.props.deleteUser(id,this.getAllUsers)
     }
     onSetAdmin = (id) => {
-        this.props.setAdmin(id,this.getAllUsers)
+        this.props.setAdmin(id,this.getAllUsers, this.getAllAdmins)
     }
     onSetUser = (id) => {
-        //this.props.setUser(id,this.getAllAdmins)
+        this.props.setUser(id,this.getAllUsers, this.getAllAdmins)
     }
     
     render() {
@@ -111,9 +111,9 @@ const mapStateToProps = (state) => {
     return {
         getUsers: ()=> dispatch(getUsers()),
         deleteUser: (id,getAllUsers) => dispatch(deleteUser(id,getAllUsers)),
-        setAdmin: (id,getAllUsers) => dispatch(setAdmin(id,getAllUsers)),
-        getAdmins: () => dispatch(getAdmins())
-
+        setAdmin: (id,getAllUsers, getAllAdmins) => dispatch(setAdmin(id,getAllUsers,getAllAdmins)),
+        getAdmins: () => dispatch(getAdmins()),
+        setUser: (id,getAllUsers, getAllAdmins) => dispatch(setUser(id,getAllUsers,getAllAdmins)),
     };
   };
  

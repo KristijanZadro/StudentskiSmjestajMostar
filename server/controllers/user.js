@@ -344,6 +344,30 @@ const setAdminController = (req,res,next) => {
     })
 }
 
+const setUserController = (req,res,next) => {
+    const user_id = req.body.user_id
+    //console.log(user_id)
+    const SQL_SELECT_USER_ROLE = "SELECT id_role FROM roles WHERE role_name = 'user';"
+    db.query(SQL_SELECT_USER_ROLE, (err, result) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log(result)
+            const SQL_SET_USER= "UPDATE user_role SET id_role = ? WHERE id_user = ?;"
+            db.query(SQL_SET_USER, [result[0].id_role, user_id], (err, result2) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(result2)
+                    res.send(result2)
+                    
+                }
+            })
+        }
+    })
+}
+
+
 module.exports = {
     registerController,
     loginController,
@@ -357,7 +381,8 @@ module.exports = {
     deleteUserController,
     getMeController,
     setAdminController,
-    getAdminsController
+    getAdminsController,
+    setUserController
  
     //test
     //checkEmailController,
