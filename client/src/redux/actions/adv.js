@@ -124,7 +124,7 @@ export const createAdStart = () => {
             let formData = new FormData();
             formData.append('newImage',image);
           
-            console.log(formData)
+            //console.log(formData)
           axios.post(`http://localhost:5000/api/adv/uploadNewImage`, formData, {imageArr})
             .then((data) => {
               console.log("upload new:", data);

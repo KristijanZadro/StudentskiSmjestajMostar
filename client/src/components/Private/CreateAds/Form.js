@@ -24,6 +24,8 @@ import { connect } from "react-redux";
 import {AiOutlinePlus} from "react-icons/ai"
 //import { Input } from '@material-ui/core';
 //import MyAds from '../MyAds/MyAds';
+import Loading from '../../../containers/Loading/Loading'
+import loadingGif from '../../../images/gif/loading-arrow.gif'
 
 const styles = theme => ({
     FormControl: {
@@ -89,7 +91,7 @@ const styles = theme => ({
     }
     componentDidMount(){
         if(this.props.isEdit){
-            console.log("myad images",this.props.myAd.images)
+            //console.log("myad images",this.props.myAd.images)
             let images = this.props.myAd.images.split(',')
            
             this.setState({
@@ -102,6 +104,7 @@ const styles = theme => ({
                 balcony: this.props.myAd.balcony === 1 ? true : false,
                 desc: this.props.myAd.description || '',
                 image: images || [],
+                
                 
             })
           
@@ -168,6 +171,7 @@ const styles = theme => ({
         const {image,chooseFiles} = this.state
         let newImageCopy = e.target.files[0]
         let chooseFilesCopy = [...chooseFiles, newImageCopy]
+        
         this.setState({
             newImage: newImageCopy,
             //image: [...image, newImageCopy],
@@ -178,9 +182,8 @@ const styles = theme => ({
            
         });
         
-        
         this.props.uploadNewImage(newImageCopy,image)
-        console.log(e.target.files[0])
+        //console.log(e.target.files[0])
         /*this.props.uploadLoading ?
             <p>Loading..</p> :
    
@@ -190,7 +193,6 @@ const styles = theme => ({
             
         /> */
     
-        
         
     }
     handleClick = (index) => {
@@ -235,13 +237,13 @@ const styles = theme => ({
       }
       ChooseFileRender = () => {
         let {image} = this.state
-        console.log(image)
+        //console.log(image)
         let imageNumber = image.length
-        console.log("length",image.length)
+       // console.log("length",image.length)
         let number = 5
         let arr = Array.from(Array(number-imageNumber).keys())
         
-       
+       console.log("choosefile")
 
         let chooseFiles = arr.map((file,index) => {
             
@@ -260,40 +262,55 @@ const styles = theme => ({
                 return file
                 
         });
-       
+       return chooseFiles
         
-        return chooseFiles
+        //return chooseFiles
         
         
       }
+      
    
 
     render() {
         const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = this.state
         const {isTitleAvailable, createAdErrorMsg, isEdit} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
-        let chooseFiles = this.ChooseFileRender()
-        let imagesRender = image.map((image, index) => {
-            return (
-                <div key={index} >
-                     {
-                    image ?
-                    <div className="form-image" >
-                        <img 
-                        src={`http://localhost:5000/static/${image}`} 
-                        alt="" 
-                        onClick={() => this.handleToggle(index)}
-                    />
+        //let choosefiles;
+        //isEdit ? choosefiles = this.ChooseFileRender() : choosefiles = ""
+        let imagesRender;
+        if(isEdit ){
+            //if(this.props.uploadLoading){
+              //  <Loading />
+            //}else{
+                imagesRender = image.map((image, index) => {
+                    console.log("image render")
+                    return (
+                        <div key={index} >
+                             {
+                            image ?
+                            <div className="form-image" >
+                                <img 
+                                src={this.props.uploadLoading ? loadingGif : `http://localhost:5000/static/${image}`} 
+                                alt="" 
+                                onClick={() => this.handleToggle(index)}
+                            />
+                               
+                            </div> :
+                            ""
+                        }
+                      
+                        </div>
                        
-                    </div> :
-                    ""
-                }
-              
-                </div>
-               
-               
-            )
-        })
+                       
+                    )
+                })
+            //}
+        
+        }
+        let chooseFiles;
+        if(isEdit){
+            chooseFiles = this.ChooseFileRender()
+        }
         
         
            
