@@ -1,9 +1,10 @@
 import * as actionTypes from "./actionsTypes";
 
-import axios from "axios";
+//import axios from "axios";
 
 import Jwt_Decode from "jwt-decode";
 
+import axios from "../../axios"
 
 // register user start
 export const registerUserStart = () => {
@@ -39,7 +40,7 @@ export const registerUserStart = () => {
       if(test){
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/user/register",
+            url: "api/user/register",
             data: {
               name,
               surname,
@@ -85,7 +86,7 @@ export const get_role_id = () => {
       
      axios({
         method: "GET",
-        url: "http://localhost:5000/api/user/get_role_id"
+        url: "api/user/get_role_id"
         
       })
         .then(async (data) => {
@@ -132,7 +133,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
     
     axios({
       method: "POST",
-      url: "http://localhost:5000/api/user/login",
+      url: "api/user/login",
       data: {
         email,
         password,
@@ -308,7 +309,7 @@ export const changeNameSurname = (newName,newSurname) => {
       let user_id = jwt_Token_decoded.user.id
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/ChangeNameSurname",
+          url: "api/user/ChangeNameSurname",
           data: {
            newName,
            newSurname,
@@ -355,7 +356,7 @@ export const changeEmail = (newEmail) => {
     if(test){
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/changeEmail",
+          url: "api/user/changeEmail",
           data: {
             newEmail,
             user_id
@@ -410,7 +411,7 @@ export const changePassword = (newPassword) => {
       let user_id = jwt_Token_decoded.user.id
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/ChangePassword",
+          url: "api/user/ChangePassword",
           data: {
            newPassword,
            user_id
@@ -440,7 +441,7 @@ export const getUsers = () => {
     // send request
       axios({
         method: "GET",
-        url: "http://localhost:5000/api/user/getUsers",
+        url: "api/user/getUsers",
       })
         .then((data) => {
           console.log("getUsers:", data);
@@ -464,7 +465,7 @@ export const getAdmins = () => {
     // send request
       axios({
         method: "GET",
-        url: "http://localhost:5000/api/user/getAdmins",
+        url: "api/user/getAdmins",
       })
         .then((data) => {
           console.log("getAdmins:", data);
@@ -489,7 +490,7 @@ export const deleteUser = (user_id,getAllUsers) => {
     // send request
       axios({
         method: "DELETE",
-        url: "http://localhost:5000/api/user/deleteUser",
+        url: "api/user/deleteUser",
         data: {
           user_id
         }
@@ -526,7 +527,7 @@ export const getMe =  () => {
     let role_id = jwt_Token_decoded.user.id_role
       axios({
         method: "POST",
-        url: "http://localhost:5000/api/user/getMe",
+        url: "api/user/getMe",
         data: {
           role_id
         }
@@ -571,7 +572,7 @@ export const setAdmin = (user_id,getAllUsers,getAllAdmins) => {
     // send request
       axios({
         method: "PUT",
-        url: "http://localhost:5000/api/user/setAdmin",
+        url: "api/user/setAdmin",
         data: {
           user_id
         }
@@ -600,7 +601,7 @@ export const setUser = (user_id,getAllUsers,getAllAdmins) => {
     // send request
       axios({
         method: "PUT",
-        url: "http://localhost:5000/api/user/setUser",
+        url: "api/user/setUser",
         data: {
           user_id
         }

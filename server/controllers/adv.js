@@ -17,7 +17,7 @@ const advController = async (req, res, next) => {
             }
         )
     }
-    console.log(req)
+    //console.log(req)
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -59,7 +59,7 @@ const advController = async (req, res, next) => {
 }
 const updateAdvControllers = (req, res, next) => {
    //console.log("update form data",req)
-   console.log(req)
+   //console.log(req)
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -121,14 +121,16 @@ const deleteImageController = (req, res, next) => {
 }
 
     const uploadNewImageController = (req, res, next) => {
-        
+        console.log(req.body)
         const image = req.files
         console.log(image)
+        const date = req.body.date
+        console.log("dateeeeeeeeeeeee", date)
         
         //let fileType = image[0].mimetype.split("/")[1]
         //let newFileName = image[0].filename + "." + fileType
         
-        let newFileName = image[0].originalname 
+        let newFileName = date + image[0].originalname 
         console.log(`./uploads/${newFileName}`)
         fs.rename(
             `./uploads/${image[0].filename}`,

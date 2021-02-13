@@ -28,11 +28,14 @@ class AdDetails extends Component {
     }
     componentDidMount(){
         console.log(this.props.location)
-        this.props.getAd(this.props.location.state.ad.title)
+        //console.log(this.props.adDetails)
+        //console.log(this.props)
+        //console.log(this.props.match.params.title)
+        this.props.getAd(this.props.match.params.title)
         this.setState({
-            images: this.props.location.state.imagesDetails
+            images: [this.props.adDetails.images]
         })
-        this.props.getAllComments(this.props.location.state.ad.title)
+        this.props.getAllComments(this.props.match.params.title)
         //this.textInput.current.focusTextInput();
         
     }
@@ -51,8 +54,8 @@ class AdDetails extends Component {
     onReviewSend = (e) => {
         e.preventDefault()
         const {comment,rating} = this.state
-        this.props.createReview(comment,rating,this.props.location.state.ad.title,this.resetReview)
-        this.props.getAllComments(this.props.location.state.ad.title)
+        this.props.createReview(comment,rating,this.props.match.params.title,this.resetReview)
+        this.props.getAllComments(this.props.match.params.title)
         
     }
     

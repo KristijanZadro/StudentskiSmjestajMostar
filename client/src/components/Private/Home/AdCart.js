@@ -22,7 +22,7 @@ class AdCart extends Component {
         const {title, price, images} = this.props.ad
         const {admin,superadmin} = this.props
         let cardImage = images.split(',')[0]
-        let imagesDetails = images.split(',')
+       
         let stars = this.stars()
         return (
         <div className="ad-cart">
@@ -32,7 +32,7 @@ class AdCart extends Component {
                 <div className="cart-img">
                     <NavLink to={{
                         pathname: admin ? `/private/admin/details/${title}` : superadmin ? `/private/superadmin/details/${title}` : `/private/details/${title}`,
-                        state: {ad:this.props.ad, imagesDetails}
+
                     }}>
                         <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
                     </NavLink>

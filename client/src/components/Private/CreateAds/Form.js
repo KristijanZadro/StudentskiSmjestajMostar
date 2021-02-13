@@ -83,6 +83,9 @@ const styles = theme => ({
             showNewImage: '',
             isClicked : false,
             chooseFiles: [],
+             errorMsgTitle : '',
+            errorMsgPrice : '',
+            errorMsgSize : ''
           
            
        
@@ -170,22 +173,25 @@ const styles = theme => ({
     
     handleNewImageUpload = (e) => {
         const {image,chooseFiles} = this.state
-        let newImageCopy = e.target.files[0] 
+        let newImageCopy = e.target.files[0]
+        let time = new Date()
+        
+        let date = time.getTime().toString()
+    
         //console.log(e.target.files[0])
         let chooseFilesCopy = [...chooseFiles, newImageCopy]
-        let time = new Date()
-        console.log(time.toUTCString())
+       
         this.setState({
             newImage: newImageCopy,
             //image: [...image, newImageCopy],
             chooseFiles: chooseFilesCopy,
-            image: [...image, newImageCopy.name],
+            image: [...image, date + newImageCopy.name],
             isClicked: true,
             clickedImage: newImageCopy
            
         });
         
-        this.props.uploadNewImage(newImageCopy,image)
+        this.props.uploadNewImage(newImageCopy,image,date)
         //console.log(e.target.files[0])
         /*this.props.uploadLoading ?
             <p>Loading..</p> :
@@ -201,7 +207,68 @@ const styles = theme => ({
     handleClick = (index) => {
         console.log(index)
     }
+
     
+    formValidation = () => {
+        const {title,price,size} = this.state
+        let errorMsgTitle = ''
+        let errorMsgPrice = ''
+        let errorMsgSize = ''
+        let isValid = false
+        let check1 = false
+        let check2 = false
+        let check3 = false
+
+        if(/^[a-zA-Z ]+$/.test(title)){
+            errorMsgTitle = ""
+            check1 = true
+            
+        }else{
+            errorMsgTitle = "Title only contains letters. "
+            errorMsgPrice = ""
+            errorMsgSize = ""
+            check1 = false
+        }
+
+        if(/^\d+$/.test(price)){
+            if(price > 0 && price < 1000){
+                errorMsgPrice = ""
+                check2 = true
+            }else{
+                errorMsgPrice = "Price must be betweeen 0 and 1000. "
+                check2 = false
+            }
+        }else{
+            errorMsgPrice = "Price must be number. "
+            check2 = false
+        }
+
+        if(/^\d+$/.test(size)){
+            if(size > 0 && size < 400){
+                errorMsgSize = ""
+                check3 = true
+            }else{
+                errorMsgSize = "Size must be betweeen 0 and 400. "
+                check3 = false
+            }
+        }else{
+            errorMsgSize = "Size must be number. "
+            check3 = false
+        }
+            
+        if(check1 && check2 && check3){
+            isValid = true
+        }else{
+            isValid = false
+        }
+
+        this.setState({
+            errorMsgTitle,
+            errorMsgPrice,
+            errorMsgSize
+        })
+        return isValid
+    }
     
     /*handleSubmit = () => {
         this.props.onSubmit({
@@ -217,16 +284,17 @@ const styles = theme => ({
 
     onAdSend = (e) => {
         e.preventDefault()
-        
-        
-        //let formData = this.getFormData(this.state)
-        
-        this.props.createAd(this.state, this.onCloseModal, this.getAds);
+        if(this.formValidation()){
+            this.props.createAd(this.state, this.onCloseModal, this.getAds);
+        }
+     
         
       };
       onAdUpdate = (e) => {
           e.preventDefault()
-          this.props.updateAdv(this.state, this.onCloseModal, this.props.myAd.advertisement_id)
+          if(this.formValidation()){
+            this.props.updateAdv(this.state, this.onCloseModal, this.props.myAd.advertisement_id)
+          }
       }
 
       getAds = () => {
@@ -330,8 +398,11 @@ const styles = theme => ({
                             onChange={this.handleChange}
                             margin="normal"
                             className={this.props.classes.FormControlElement}
+                            id="title"
+                            required
                             
                         />
+                        
                         <br/>
                         <TextField
                             label="Price"
@@ -340,7 +411,7 @@ const styles = theme => ({
                             onChange={this.handleChange}
                             margin="normal"
                             className={this.props.classes.FormControlElement}
-                            
+                            required
                         />
                         <br/>
                         <TextField
@@ -350,6 +421,7 @@ const styles = theme => ({
                             onChange={this.handleChange}
                             margin="normal"
                             className={this.props.classes.FormControlElement}
+                            required
                            
                         />
                         <br/>
@@ -359,6 +431,7 @@ const styles = theme => ({
                                 value={peopleAllowed}
                                 name='peopleAllowed'
                                 onChange={this.handleChange}
+                                required
                                 
                             >
                                 {
@@ -380,6 +453,7 @@ const styles = theme => ({
                             onChange={this.handleChange}
                             margin="normal"
                             className={this.props.classes.FormControlElement}
+                            required
                             
                         />
                         <br/>
@@ -415,6 +489,7 @@ const styles = theme => ({
                                 aria-label="minimum height" 
                                 rowsMin={5} 
                                 placeholder="" 
+                                required
                             />
                               
                         </div>
@@ -462,6 +537,7 @@ const styles = theme => ({
                                 //value={this.state.image}
                                 onChange={this.handleImageChange}
                                 multiple
+                                required
                         />
                         }
                         {
@@ -472,6 +548,12 @@ const styles = theme => ({
                             </div> :
                             null
                         }
+                        <span style={{"color":"red", "fontWeight":"bold", "marginLeft":"5px"}}>{this.state.errorMsgTitle}</span>
+
+                        <span style={{"color":"red", "fontWeight":"bold", "marginLeft":"5px"}}>{this.state.errorMsgPrice}</span>
+                        
+                        <span style={{"color":"red", "fontWeight":"bold", "marginLeft":"5px"}}>{this.state.errorMsgSize}</span>
+                      
                         <div className={this.props.classes.Button}>
                             <button 
                                 className="dialogFormButton"
@@ -511,7 +593,7 @@ const mapStateToProps = (state) => {
       updateAdv: (state, onCloseModal, adv_id) => dispatch(updateAdv(state, onCloseModal, adv_id)),
       getMyAd: () => dispatch(getMyAd()),
       deleteImage: (clickedImage,image,adv_id) => dispatch(deleteImage(clickedImage,image,adv_id)),
-      uploadNewImage: (image, imageArr) => dispatch(uploadNewImage(image,imageArr))
+      uploadNewImage: (image, imageArr,date) => dispatch(uploadNewImage(image,imageArr,date))
     };
   };
   
