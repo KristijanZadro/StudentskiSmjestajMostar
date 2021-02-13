@@ -24,7 +24,7 @@ import { connect } from "react-redux";
 import {AiOutlinePlus} from "react-icons/ai"
 //import { Input } from '@material-ui/core';
 //import MyAds from '../MyAds/MyAds';
-import Loading from '../../../containers/Loading/Loading'
+//import Loading from '../../../containers/Loading/Loading'
 import loadingGif from '../../../images/gif/loading-arrow.gif'
 
 const styles = theme => ({
@@ -82,7 +82,8 @@ const styles = theme => ({
             newImage: '',
             showNewImage: '',
             isClicked : false,
-            chooseFiles: []
+            chooseFiles: [],
+          
            
        
             
@@ -169,9 +170,11 @@ const styles = theme => ({
     
     handleNewImageUpload = (e) => {
         const {image,chooseFiles} = this.state
-        let newImageCopy = e.target.files[0]
+        let newImageCopy = e.target.files[0] 
+        //console.log(e.target.files[0])
         let chooseFilesCopy = [...chooseFiles, newImageCopy]
-        
+        let time = new Date()
+        console.log(time.toUTCString())
         this.setState({
             newImage: newImageCopy,
             //image: [...image, newImageCopy],
@@ -238,12 +241,13 @@ const styles = theme => ({
       ChooseFileRender = () => {
         let {image} = this.state
         //console.log(image)
-        let imageNumber = image.length
-       // console.log("length",image.length)
+        let imageNumber = image.length;
+       
+        //console.log("length",image.length)
         let number = 5
         let arr = Array.from(Array(number-imageNumber).keys())
         
-       console.log("choosefile")
+       //console.log("choosefile")
 
         let chooseFiles = arr.map((file,index) => {
             
@@ -272,45 +276,47 @@ const styles = theme => ({
    
 
     render() {
-        const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = this.state
+        const { title, price, address, peopleAllowed, size, pets, balcony, desc, image, } = this.state
         const {isTitleAvailable, createAdErrorMsg, isEdit} = this.props
         const numbers = [1, 2, 3, 4, 5, 6]
         //let choosefiles;
         //isEdit ? choosefiles = this.ChooseFileRender() : choosefiles = ""
+        let chooseFiles;
+        
+            chooseFiles = this.ChooseFileRender()
+       
         let imagesRender;
         if(isEdit ){
             //if(this.props.uploadLoading){
               //  <Loading />
             //}else{
-                imagesRender = image.map((image, index) => {
-                    console.log("image render")
+                imagesRender = image.map((img, index) => {
+                    //console.log("image render")
                     return (
                         <div key={index} >
                              {
-                            image ?
+                            img ?
                             <div className="form-image" >
                                 <img 
-                                src={this.props.uploadLoading ? loadingGif : `http://localhost:5000/static/${image}`} 
-                                alt="" 
+                                src={this.props.uploadLoading ? loadingGif : `http://localhost:5000/static/${img}`} 
+                                alt="aa" 
                                 onClick={() => this.handleToggle(index)}
                             />
                                
                             </div> :
-                            ""
+                           ""
                         }
                       
                         </div>
                        
                        
                     )
+                   
                 })
             //}
         
         }
-        let chooseFiles;
-        if(isEdit){
-            chooseFiles = this.ChooseFileRender()
-        }
+        
         
         
            
@@ -434,7 +440,11 @@ const styles = theme => ({
                                             
                                             
                                             />
-                                            <div className="button-x" onClick={() => this.onDeleteImage(this.state.clickedImage)}><CgRemove /></div>
+                                            {
+                                                image.length === 1 ?
+                                                "" :
+                                                <div className="button-x" onClick={() => this.onDeleteImage(this.state.clickedImage)}><CgRemove /></div>
+                                            }
                                         </div>
                                         
                                     </DialogContent>
@@ -445,7 +455,7 @@ const styles = theme => ({
                         }
                        { 
                         isEdit  ?
-                        "" :
+                        null :
                         <input
                                 type="file"
                                 name="myImage"
@@ -465,6 +475,7 @@ const styles = theme => ({
                         <div className={this.props.classes.Button}>
                             <button 
                                 className="dialogFormButton"
+                              
                                 //onClick={isTitleAvailable ? this.onCloseModal() : null}
                             >
                                 {isEdit ? 'Edit' : 'Submit request' } 

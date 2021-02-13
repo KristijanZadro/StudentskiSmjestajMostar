@@ -127,7 +127,8 @@ const deleteImageController = (req, res, next) => {
         
         //let fileType = image[0].mimetype.split("/")[1]
         //let newFileName = image[0].filename + "." + fileType
-        let newFileName = image[0].originalname
+        
+        let newFileName = image[0].originalname 
         console.log(`./uploads/${newFileName}`)
         fs.rename(
             `./uploads/${image[0].filename}`,

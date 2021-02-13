@@ -51,7 +51,7 @@ class MyAds extends Component {
                                             />
                                             
                                             </div> :
-                                            ""
+                                            null
                                         }
                                     </div>
                                     
@@ -70,7 +70,7 @@ class MyAds extends Component {
                         {myAd.description}
                     </div>
                     <div className="edit-myads">
-                        <Create isEdit={this.state.isEdit} myAd={myAd} />
+                        {myAd.approved === 0 ? "" : <Create isEdit={this.state.isEdit} myAd={myAd} />}
                     </div>
                     
                    
