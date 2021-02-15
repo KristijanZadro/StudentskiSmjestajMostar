@@ -13,6 +13,7 @@ import './AdDetails.css'
 import Title from '../../../containers/Title/Title';
 import Comment from '../Comment/Comment';
 import Loading from '../../../containers/Loading/Loading';
+import ImageSlider from '../ImageSlider/ImageSlider';
 
 
 class AdDetails extends Component {
@@ -32,12 +33,14 @@ class AdDetails extends Component {
         //console.log(this.props)
         //console.log(this.props.match.params.title)
         this.props.getAd(this.props.match.params.title)
-        this.setState({
-            images: [this.props.adDetails.images]
-        })
+       
         this.props.getAllComments(this.props.match.params.title)
         //this.textInput.current.focusTextInput();
-        
+       /* let images = this.props.AdDetails.images.split(',')
+        this.setState({
+            images: images
+        })*/
+    
     }
     resetReview = () => {
         this.setState({
@@ -60,18 +63,31 @@ class AdDetails extends Component {
     }
     
     render(){
-        //let images = this.state.images.split(',')
-        //console.log("splitani images", this.state.images)
-        const imageRender = this.state.images.map((image,index) => {
+        //console.log("fsegfrgrgre",this.props.adDetailsImages)
+      
+         let imagesRender = this.props.adDetailsImages.map((image,index) => {
             return (
                     <div className="each-slide" key={index} >
-                        <div style={{'backgroundImage': `url(http://localhost:5000/static/${image})`,"height":"400px","width":"800px","backgroundPosition":"center"}}>
-                        </div>
+                        {
+                            this.props.getAdLoading ?
+                            <Loading /> :
+                            <ImageSlider image={image} />
+                        }
+                        
                     </div>
                     
-               
+            
             )
         })
+            
+        
+        /*if(images.length > 1){
+            images = this.props.adDetails.images.split(',')
+        }else{
+            images = this.props.adDetails.images
+        }*/
+        
+        
         const commentRender = this.props.comments.map((comm,index) => {
             return(
                 <div className="comm-container" key={index}>
@@ -100,7 +116,7 @@ class AdDetails extends Component {
                 <div className="ad-details-images">
                     <div className="slide-container">
                         <Slide>
-                            {imageRender}
+                            {imagesRender}
                         </Slide>
                        
                     </div>
@@ -175,7 +191,10 @@ const mapStateToProps = (state) => {
     return {
       adDetails: state.adv.adDetails,
       comments: state.adv.comments,
-      commentLoading: state.adv.commentLoading
+      commentLoading: state.adv.commentLoading,
+      getAdLoading: state.adv.getAdLoading,
+      adDetailsImages: state.adv.adDetailsImages
+
 
     };
   };

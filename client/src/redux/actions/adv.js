@@ -269,19 +269,24 @@ export const createAdStart = () => {
 
     };
   };
+  export const getAdLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_AD_LOADING,
+    };
+  };
 
-
-  export const getAdSuccess = (ad) => {
+  export const getAdSuccess = (ad, images) => {
     return {
       type: actionTypes.ADV_GET_AD,
-      ad
+      ad,
+      images
     };
   };
   
   export const getAd = (title) => {
     return async (dispatch) => {
       // send request
-
+      dispatch(getAdLoading())
           axios({
             method: "POST",
             url: "api/adv/getAd",
@@ -293,7 +298,7 @@ export const createAdStart = () => {
             .then((data) => {
               console.log("Ad:", data);
               
-              dispatch(getAdSuccess(data.data[0]))
+              dispatch(getAdSuccess(data.data[0], data.data[0].images))
              
             
         })

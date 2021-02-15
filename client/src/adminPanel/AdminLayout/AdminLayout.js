@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Home from '../../components/Private/Home/Home'
 import Profile from '../../components/Private/Profile/Profile'
 import MyAds from '../../components/Private/MyAds/MyAds'
-import Chat from '../../components/Private/Chat/Chat'
 import Settings from '../../components/Private/Settings/Settings'
 import Create from '../../components/Private/CreateAds/Create'
 import AdDetails from '../../components/Private/AdDetails/AdDetails'
@@ -14,7 +13,6 @@ import {getMe} from '../../redux/actions/auth'
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
-import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
 import {GoRequestChanges} from "react-icons/go"
 import {BsCardList} from 'react-icons/bs'
@@ -80,13 +78,6 @@ class AdminLayout extends Component {
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/admin/chat`} exact className="nav-link-item">
-                                <div>
-                                    <BiChat size={15} />
-                                    <span>Chat</span>
-                                </div>
-                            </NavLink>
-
                             <NavLink to={`/private/admin/requests`} exact className="nav-link-item">
                                 <div>
                                     <GoRequestChanges size={15} />
@@ -123,7 +114,6 @@ class AdminLayout extends Component {
                         <Route exact path="/private/admin" component={Home}  />
                         <Route exact path="/private/admin/profile" render={() => <Profile {...this.props} user={this.props.user} />}  />
                         <Route exact path="/private/admin/myAds" component={MyAds} />
-                        <Route exact path="/private/admin/chat" component={Chat} />
                         <Route exact path="/private/admin/settings" component={Settings} />
                         <Route exact path="/private/admin/requests" component={Requests} />
                         <Route exact path="/private/admin/userList" component={UserList} />

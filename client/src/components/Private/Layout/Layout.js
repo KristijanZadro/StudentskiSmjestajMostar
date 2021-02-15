@@ -8,7 +8,6 @@ import Header from '../../../containers/Header/Header'
 import Home from '../Home/Home'
 import Profile from '../Profile/Profile'
 import MyAds from '../MyAds/MyAds'
-import Chat from '../Chat/Chat'
 import Settings from '../Settings/Settings'
 import Create from '../CreateAds/Create'
 
@@ -17,7 +16,6 @@ import {getMe} from '../../../redux/actions/auth'
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
-import { BiChat } from "react-icons/bi"
 import { RiSettings5Fill } from "react-icons/ri";
 import AdDetails from '../AdDetails/AdDetails'
 
@@ -75,12 +73,6 @@ class Layout extends Component {
                                 </div>
                             </NavLink>
 
-                            <NavLink to={`/private/chat`} exact className="nav-link-item">
-                                <div>
-                                    <BiChat size={15} />
-                                    <span>Chat</span>
-                                </div>
-                            </NavLink>
 
                             <NavLink to={`/private/settings`} exact className="nav-link-item">
                                 <div>
@@ -103,7 +95,6 @@ class Layout extends Component {
                         <Route exact path="/private" component={Home}  />
                         <Route exact path="/private/profile" render={() => <Profile {...this.props} user={this.props.user} />}  />
                         <Route exact path="/private/myAds" component={MyAds} />
-                        <Route exact path="/private/chat" component={Chat} />
                         <Route exact path="/private/settings" component={Settings} />
                         <Route exact path="/private/details/:title" component={AdDetails} />
                     </Switch>

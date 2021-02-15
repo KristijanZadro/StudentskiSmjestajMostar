@@ -23,7 +23,9 @@ const initialState = {
     adminAds: [],
     commentLoading: false,
     getMyAdLoading: false,
-    uploadLoading: false
+    uploadLoading: false,
+    getAdLoading: false,
+    adDetailsImages: []
 };
 
 const createAdStart = (state, action) => ({
@@ -84,11 +86,17 @@ const filterAds = (state, action) => ({
   
   
 });
+const getAdLoading = (state, action) => ({
+  ...state,
+  getAdLoading: true
+
+});
 const getAd = (state, action) => ({
   ...state,
-  adDetails: action.ad
-  
-  
+  getAdLoading: false,
+  adDetails: action.ad,
+  adDetailsImages: action.images.split(',')
+
   
 });
 const createReview = (state, action) => ({
@@ -163,6 +171,8 @@ const reducer = (state = initialState, action) => {
           return uploadSuccess(state, action);
         case actionTypes.ADV_UPLOAD_NEW_IMAGE_LOADING:
           return uploadLoading(state, action);
+        case actionTypes.ADV_GET_AD_LOADING:
+          return getAdLoading(state, action);
         default:
           return state;
     }
