@@ -20,7 +20,12 @@ const initialState = {
     rating: "",
     comments: [],
     myAds: [],
-    adminAds: []
+    adminAds: [],
+    commentLoading: false,
+    getMyAdLoading: false,
+    uploadLoading: false,
+    getAdLoading: false,
+    adDetailsImages: []
 };
 
 const createAdStart = (state, action) => ({
@@ -81,11 +86,17 @@ const filterAds = (state, action) => ({
   
   
 });
+const getAdLoading = (state, action) => ({
+  ...state,
+  getAdLoading: true
+
+});
 const getAd = (state, action) => ({
   ...state,
-  adDetails: action.ad
-  
-  
+  getAdLoading: false,
+  adDetails: action.ad,
+  adDetailsImages: action.images.split(',')
+
   
 });
 const createReview = (state, action) => ({
@@ -93,20 +104,38 @@ const createReview = (state, action) => ({
   comment: action.comment,
   rating: action.rating.rating,
 });
+const commentLoading = (state, action) => ({
+  ...state,
+  commentLoading: true
+});
 
 const getComments = (state, action) => ({
   ...state,
-  comments: action.comments
+  comments: action.comments,
+  commentLoading: false
+});
+const getMyAdsLoading = (state, action) => ({
+  ...state,
+  getMyAdLoading: true
 });
 
 const getMyAds = (state, action) => ({
   ...state,
-  myAds: action.myAds
+  myAds: action.myAds,
+  getMyAdLoading: false
 });
 
 const getAdsAdmin = (state, action) => ({
   ...state,
   adminAds: action.adminAds
+});
+const uploadLoading = (state, action) => ({
+  ...state,
+  uploadLoading: true
+});
+const uploadSuccess = (state, action) => ({
+  ...state,
+  uploadLoading: false
 });
 
 
@@ -134,6 +163,16 @@ const reducer = (state = initialState, action) => {
           return getMyAds(state, action);
         case actionTypes.ADV_GET_ADS_ADMIN:
           return getAdsAdmin(state, action);
+        case actionTypes.ADV_GET_COMMENTS_LOADING:
+          return commentLoading(state, action);
+        case actionTypes.ADV_GET_MYAD_LOADING:
+          return getMyAdsLoading(state, action);
+        case actionTypes.ADV_UPLOAD_NEW_IMAGE_SUCCESS:
+          return uploadSuccess(state, action);
+        case actionTypes.ADV_UPLOAD_NEW_IMAGE_LOADING:
+          return uploadLoading(state, action);
+        case actionTypes.ADV_GET_AD_LOADING:
+          return getAdLoading(state, action);
         default:
           return state;
     }

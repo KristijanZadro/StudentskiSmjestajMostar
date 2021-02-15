@@ -9,12 +9,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import {AiFillStar} from 'react-icons/ai'
-import { CgProfile } from "react-icons/cg"
-import {BsPencilSquare} from "react-icons/bs"
-
 import './AdDetails.css'
 import Title from '../../../containers/Title/Title';
+import Comment from '../Comment/Comment';
+import Loading from '../../../containers/Loading/Loading';
+import ImageSlider from '../ImageSlider/ImageSlider';
 
 
 class AdDetails extends Component {
@@ -26,15 +25,22 @@ class AdDetails extends Component {
             rating: "",
             
         }
+        //this.textInput = React.createRef();
     }
     componentDidMount(){
         console.log(this.props.location)
-        this.props.getAd(this.props.location.state.ad.title)
+        //console.log(this.props.adDetails)
+        //console.log(this.props)
+        //console.log(this.props.match.params.title)
+        this.props.getAd(this.props.match.params.title)
+       
+        this.props.getAllComments(this.props.match.params.title)
+        //this.textInput.current.focusTextInput();
+       /* let images = this.props.AdDetails.images.split(',')
         this.setState({
-            images: this.props.location.state.imagesDetails
-        })
-        this.props.getAllComments(this.props.location.state.ad.title)
-        
+            images: images
+        })*/
+    
     }
     resetReview = () => {
         this.setState({
@@ -51,26 +57,55 @@ class AdDetails extends Component {
     onReviewSend = (e) => {
         e.preventDefault()
         const {comment,rating} = this.state
-        this.props.createReview(comment,rating,this.props.location.state.ad.title,this.resetReview)
-        this.props.getAllComments(this.props.location.state.ad.title)
+        this.props.createReview(comment,rating,this.props.match.params.title,this.resetReview)
+        this.props.getAllComments(this.props.match.params.title)
         
     }
     
     render(){
-        //let images = this.state.images.split(',')
-        //console.log("splitani images", this.state.images)
-        const imageRender = this.state.images.map((image,index) => {
+        //console.log("fsegfrgrgre",this.props.adDetailsImages)
+      
+         let imagesRender = this.props.adDetailsImages.map((image,index) => {
             return (
                     <div className="each-slide" key={index} >
-                        <div style={{'backgroundImage': `url(http://localhost:5000/static/${image})`,"height":"400px","width":"800px","backgroundPosition":"center"}}>
-                        </div>
+                        {
+                            this.props.getAdLoading ?
+                            <Loading /> :
+                            <ImageSlider image={image} />
+                        }
+                        
                     </div>
                     
-               
+            
+            )
+        })
+            
+        
+        /*if(images.length > 1){
+            images = this.props.adDetails.images.split(',')
+        }else{
+            images = this.props.adDetails.images
+        }*/
+        
+        
+        const commentRender = this.props.comments.map((comm,index) => {
+            return(
+                <div className="comm-container" key={index}>
+                    {
+                        this.props.commentLoading ?
+                        <Loading /> :
+                        <Comment 
+                            comm={comm}
+                            //ref={this.textInput}
+                        />
+                    }
+                    
+                </div>
+                
             )
         })
                     
-        const {adDetails,comments} = this.props
+        const {adDetails} = this.props
         const {comment,rating} = this.state
         const numbers = [1, 2, 3, 4, 5]
         return (
@@ -81,7 +116,7 @@ class AdDetails extends Component {
                 <div className="ad-details-images">
                     <div className="slide-container">
                         <Slide>
-                            {imageRender}
+                            {imagesRender}
                         </Slide>
                        
                     </div>
@@ -144,33 +179,7 @@ class AdDetails extends Component {
                     
                 </div>
                 <div className="comments">
-                    {
-                        comments.map((comm,index) => {
-                            return(
-                                <div key={index} className="user-ad-comment">
-                                    <div className="comment-user-rating">
-                                        <div className="comment-user">
-                                            <CgProfile size={20} />
-                                            <div className="comment-user-info">
-                                                <span>{comm.name} {comm.surname}</span>
-                                            </div>
-                                        </div>
-                                        <div className="comment-rating">
-                                            <span>Rating: </span>{comm.rating}<AiFillStar />
-                                        </div>
-                                    </div>
-                                    <label>Comment:</label>
-                                    <div className="comment-box">
-                                        <div className="comment-comm" >
-                                            {comm.comment}
-                                        </div>
-                                        <button><BsPencilSquare /></button>
-                                    </div>
-                                    
-                                </div>
-                            )
-                        })
-                    }
+                    { commentRender}
                 </div>
                 
             </div>
@@ -181,7 +190,11 @@ class AdDetails extends Component {
 const mapStateToProps = (state) => {
     return {
       adDetails: state.adv.adDetails,
-      comments: state.adv.comments
+      comments: state.adv.comments,
+      commentLoading: state.adv.commentLoading,
+      getAdLoading: state.adv.getAdLoading,
+      adDetailsImages: state.adv.adDetailsImages
+
 
     };
   };

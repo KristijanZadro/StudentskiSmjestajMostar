@@ -1,9 +1,10 @@
 import * as actionTypes from "./actionsTypes";
 
-import axios from "axios";
+//import axios from "axios";
 
 import Jwt_Decode from "jwt-decode";
 
+import axios from "../../axios"
 
 // register user start
 export const registerUserStart = () => {
@@ -39,7 +40,7 @@ export const registerUserStart = () => {
       if(test){
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/user/register",
+            url: "api/user/register",
             data: {
               name,
               surname,
@@ -85,7 +86,7 @@ export const get_role_id = () => {
       
      axios({
         method: "GET",
-        url: "http://localhost:5000/api/user/get_role_id"
+        url: "api/user/get_role_id"
         
       })
         .then(async (data) => {
@@ -106,13 +107,14 @@ export const authStart = () => {
     type: actionTypes.AUTH_LOGIN_START,
   };
 };
-export const authSuccess = (name, surname, user, isAdmin) => {
+export const authSuccess = (name, surname, user, isAdmin, isSuperAdmin) => {
   return {
     type: actionTypes.AUTH_LOGIN_SUCCESS,
     name, 
     surname,
     user,
-    isAdmin
+    isAdmin,
+    isSuperAdmin
     
   };
 };
@@ -131,7 +133,7 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
     
     axios({
       method: "POST",
-      url: "http://localhost:5000/api/user/login",
+      url: "api/user/login",
       data: {
         email,
         password,
@@ -147,18 +149,23 @@ export const authenticate = (email, password, onAuthSuccessUser, onAuthSuccessAd
         const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
         console.log(roles[0])
         let isAdmin = false
+        let isSuperAdmin = false
         if((data.data.email_exist === true)&&(data.data.password === true)){
             if(data.data.role_id === roles[0].superadmin_role_id){
-              dispatch(authSuccess());
+              isSuperAdmin = true
+              isAdmin = false
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessSuperAdmin();
             }else if(data.data.role_id === roles[0].admin_role_id){
               isAdmin = true
+              isSuperAdmin = false
               //localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessAdmin();
             }else if(data.data.role_id === roles[0].user_role_id){
               isAdmin = false
-              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin));
+              isSuperAdmin = false
+              dispatch(authSuccess(jwt_Token_decoded.user.Name, jwt_Token_decoded.user.Surname, jwt_Token_decoded.user, isAdmin, isSuperAdmin));
               onAuthSuccessUser();
               
             }
@@ -302,7 +309,7 @@ export const changeNameSurname = (newName,newSurname) => {
       let user_id = jwt_Token_decoded.user.id
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/ChangeNameSurname",
+          url: "api/user/ChangeNameSurname",
           data: {
            newName,
            newSurname,
@@ -349,7 +356,7 @@ export const changeEmail = (newEmail) => {
     if(test){
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/changeEmail",
+          url: "api/user/changeEmail",
           data: {
             newEmail,
             user_id
@@ -404,7 +411,7 @@ export const changePassword = (newPassword) => {
       let user_id = jwt_Token_decoded.user.id
         axios({
           method: "PUT",
-          url: "http://localhost:5000/api/user/ChangePassword",
+          url: "api/user/ChangePassword",
           data: {
            newPassword,
            user_id
@@ -434,11 +441,35 @@ export const getUsers = () => {
     // send request
       axios({
         method: "GET",
-        url: "http://localhost:5000/api/user/getUsers",
+        url: "api/user/getUsers",
       })
         .then((data) => {
           console.log("getUsers:", data);
             dispatch(getUsersSuccess(data.data));
+            
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+export const getAdminsSuccess = (admins) => {
+  return {
+    type: actionTypes.AUTH_GET_ADMINS,
+    admins
+  };
+};
+
+export const getAdmins = () => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "GET",
+        url: "api/user/getAdmins",
+      })
+        .then((data) => {
+          console.log("getAdmins:", data);
+            dispatch(getAdminsSuccess(data.data));
             
         })
         .catch((e) => {
@@ -459,7 +490,7 @@ export const deleteUser = (user_id,getAllUsers) => {
     // send request
       axios({
         method: "DELETE",
-        url: "http://localhost:5000/api/user/deleteUser",
+        url: "api/user/deleteUser",
         data: {
           user_id
         }
@@ -480,10 +511,11 @@ export const getMeLoading = () => {
   };
 };
 
-export const getMeSuccess = (isAdmin) => {
+export const getMeSuccess = (isAdmin,isSuperAdmin) => {
   return {
     type: actionTypes.AUTH_GET_ME,
-    isAdmin
+    isAdmin,
+    isSuperAdmin
   };
 };
 
@@ -495,7 +527,7 @@ export const getMe =  () => {
     let role_id = jwt_Token_decoded.user.id_role
       axios({
         method: "POST",
-        url: "http://localhost:5000/api/user/getMe",
+        url: "api/user/getMe",
         data: {
           role_id
         }
@@ -503,17 +535,82 @@ export const getMe =  () => {
         .then((data) => {
           console.log("getMe:", data);
           if (localStorage.getItem("auth-token-ssm")) {
-            let isAdmin
+          let isAdmin = false
+          let isSuperAdmin = false
           if(data.data[0].role_name === "admin"){
             isAdmin = true
-            dispatch(getMeSuccess(isAdmin));
+            isSuperAdmin = false
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
           }else if(data.data[0].role_name === "user"){
             isAdmin = false
-            dispatch(getMeSuccess(isAdmin));
+            isSuperAdmin = false
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
+          }else if(data.data[0].role_name === "superadmin"){
+            isAdmin = false
+            isSuperAdmin = true
+            dispatch(getMeSuccess(isAdmin,isSuperAdmin));
           }
            
         }
           
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+
+export const setAdminSucces = () => {
+  return {
+    type: actionTypes.AUTH_SET_ADMIN,
+    
+  };
+};
+
+export const setAdmin = (user_id,getAllUsers,getAllAdmins) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "PUT",
+        url: "api/user/setAdmin",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("setAdmin:", data);
+            dispatch(setAdminSucces());
+            getAllUsers()
+            getAllAdmins()
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  };
+};
+
+export const setUserSucces = () => {
+  return {
+    type: actionTypes.AUTH_SET_USER,
+    
+  };
+};
+
+export const setUser = (user_id,getAllUsers,getAllAdmins) => {
+  return async (dispatch) => {
+    // send request
+      axios({
+        method: "PUT",
+        url: "api/user/setUser",
+        data: {
+          user_id
+        }
+      })
+        .then((data) => {
+          console.log("setUser:", data);
+            dispatch(setUserSucces());
+            getAllUsers()
+            getAllAdmins()
         })
         .catch((e) => {
           console.log(e);

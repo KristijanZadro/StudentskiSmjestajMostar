@@ -17,7 +17,7 @@ const advController = async (req, res, next) => {
             }
         )
     }
-    console.log(req)
+    //console.log(req)
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -44,11 +44,11 @@ const advController = async (req, res, next) => {
                 res.send({ "title_available": false })
             } else {
                 const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images, user_id,approved) VALUES (?,?,?,?,?,?,?,?,?,?,?);"
-                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id, isAdmin], (err, result) => {
+                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id, isAdmin], (err, result2) => {
                     if (err) {
                         console.log(err)
                     } else {
-                        console.log(result)
+                        console.log(result2)
                         res.send({ "title_available": true })
 
                     }
@@ -56,6 +56,90 @@ const advController = async (req, res, next) => {
             }
         }
     })
+}
+const updateAdvControllers = (req, res, next) => {
+   //console.log("update form data",req)
+   //console.log(req)
+    const title = req.body.title
+    const price = req.body.price
+    const address = req.body.address
+    const peopleAllowed = req.body.peopleAllowed
+    const size = req.body.size
+    const pets = req.body.pets == "true" ? true : false
+    const balcony = req.body.balcony == "true" ? true : false
+    const desc = req.body.desc
+    const updateImages = req.body.image
+    const adv_id = req.params.id
+    console.log("updateimg", updateImages)
+    //const isAdmin = req.body.isAdmin == "true" ? true : false
+    //await pipeline(image.stream, fs.createWriteStream(`${__dirname}/../public/uploads/${image}`))
+
+    const SQL_SELECT = "SELECT * FROM advertisement WHERE title = ? AND advertisement_id != ?;"
+    db.query(SQL_SELECT, [title, adv_id], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            if (result.length > 0) {
+                console.log("title is already in use")
+                res.send({ "title_available": false })
+            } else {
+                
+                const SQL_UPDATE = "UPDATE advertisement SET title=?, price=?, address=?, people_allowed=?, size=?, pets=?, balcony=?, description=?, images=? WHERE advertisement_id=?;"
+                db.query(SQL_UPDATE, [title, price, address, peopleAllowed, size, pets, balcony, desc, [updateImages.join().split(",").map(i => i).join()], adv_id], (err, result2) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(result2)
+                        res.send({ "title_available": true })
+
+                    }
+                })
+            }
+        }
+    })
+}
+const deleteImageController = (req, res, next) => {
+    //console.log(req)
+    const adv_id = req.params.id
+    const image = req.body.clickedImage
+    const images = req.body.image
+    
+    const SQL_DELETE_IMAGE = "UPDATE advertisement SET images=? WHERE advertisement_id=?;"
+    db.query(SQL_DELETE_IMAGE, [[images.join().split(",").map(i => i).join()], adv_id], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            fs.unlink(`./uploads/${image}`, (err) => {
+                if (err) console.log(err);
+                console.log(image);
+            })
+            console.log(result)
+            res.send(result)
+        }
+    })
+
+}
+
+    const uploadNewImageController = (req, res, next) => {
+        console.log(req.body)
+        const image = req.files
+        console.log(image)
+        const date = req.body.date
+        console.log("dateeeeeeeeeeeee", date)
+        
+        //let fileType = image[0].mimetype.split("/")[1]
+        //let newFileName = image[0].filename + "." + fileType
+        
+        let newFileName = date + image[0].originalname 
+        console.log(`./uploads/${newFileName}`)
+        fs.rename(
+            `./uploads/${image[0].filename}`,
+            `./uploads/${newFileName}`,
+            function () {
+                console.log("callback")
+                res.send("200")
+            }
+        )
 }
 
 const getAdvController = (req, res, next) => {
@@ -146,7 +230,7 @@ const getCommentsController = (req, res, next) => {
             console.log(err)
         } else {
             console.log(result)
-            const SQL_GET_COMMENTS = `SELECT r.comment,r.rating, u.name, u.surname 
+            const SQL_GET_COMMENTS = `SELECT r.id_ratings, r.comment,r.rating,r.id_user, u.name, u.surname 
                                     FROM ratings r 
                                     JOIN user u ON r.id_user = u.id
                                     WHERE id_adv = ?;`
@@ -160,6 +244,19 @@ const getCommentsController = (req, res, next) => {
                 }
             })
 
+        }
+    })
+}
+const updateCommentController = (req,res,next) => {
+    const id_rating = req.body.id_rating
+    const comment = req.body.comment
+    const SQL_UPDATE_COMMENT = "UPDATE ratings SET comment=? WHERE id_ratings=?;"
+    db.query(SQL_UPDATE_COMMENT, [comment, id_rating], (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(result)
+            res.send(result)
         }
     })
 }
@@ -256,8 +353,10 @@ module.exports = {
     getMyAdsController,
     getAdvAdminController,
     changeApprovedController,
-    deleteAdvController
-
-
+    deleteAdvController,
+    updateCommentController,
+    updateAdvControllers,
+    deleteImageController,
+    uploadNewImageController
 
 }

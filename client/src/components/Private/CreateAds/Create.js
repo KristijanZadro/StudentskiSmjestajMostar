@@ -7,6 +7,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import EditIcon from '@material-ui/icons/Edit';
+
+
 import './CreateAds.css'
 
 
@@ -22,7 +25,8 @@ export default class Create extends React.Component{
     handleToggle = () => {
         const openCopy = !this.state.open
         this.setState({
-            open: openCopy
+            open: openCopy,
+            
         })
         
     }
@@ -33,20 +37,21 @@ export default class Create extends React.Component{
     }*/
     
     render(){
+        const {isEdit, myAd} = this.props
         return(
             <div className="create">
                 <div className="createButton">
                     <Fab variant="round" size='small' onClick={this.handleToggle}>
-                        <AddIcon />
+                        {isEdit ? <EditIcon /> : <AddIcon />}
                     </Fab>
                 </div>
                 <Dialog open={this.state.open} onClose={this.handleToggle}>
-                    <DialogTitle id="dialogTitle">Create a new advertisement</DialogTitle>
+                    <DialogTitle id="dialogTitle">{isEdit ? 'Edit advertisement' : 'Create a new advertisement'}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="dialogTitle">
                             Please Fill out the form below.
                         </DialogContentText>
-                        <Form onClose={this.handleToggle} />
+                        <Form onClose={this.handleToggle} myAd={myAd} isEdit={isEdit} />
                     </DialogContent>
                 </Dialog>
             </div>

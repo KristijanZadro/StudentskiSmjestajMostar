@@ -18,6 +18,7 @@ const initialState = {
     user: {},
     //isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
     users: [],
+    admins: [],
     admin: false,
     superadmin: false,
     adminLoading: false
@@ -65,7 +66,8 @@ const authSuccess = (state, action) => ({
     userName: action.name,
     userSurname: action.surname,
     user: action.user,
-    admin: action.isAdmin
+    admin: action.isAdmin,
+    superadmin: action.isSuperAdmin
     
 });
 const authFail = (state, action) => ({
@@ -173,6 +175,11 @@ const getUsersSuccess = (state, action) => ({
   users: action.users,
   
 }) 
+const getAdminsSuccess = (state, action) => ({
+  ...state,
+  admins: action.admins,
+  
+}) 
 const getMeLoading = (state, action) => ({
   ...state,
   adminLoading: true,
@@ -182,8 +189,8 @@ const getMeLoading = (state, action) => ({
 const getMeSuccess = (state, action) => ({
   ...state,
   adminLoading: false,
-  admin: action.isAdmin
-  
+  admin: action.isAdmin,
+  superadmin: action.isSuperAdmin
 }) 
 
 
@@ -237,6 +244,8 @@ const getMeSuccess = (state, action) => ({
         return changePasswordFail(state,action)
       case actionTypes.AUTH_GET_USERS:
         return getUsersSuccess(state,action)
+      case actionTypes.AUTH_GET_ADMINS:
+        return getAdminsSuccess(state,action)
       case actionTypes.AUTH_GET_ME_LOADING:
         return getMeLoading(state,action)
       case actionTypes.AUTH_GET_ME:

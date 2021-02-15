@@ -9,6 +9,7 @@ import Layout from "./components/Private/Layout/Layout"
 import AdminLayout from "./adminPanel/AdminLayout/AdminLayout"
 import Loading from './containers/Loading/Loading'
 import {connect} from "react-redux"
+import SuperAdminLayout from './superAdminPanel/SuperAdminLayout/SuperAdminLayout';
 
 
 
@@ -22,7 +23,7 @@ class App extends React.Component {
    
   }
   render() {
-    const {isAuthenticated,admin,adminLoading} = this.props
+    const {isAuthenticated,admin,adminLoading,superadmin} = this.props
     const {checkTokenLoading} = this.props
     const {userName,userSurname,user} = this.props
     return (
@@ -35,6 +36,8 @@ class App extends React.Component {
             {
               admin ?
               <Private isAuthenticated={isAuthenticated} Component={AdminLayout} name={userName} surname={userSurname} user={user}  logout={this.props.logOut} /> :
+              superadmin ?
+              <Private isAuthenticated={isAuthenticated} Component={SuperAdminLayout} name={userName} surname={userSurname} user={user} logout={this.props.logOut} /> :
               <Private isAuthenticated={isAuthenticated} Component={Layout} name={userName} surname={userSurname} user={user} logout={this.props.logOut} />
             }
             
@@ -57,6 +60,7 @@ const mapStateToProps = (state) => {
     isAdmin: state.auth.isAdmin,
     user: state.auth.user,
     admin: state.auth.admin,
+    superadmin: state.auth.superadmin,
     adminLoading: state.auth.adminLoading
     
 

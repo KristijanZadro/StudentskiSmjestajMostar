@@ -1,9 +1,11 @@
 import * as actionTypes from "./actionsTypes";
 
-import axios from "axios";
+//import axios from "axios";
 import * as FormData from 'form-data'
 
 import Jwt_Decode from "jwt-decode";
+
+import axios from "../../axios"
 
 export const createAdStart = () => {
     return {
@@ -49,7 +51,7 @@ export const createAdStart = () => {
             let user_id = jwt_Token_decoded.user.id;
             
             console.log(formData)
-          axios.post(`http://localhost:5000/api/adv/create/${user_id}`, formData)
+          axios.post(`api/adv/create/${user_id}`, formData)
             .then((data) => {
               console.log("createAd:", data);
               if(data.data.title_available){
@@ -65,6 +67,108 @@ export const createAdStart = () => {
             .catch((e) => {
               console.log(e);
               dispatch(createAdFail());
+            });
+
+    
+    };
+  };
+  export const updateAdvStart = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_START,
+    };
+  };
+  export const updateAdvSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_SUCCESS,
+      
+    };
+  };
+
+  export const updateAdv = (state, onCloseModal, adv_id) => {
+    return async (dispatch) => {
+      // send request
+      dispatch(updateAdvStart());
+            
+          axios.put(`api/adv/updateAdv/${adv_id}`, state)
+            .then((data) => {
+              console.log("updateAdv:", data);
+              if(data.data.title_available){
+                dispatch(updateAdvSuccess());
+                onCloseModal();
+                getMyAd()
+              }
+             
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+  export const uploadNewImageLoading = () => {
+    return {
+      type: actionTypes.ADV_UPLOAD_NEW_IMAGE_LOADING,
+      
+    };
+  };
+  export const uploadNewImageSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPLOAD_NEW_IMAGE_SUCCESS,
+      
+    };
+  };
+
+  export const uploadNewImage = (image,imageArr,date) => {
+    return async (dispatch) => {
+      // send request
+      dispatch(uploadNewImageLoading());
+            let formData = new FormData();
+            formData.append('newImage',image);
+            formData.append('date',date)
+          
+            //console.log(formData)
+          axios.post(`api/adv/uploadNewImage`, formData)
+            .then((data) => {
+              console.log("upload new:", data);
+                dispatch(uploadNewImageSuccess());
+            
+             
+        })
+            .catch((e) => {
+              console.log(e);
+            });
+
+    
+    };
+  };
+  export const deleteImageSuccess = () => {
+    return {
+      type: actionTypes.ADV_DELETE_IMAGE,
+      
+    };
+  };
+
+  export const deleteImage = (clickedImage, image , adv_id) => {
+    return async (dispatch) => {
+      // send request
+          /*let formData = new FormData();
+          formData.append('modal-image',clickedImage);
+          for(let i = 0; i<image.length; i++) {
+            formData.append('myImage', image[i]);
+          }*/
+          axios.put(`api/adv/deleteImage/${adv_id}`, {clickedImage, image})
+            .then((data) => {
+              console.log("deleteImage:", data);
+             
+                dispatch(deleteImageSuccess());
+                
+                
+              
+             
+        })
+            .catch((e) => {
+              console.log(e);
             });
 
     
@@ -96,7 +200,7 @@ export const createAdStart = () => {
 
           axios({
             method: "GET",
-            url: "http://localhost:5000/api/adv/getAdv",
+            url: "api/adv/getAdv",
           })
             .then((data) => {
               console.log("allAds:", data);
@@ -125,7 +229,7 @@ export const createAdStart = () => {
 
           axios({
             method: "GET",
-            url: "http://localhost:5000/api/adv/getAdvAdmin",
+            url: "api/adv/getAdvAdmin",
           })
             .then((data) => {
               console.log("allAdsAdmin:", data);
@@ -165,22 +269,27 @@ export const createAdStart = () => {
 
     };
   };
+  export const getAdLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_AD_LOADING,
+    };
+  };
 
-
-  export const getAdSuccess = (ad) => {
+  export const getAdSuccess = (ad, images) => {
     return {
       type: actionTypes.ADV_GET_AD,
-      ad
+      ad,
+      images
     };
   };
   
   export const getAd = (title) => {
     return async (dispatch) => {
       // send request
-
+      dispatch(getAdLoading())
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/adv/getAd",
+            url: "api/adv/getAd",
             data:{
               title
             }
@@ -189,7 +298,7 @@ export const createAdStart = () => {
             .then((data) => {
               console.log("Ad:", data);
               
-              dispatch(getAdSuccess(data.data[0]))
+              dispatch(getAdSuccess(data.data[0], data.data[0].images))
              
             
         })
@@ -216,7 +325,7 @@ export const createAdStart = () => {
           let user_id = jwt_Token_decoded.user.id
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/adv/rating",
+            url: "api/adv/rating",
             data:{
               comment,
               rating,
@@ -241,6 +350,12 @@ export const createAdStart = () => {
     
     };
   };
+  export const getCommentsLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_COMMENTS_LOADING,
+      
+    };
+  };
  
   export const getCommentsSuccess = (comments) => {
     return {
@@ -253,9 +368,10 @@ export const createAdStart = () => {
   export const getAllComments = (title) => {
     return async (dispatch) => {
       // send request
+      dispatch(getCommentsLoading())
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/adv/getComments",
+            url: "api/adv/getComments",
             data:{
               title
             }
@@ -277,7 +393,13 @@ export const createAdStart = () => {
     
     };
   };
-
+  export const getMyAdLoading = () => {
+    return {
+      type: actionTypes.ADV_GET_MYAD_LOADING,
+      
+  
+    };
+  };
   export const getMyAdSuccess = (myAds) => {
     return {
       type: actionTypes.ADV_GET_MYAD,
@@ -289,11 +411,12 @@ export const createAdStart = () => {
   export const getMyAd = () => {
     return async (dispatch) => {
       // send request
+      dispatch(getMyAdLoading())
       const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
       let user_id = jwt_Token_decoded.user.id
           axios({
             method: "POST",
-            url: "http://localhost:5000/api/adv/getMyAd",
+            url: "api/adv/getMyAd",
             data:{
               user_id
             }
@@ -331,7 +454,7 @@ export const createAdStart = () => {
       
           axios({
             method: "PUT",
-            url: "http://localhost:5000/api/adv/changeApproved",
+            url: "api/adv/changeApproved",
             data: {
              approved,
              title
@@ -360,7 +483,7 @@ export const createAdStart = () => {
       // send request
           axios({
             method: "DELETE",
-            url: "http://localhost:5000/api/adv/deleteAdv",
+            url: "api/adv/deleteAdv",
             data:{
               images,
               title
@@ -378,6 +501,36 @@ export const createAdStart = () => {
             });
 
     
+    };
+  };
+
+  export const updateCommentSuccess = () => {
+    return {
+      type: actionTypes.ADV_UPDATE_COMMENT,
+      
+     
+    };
+  };
+ 
+  
+  export const updateComment = (id_rating, comment) => {
+    return async (dispatch) => {
+      
+          axios({
+            method: "PUT",
+            url: "api/adv/updateComment",
+            data: {
+             id_rating,
+             comment
+            },
+          })
+            .then((data) => {
+              console.log("updateComment:", data);
+                dispatch(updateCommentSuccess());
+            })
+            .catch((e) => {
+              console.log(e);
+            });
     };
   };
 
