@@ -3,11 +3,12 @@
     height: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     margin: 30px auto;
 }
 
 .ad-cart{
-    width: 29%;
+    width: 28%;
     height: 300px;
     background-color: orange;
     margin: 20px;
@@ -67,6 +68,9 @@
 .form-group{
     margin: 30px;
 }
+.form-group-check{
+    margin: 30px;
+}
 
 .form-control{
     margin: 10px;
@@ -92,4 +96,65 @@
     width: 1.2em;
     height: 1.2em;
     color: yellow;
+}
+
+@media screen and (max-width: 1106px) {
+    .ad-cart{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1012px) {
+    .filters{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .form-group{
+        margin: 10px;
+       
+    }
+    .form-group-check{
+        margin: 10px;
+    }
+}
+@media screen and (max-width: 884px) {
+    .form-group-check{
+        display: flex;
+    }
+    .single-extra{
+        margin-right: 3px;
+        font-size: large;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .ad-cart{
+        height: 260px;
+    }
+}
+
+@media screen and (max-width: 535px) {
+    .form-group{
+        width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+    .ad-cart{
+        height: 230px;
+        
+    }
+    
+    
+}
+@media screen and (max-width: 460px) {
+    .ad-cart{
+        width: 90%;
+        height: 240px;
+    }
+}
+
+@media screen and (max-width: 290px) {
+    .form-group label{
+        font-size: medium;
+    }
 }

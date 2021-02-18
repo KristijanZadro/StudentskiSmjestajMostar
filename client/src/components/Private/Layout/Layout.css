@@ -1,23 +1,35 @@
 .layout {
     width: 100%;
-    height: 100vh;
+    height: 84vh;
+    
 }
 
 .layout-sidebar {
     width: 256px;
     height: 100%;
     background-color: royalblue;
-    background-image: linear-gradient(to bottom, royalblue,#3385ff);
     float: left;
     border-top: 1px solid whitesmoke;
+    position: fixed;
+    z-index: 1;
+}
+.layout-sidebar-show{
+    width: 256px;
+    height: 100%;
+    background-color: royalblue;
+    float: left;
+    border-top: 1px solid whitesmoke;
+    position: fixed;
+    z-index: 1;
 }
 
 .layout-content {
     height: 100%;
-    min-height: 100%;
     margin-left: 256px;
     overflow-y: auto;
+    z-index: -1;
   }
+
 
   .sidebar-profile {
     display: flex;
@@ -101,7 +113,7 @@
   .logout button{
     width: 90px;
     height: 40px;
-    background-color: #3385ff;
+    background-color: #ffa64d;
     border: 2pt solid white;
     border-radius: 8px;
     color: white;
@@ -115,4 +127,52 @@
     background-color: white;
     color: #3385ff;
   }
+
+  @media screen and (max-width: 860px) {
+    @keyframes slidein {
+      from {
+        margin-left: -256px;
+        
+      }
+    
+      to {
+        margin-left: 0;
+        
+      }
+    }
+    @keyframes slideout {
+      from {
+        margin-left: 0;
+        
+      }
+    
+      to {
+        margin-left: -256px;
+        
+        
+      }
+    }
+    .layout-sidebar{
+      
+      animation: slideout 0.5s ease-out;
+      margin-left: -256px;
+
+    }
+    .layout-sidebar-show{
+      width: 256px;
+      height: 100%;
+      background-color: royalblue;
+      float: left;
+      border-top: 1px solid whitesmoke;
+      position: fixed;
+      z-index: 1;
+      animation: slidein 0.5s ease-in;
+      
+    }
+    .layout-content {
+      margin-left: 0;
+    }
+}
+
+
   

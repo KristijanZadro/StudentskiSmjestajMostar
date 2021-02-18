@@ -64,7 +64,7 @@ class MyAds extends Component {
                         <p>Address: {myAd.address}</p>
                         <p>People allowed: {myAd.people_allowed}</p>
                         <p>Size: {myAd.size}&#109;&sup2;</p>
-                        <p>{myAd.pets && myAd.balcony ? "Pets allowed and balcony included" : myAd.pets ? "Pets allowed" : myAd.balcony ? "Balcony included" : ""}</p>
+                        <p>{myAd.pets && myAd.balcony ? "Pets allowed and balcony included" : myAd.pets ? "Pets allowed" : myAd.balcony ? "Balcony included" : "No pets and balcony"}</p>
                     </div>
                     <div className="my-ad-desc">
                         {myAd.description}

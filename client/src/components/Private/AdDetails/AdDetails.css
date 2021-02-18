@@ -1,9 +1,9 @@
 .each-slide{
-    height: 400px;
-    width: 800px;
+    width: 100%;
 }
 .slide-container{
-    width: 800px;
+    height: 400px;
+    width: 90%;
     margin: auto;
     text-align:center;
     
@@ -25,6 +25,7 @@
     width: 30%;
     color: whitesmoke;
     font-size: larger;
+    margin: 5px;
 }
 .ad-details-info span{
     color: black;
@@ -50,6 +51,8 @@
     border: 2pt solid  #ffa64d;
     padding-left: 10px;
     height: 80%;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
 }
 
 
@@ -100,7 +103,7 @@
 }
 .comment textarea{
     width: 90%;
-    margin: 16px;
+    margin: 16px auto;
     
 }
 .review-parent{
@@ -132,4 +135,56 @@
     background-color: grey;
     margin: 10px;
     padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .slide-container{
+        height: 200px;
+    }
+    .each-slide{
+        height: 200px;
+    }
+    .img-in-slider{
+        width: 100%;
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .comm-container{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .ad-details-info p{
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .ad-details-review{
+        height: 47vh;
+    }
+    
+}
+@media screen and (max-width: 350px) {
+    .ad-details-info p{
+        font-size: medium;    
+    }
+    .ad-details-review{
+        width: 280px;
+    }
+    
+}
+
+
+@media screen and (max-width: 330px) {
+    .comm-container{
+        height: 25vh;
+    }
+    .ad-details-review{
+        height: 48vh;
+    }
+    
 }

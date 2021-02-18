@@ -45,7 +45,7 @@ export default class Create extends React.Component{
                         {isEdit ? <EditIcon /> : <AddIcon />}
                     </Fab>
                 </div>
-                <Dialog open={this.state.open} onClose={this.handleToggle}>
+                <Dialog id="dialog" open={this.state.open} onClose={this.handleToggle} >
                     <DialogTitle id="dialogTitle">{isEdit ? 'Edit advertisement' : 'Create a new advertisement'}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="dialogTitle">

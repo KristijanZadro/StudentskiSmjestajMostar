@@ -61,3 +61,12 @@
 .infoButtons a button{
     outline: none;
 }
+
+@media screen and (max-width: 600px) {
+    .img{
+        display: none;
+    }
+    .info{
+        width: 100%;
+    }
+}

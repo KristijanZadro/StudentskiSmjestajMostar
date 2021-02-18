@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./SuperAdminLayout.css"
+import '../../components/Private/Layout/Layout.css'
 import Header from '../../containers/Header/Header'
 import { connect } from "react-redux";
 import Home from '../../components/Private/Home/Home'
@@ -20,10 +21,23 @@ import {BsCardList} from 'react-icons/bs'
 import Requests from '../../adminPanel/Requests/Requests'
 import UserList from '../../adminPanel/UserList/UserList'
 
+import OpenNavButton from '../../components/Private/OpenNavButton/OpenNavButton'
 //import Jwt_Decode from "jwt-decode";
 
 
 class SuperAdminLayout extends Component {
+    constructor(){
+        super()
+        this.state = {
+            isNavOpen: false
+        }
+    }
+    openNav = () => {
+        this.setState({
+            isNavOpen: !this.state.isNavOpen
+        })
+        console.log(!this.state.isNavOpen)
+    }
     componentDidMount(){
       //console.log(window.location.pathname)
       //this.props.history.push("/private")
@@ -42,9 +56,9 @@ class SuperAdminLayout extends Component {
     render() {
         return (
             <div className="layout">
-                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>}/>
+                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>} openNavButton={<OpenNavButton openNav={this.openNav} />}/>
                 <div className="layout-sidebar">
-                    <div className="sidebar-profile">
+                    <div className={this.state.isNavOpen ? "layout-sidebar-show": "layout-sidebar" }>
                         
                         <h2>WELCOME</h2>
                        
@@ -58,42 +72,42 @@ class SuperAdminLayout extends Component {
                     <div className="sidebar-links">
                         <div className="sidebar-nav">
                             <NavLink to={`/private/superadmin`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <HiHome size={18} />
                                     <span>Home</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/superadmin/profile`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <CgProfile size={17} />
                                     <span>Profile</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/superadmin/myAds`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <RiAdvertisementLine size={15} />
                                     <span>My ads</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/superadmin/requests`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <GoRequestChanges size={15} />
                                     <span>Requests</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/superadmin/userList`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <BsCardList size={15} />
                                     <span>User List</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/superadmin/settings`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <RiSettings5Fill size={15} />
                                     <span>Settings</span>
                                 </div>

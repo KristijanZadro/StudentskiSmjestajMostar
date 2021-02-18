@@ -27,12 +27,21 @@ import {AiOutlinePlus} from "react-icons/ai"
 //import Loading from '../../../containers/Loading/Loading'
 import loadingGif from '../../../images/gif/loading-arrow.gif'
 
+
 const styles = theme => ({
+   
+    
+    
     FormControl: {
         width: 500,
         display: "flex",
         flexWrap: "wrap",
-        justifyContetn: "center"
+        justifyContetn: "center",
+        [theme.breakpoints.down('xs')]: {
+            width: "98%",
+            textAlign: "center",
+            margin: "auto"
+          },
         
         
     },
@@ -48,7 +57,11 @@ const styles = theme => ({
     },
     FormControlElement: {
         margin: 20,
-        width: "42%"
+        width: "42%",
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+          },
+        
     },
     FormControlElementPeopleAllowed: {
         margin: 20,
@@ -389,7 +402,7 @@ const styles = theme => ({
         
            
         return (
-            <div>
+            <div className="dialog-form">
                 <form className={this.props.classes.FormControl} onSubmit={isEdit ? this.onAdUpdate : this.onAdSend}>
                         <TextField
                             label="Title"

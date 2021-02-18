@@ -126,7 +126,7 @@ class AdDetails extends Component {
                     <p>- <span>Size:</span> {adDetails.size}&#109;&sup2;</p>
                     <p>- <span>Address:</span> {adDetails.address}</p>
                     <p>- <span>People allowed:</span> {adDetails.people_allowed}</p>
-                    <p>- {adDetails.pets && adDetails.balcony ? "Pets allowed and balcony included" : adDetails.pets ? "Pets allowed" : adDetails.balcony ? "Balcony included" : ""}</p>
+                    <p>- {adDetails.pets && adDetails.balcony ? "Pets allowed and balcony included" : adDetails.pets ? "Pets allowed" : adDetails.balcony ? "Balcony included" : "No pets and balcony"}</p>
 
                 </div>
                 <div className="ad-details-desc">

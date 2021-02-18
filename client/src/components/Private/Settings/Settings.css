@@ -25,3 +25,10 @@
     color:  #ffa64d;
     border-color:  #ffa64d;
 }
+
+@media screen and (max-width: 500px) {
+    .settings{
+        margin: 20px auto;
+        width: 90%;
+    }
+}

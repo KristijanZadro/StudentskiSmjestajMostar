@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 120px;
+    margin-top: 100px;
     margin-bottom: 100px;
 }
 
@@ -112,6 +112,20 @@
         margin: 30px;
     }
 }
+@media only screen and (max-width: 860px) {
+    .profile-cv{
+        width: 50%;
+        height: 420px;
+        margin: 30px;
+    }
+}
+@media only screen and (max-width: 680px) {
+    .profile-cv{
+        width: 70%;
+        
+    }
+    
+}
 
 @media only screen and (max-width: 650px) {
     .profile-cv{
@@ -120,22 +134,39 @@
     }
     
 }
-
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 500px) {
     .profile-cv{
-        height: 510px;
+        width: 85%;
         
     }
     
 }
 
+
 @media only screen and (max-width: 376px) {
-    .profile-cv{
-        height: 550px;
-        
+    .profile-name{
+        font-size: 30px;
+    }
+    .profile-surname{
+        font-size: 20px;
     }
     .profile-mail{
         font-size: 20px;
+    }
+    .profile-myAds{
+        font-size: 20px;
+        width: 50%;
+    }
+}
+@media only screen and (max-width: 350px) {
+    .profile-cv{
+        height: 400px;
+        width: 95%;
+    
+        
+    }
+    .profile-myAds{
+        margin-bottom: 20px;
     }
 }
 

@@ -1,6 +1,6 @@
 .my-ad{
     width: 70%;
-    height: 50vh;
+    height: 58vh;
     margin: 60px auto;
     box-shadow: 0 0 10px 7px #f88b1e;
 }
@@ -13,20 +13,13 @@
     box-shadow: 0 0 10px 7px gray;
 }
 
-.my-ad-info{
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.my-ad-info p{
-    width: 30%;
-    
-}
 .my-ad-images{
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-top: 5px;
-    height: 115px;
+    height: 17vh;
+    overflow-x: scroll;
 }
 .my-ad-image{
     width: 100px;
@@ -39,7 +32,7 @@
 }
 .my-ad-title{
     background-color: royalblue;
-    height: 10%;
+    height: 5vh;
     color: whitesmoke;
     text-align: center;
     font-weight: bold;
@@ -53,16 +46,23 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    height: 20vh;
 }
 .my-ad-info p{
     width: 30%;
-    font-size: larger;
+    font-size: medium;
     color: whitesmoke;
     font-weight: bold;
+    margin: 5px 5px;
 }
 
 .my-ad-desc{
     padding: 10px;
+    margin-top: 3px;
+    height: 5vh;
+    width: 90%;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
 }
 
 .edit-myads{
@@ -90,5 +90,34 @@
     background-color: whitesmoke;
     color:  #ffa64d;
     border-color:  #ffa64d;
+}
+
+@media screen and (max-width: 1157px) {
+    .my-ad-images{
+        justify-content: left;
+    }
+}
+@media screen and (max-width: 600px) {
+    .my-ad{
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .my-ad-info{
+        overflow-y: scroll;
+    }
+    .my-ad-info p{
+        width: 80%;
+        font-size: small;
+    }
+}
+@media screen and (max-width: 320px) {
+    .my-ad{
+        height: 65vh;
+    }
+    .my-ad-images{
+        height: 20vh;
+    }
 }
 

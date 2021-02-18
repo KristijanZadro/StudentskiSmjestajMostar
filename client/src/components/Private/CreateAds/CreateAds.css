@@ -123,3 +123,16 @@
     height: 100px;
     width: 100px;
 }
+
+@media screen and (max-width: 600px) {
+    .dialog-form{
+        margin: 20px auto;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .createButton{
+        margin-right: 20px;
+        padding-right: 10px;
+    }
+}

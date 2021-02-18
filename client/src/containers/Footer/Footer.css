@@ -5,4 +5,9 @@
     background-image: linear-gradient(to top left, royalblue,#99bbff);
     position: fixed;
     bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    font-size: larger;
 }

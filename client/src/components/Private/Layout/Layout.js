@@ -19,8 +19,22 @@ import { RiAdvertisementLine } from "react-icons/ri"
 import { RiSettings5Fill } from "react-icons/ri";
 import AdDetails from '../AdDetails/AdDetails'
 
+import OpenNavButton from "../OpenNavButton/OpenNavButton"
+
 
 class Layout extends Component {
+    constructor(){
+        super()
+        this.state = {
+            isNavOpen: false
+        }
+    }
+    openNav = () => {
+        this.setState({
+            isNavOpen: !this.state.isNavOpen
+        })
+        console.log(!this.state.isNavOpen)
+    }
     componentDidMount(){
       //console.log(window.location.pathname)
       //this.props.history.push("/private")
@@ -37,8 +51,8 @@ class Layout extends Component {
     render() {
         return (
             <div className="layout">
-                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>}/>
-                <div className="layout-sidebar">
+                <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>} openNavButton={<OpenNavButton openNav={this.openNav} />}/>
+                <div className={this.state.isNavOpen ? "layout-sidebar-show": "layout-sidebar" }>
                     <div className="sidebar-profile">
                         
                         <h2>WELCOME</h2>
@@ -53,21 +67,21 @@ class Layout extends Component {
                     <div className="sidebar-links">
                         <div className="sidebar-nav">
                             <NavLink to={`/private`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <HiHome size={18} />
                                     <span>Home</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/profile`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <CgProfile size={17} />
                                     <span>Profile</span>
                                 </div>
                             </NavLink>
 
                             <NavLink to={`/private/myAds`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <RiAdvertisementLine size={15} />
                                     <span>My ads</span>
                                 </div>
@@ -75,7 +89,7 @@ class Layout extends Component {
 
 
                             <NavLink to={`/private/settings`} exact className="nav-link-item">
-                                <div>
+                                <div onClick={this.openNav}>
                                     <RiSettings5Fill size={15} />
                                     <span>Settings</span>
                                 </div>
