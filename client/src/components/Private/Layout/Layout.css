@@ -106,8 +106,9 @@
   .logout{
     height: 220px;
     display: flex;
-    align-items: flex-end;
+    align-items:center;
     margin-left: 25px;
+  
   }
 
   .logout button{

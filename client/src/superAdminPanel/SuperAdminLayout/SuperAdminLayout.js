@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./SuperAdminLayout.css"
-import '../../components/Private/Layout/Layout.css'
+import "../../components/Private/Layout/Layout.css"
 import Header from '../../containers/Header/Header'
 import { connect } from "react-redux";
 import Home from '../../components/Private/Home/Home'
@@ -57,8 +57,8 @@ class SuperAdminLayout extends Component {
         return (
             <div className="layout">
                 <Header title="Studentski Smjestaj Mostar" componentToPassDown={<Create/>} openNavButton={<OpenNavButton openNav={this.openNav} />}/>
-                <div className="layout-sidebar">
-                    <div className={this.state.isNavOpen ? "layout-sidebar-show": "layout-sidebar" }>
+                <div className={this.state.isNavOpen ? "layout-sidebar-show": "layout-sidebar" }>
+                    <div className="sidebar-profile">    
                         
                         <h2>WELCOME</h2>
                        
