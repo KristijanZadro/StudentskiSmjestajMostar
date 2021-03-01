@@ -309,6 +309,12 @@ export const createAdStart = () => {
     
     };
   };
+  export const createReviewLoading = () => {
+    return {
+      type: actionTypes.ADV_CREATE_REVIEW_LOADING,
+
+    };
+  };
 
   export const createReviewSuccess = (comment,rating) => {
     return {
@@ -320,6 +326,7 @@ export const createAdStart = () => {
   
   export const createReview = (comment,rating,title,resetReview) => {
     return async (dispatch) => {
+      dispatch(createReviewLoading())
       // send request
           const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
           let user_id = jwt_Token_decoded.user.id
@@ -341,7 +348,7 @@ export const createAdStart = () => {
               
               dispatch(createReviewSuccess(comment,rating))
               resetReview()
-            
+              //getAllComments(title)
         })
             .catch((e) => {
               console.log(e);
@@ -527,6 +534,43 @@ export const createAdStart = () => {
             .then((data) => {
               console.log("updateComment:", data);
                 dispatch(updateCommentSuccess());
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+    };
+  };
+  export const deleteCommentLoading = () => {
+    return {
+      type: actionTypes.ADV_DELETE_COMMENT_LOADING,
+      
+     
+    };
+  };
+  export const deleteCommentSuccess = () => {
+    return {
+      type: actionTypes.ADV_DELETE_COMMENT,
+      
+     
+    };
+  };
+ 
+  
+  export const deleteComment = (comment_id) => {
+    return async (dispatch) => {
+          dispatch(deleteCommentLoading())
+          axios({
+            method: "DELETE",
+            url: "api/adv/deleteComment",
+            data: {
+             comment_id
+            },
+          })
+            .then((data) => {
+              console.log("deleteComment:", data);
+                dispatch(deleteCommentSuccess());
+               
+      
             })
             .catch((e) => {
               console.log(e);

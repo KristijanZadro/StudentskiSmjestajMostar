@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import {AiFillStar} from 'react-icons/ai'
-import { CgProfile } from "react-icons/cg"
-import {BsPencilSquare} from "react-icons/bs"
 import Jwt_Decode from "jwt-decode";
 import './Comment.css'
 import { connect } from "react-redux";
-import {updateComment} from "../../../redux/actions/adv"
+//react icons
+import {AiFillStar} from 'react-icons/ai'
+import { CgProfile } from "react-icons/cg"
+import {BsPencilSquare} from "react-icons/bs"
+import {RiChatDeleteFill} from "react-icons/ri"
+// redux actions
+import {updateComment,deleteComment, getAllComments} from "../../../redux/actions/adv"
+//import Loading from '../../../containers/Loading/Loading'
 
 class Comment extends Component {
     constructor(props) {
@@ -33,13 +37,14 @@ class Comment extends Component {
                         isOwner: true
                     })
                 }
-                
+             
           
       }
       handleChange = ({ target: { value, name } }) => { 
         this.setState({
             [name]: value
         })
+    
 
     }
     setNewComment = (e) => {
@@ -52,6 +57,18 @@ class Comment extends Component {
         }
         
     }
+    getAllComments = () => {
+        this.props.getAllComments(this.props.title)
+    }
+    
+    deleteComment = (comment_id) => {
+        this.props.deleteComment(comment_id).then(
+            () => this.getAllComments()
+        )
+       
+        
+        
+    }
     
       focusTextInput() {
         // Explicitly focus the text input using the raw DOM API
@@ -62,7 +79,7 @@ class Comment extends Component {
         this.textInput.current.focus();
       }
     render() {
-        const {comm} = this.props
+        const {comm,admin,superadmin} = this.props
         const {comment,isFocus,isOwner} = this.state
         return (
             <div  className="user-ad-comment">
@@ -92,20 +109,37 @@ class Comment extends Component {
                     </div>
                     {
                         isOwner ?
-                        <button onClick={this.focusTextInput}><BsPencilSquare /></button> :
+                        <div className="comments-buttons">
+                        <button onClick={this.focusTextInput}><BsPencilSquare /></button>
+                        <button id="del-butt" onClick={() => this.deleteComment(comm.id_ratings)}><RiChatDeleteFill /></button>
+                        </div> :
+                        admin || superadmin  ?
+                        <button onClick={() => this.deleteComment(comm.id_ratings)}><RiChatDeleteFill /></button> :
                         null
                     }
+                    
                 </div>
                 
             </div>
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+      admin: state.auth.admin,
+      superadmin: state.auth.superadmin,
+      deleteCommLoading: state.adv.deleteCommLoading
+
+
+    };
+  };
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateComment: (id_rating, comment) => dispatch(updateComment(id_rating,comment))
+        updateComment: (id_rating, comment) => dispatch(updateComment(id_rating,comment)),
+        deleteComment: (comment_id) => dispatch(deleteComment(comment_id)),
+        getAllComments: (title) => dispatch(getAllComments(title))
     };
   };
   
   
-  export default connect(null, mapDispatchToProps)(Comment);
+  export default connect(mapStateToProps, mapDispatchToProps)(Comment);

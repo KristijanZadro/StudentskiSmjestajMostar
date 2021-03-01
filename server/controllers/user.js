@@ -94,11 +94,7 @@ const loginController = (req,res,next) => {
                         if(rows){
                             const token = jwt.sign({
                                 user: result[0], 
-                                /*roles: {
-                                    user_role_id: user_role_id, 
-                                    superadmin_role_id: superadmin_role_id, 
-                                    admin_role_id: admin_role_id
-                                }*/}, process.env.TOKEN_SECRET, {expiresIn: 3600})
+                                }, process.env.TOKEN_SECRET, {expiresIn: 3600})
                             res.header('auth-token-ssm', token)
                             //res.send("login succesfull")
                             const SQL_FIND_ROLE = "SELECT id_role FROM user_role WHERE id_user = ?;"
@@ -113,7 +109,6 @@ const loginController = (req,res,next) => {
                                 }
 
                             })
-                        //}})
                         }else{
                             res.send({"password": rows, "email_exist": true})
                             
@@ -310,7 +305,6 @@ const deleteUserController = (req,res,next) => {
 }
 const getMeController = (req,res,next) => {
     const role_id = req.body.role_id
-    //console.log(user_id)
     const SQL_GET_ME = `SELECT role_name FROM roles WHERE id_role = ? ;`
     db.query(SQL_GET_ME, role_id, (err, result) => {
         if(err){
@@ -323,7 +317,6 @@ const getMeController = (req,res,next) => {
 }
 const setAdminController = (req,res,next) => {
     const user_id = req.body.user_id
-    //console.log(user_id)
     const SQL_SELECT_ADMIN_ROLE = "SELECT id_role FROM roles WHERE role_name = 'admin';"
     db.query(SQL_SELECT_ADMIN_ROLE, (err, result) => {
         if(err){
@@ -346,7 +339,6 @@ const setAdminController = (req,res,next) => {
 
 const setUserController = (req,res,next) => {
     const user_id = req.body.user_id
-    //console.log(user_id)
     const SQL_SELECT_USER_ROLE = "SELECT id_role FROM roles WHERE role_name = 'user';"
     db.query(SQL_SELECT_USER_ROLE, (err, result) => {
         if(err){
@@ -383,10 +375,6 @@ module.exports = {
     setAdminController,
     getAdminsController,
     setUserController
- 
-    //test
-    //checkEmailController,
-    //checkPasswordController
 }
 
 

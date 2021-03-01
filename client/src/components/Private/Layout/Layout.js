@@ -1,25 +1,24 @@
 import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./Layout.css"
-
 import { connect } from "react-redux";
+// components
 import Header from '../../../containers/Header/Header'
-
 import Home from '../Home/Home'
 import Profile from '../Profile/Profile'
 import MyAds from '../MyAds/MyAds'
 import Settings from '../Settings/Settings'
 import Create from '../CreateAds/Create'
-
+import OpenNavButton from "../OpenNavButton/OpenNavButton"
+import AdDetails from '../AdDetails/AdDetails'
+// redux actions
 import {getMe} from '../../../redux/actions/auth'
-
+// react icons
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
 import { RiSettings5Fill } from "react-icons/ri";
-import AdDetails from '../AdDetails/AdDetails'
 
-import OpenNavButton from "../OpenNavButton/OpenNavButton"
 
 
 class Layout extends Component {

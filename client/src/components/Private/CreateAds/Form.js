@@ -1,30 +1,24 @@
 import React, { Component } from 'react'
+import './CreateAds.css'
+import { connect } from "react-redux";
+// material ui
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-//import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-//import { Input } from '@material-ui/core';
-//import Button from '@material-ui/core/Button';
-import './CreateAds.css'
-//import ImageModal from './ImageModal'
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+// redux actions
 import {createAd,loadModal, getAllAds, updateAdv, getMyAd,deleteImage,uploadNewImage} from '../../../redux/actions/adv'
+// react icons
 import {CgRemove} from 'react-icons/cg'
-
-import { connect } from "react-redux";
 import {AiOutlinePlus} from "react-icons/ai"
-//import { Input } from '@material-ui/core';
-//import MyAds from '../MyAds/MyAds';
-//import Loading from '../../../containers/Loading/Loading'
+
 import loadingGif from '../../../images/gif/loading-arrow.gif'
 
 

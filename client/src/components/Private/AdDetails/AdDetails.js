@@ -1,19 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import 'react-slideshow-image/dist/styles.css'
+import './AdDetails.css'
 import { Slide } from 'react-slideshow-image';
+//components
+import Title from '../../../containers/Title/Title';
+import Comment from '../Comment/Comment';
+import Loading from '../../../containers/Loading/Loading';
+import ImageSlider from '../ImageSlider/ImageSlider';
+// redux actions
 import {createReview, getAd,getAllComments} from "../../../redux/actions/adv"
-
+// material ui
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import './AdDetails.css'
-import Title from '../../../containers/Title/Title';
-import Comment from '../Comment/Comment';
-import Loading from '../../../containers/Loading/Loading';
-import ImageSlider from '../ImageSlider/ImageSlider';
+
+
 
 
 class AdDetails extends Component {
@@ -57,8 +61,11 @@ class AdDetails extends Component {
     onReviewSend = (e) => {
         e.preventDefault()
         const {comment,rating} = this.state
-        this.props.createReview(comment,rating,this.props.match.params.title,this.resetReview)
-        this.props.getAllComments(this.props.match.params.title)
+        this.props.createReview(comment,rating,this.props.match.params.title,this.resetReview).then(
+            () => this.props.getAllComments(this.props.match.params.title)
+        )
+      
+        
         
     }
     
@@ -92,13 +99,15 @@ class AdDetails extends Component {
             return(
                 <div className="comm-container" key={index}>
                     {
-                        this.props.commentLoading ?
-                        <Loading /> :
+                        //this.props.commentLoading ?
+                        //<Loading /> :
                         <Comment 
                             comm={comm}
+                            title={this.props.match.params.title}
                             //ref={this.textInput}
                         />
                     }
+                   
                     
                 </div>
                 
@@ -179,7 +188,8 @@ class AdDetails extends Component {
                     
                 </div>
                 <div className="comments">
-                    { commentRender}
+
+                    {commentRender}
                 </div>
                 
             </div>
@@ -193,7 +203,8 @@ const mapStateToProps = (state) => {
       comments: state.adv.comments,
       commentLoading: state.adv.commentLoading,
       getAdLoading: state.adv.getAdLoading,
-      adDetailsImages: state.adv.adDetailsImages
+      adDetailsImages: state.adv.adDetailsImages,
+      createReviewLoading: state.adv.createReviewLoading
 
 
     };

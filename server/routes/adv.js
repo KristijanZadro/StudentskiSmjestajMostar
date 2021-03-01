@@ -13,20 +13,33 @@ const upload = multer({
         fieldNameSize: 200
     }
   })
-     
-    
+
+// advertisement CRUD
+//CREATE
 router.post('/create/:id', upload.array("myImage", 5), Controllers.advController)
+//READ
 router.get('/getAdv', Controllers.getAdvController)
 router.get('/getAdvAdmin', Controllers.getAdvAdminController)
 router.post('/getAd', Controllers.getAdController)
-router.post('/rating', Controllers.ratingController)
-router.post('/getComments', Controllers.getCommentsController)
 router.post('/getMyAd', Controllers.getMyAdsController)
-router.put('/changeApproved', Controllers.changeApprovedController)
-router.delete('/deleteAdv', Controllers.deleteAdvController)
-router.put('/updateComment', Controllers.updateCommentController)
+//UPDATE
 router.put('/updateAdv/:id', Controllers.updateAdvControllers)
+router.put('/changeApproved', Controllers.changeApprovedController)
 router.put('/deleteImage/:id', Controllers.deleteImageController)
+//DELETE
+router.delete('/deleteAdv', Controllers.deleteAdvController)
+
+// ratings CRUD
+//CREATE
+router.post('/rating', Controllers.ratingController)
+//READ
+router.post('/getComments', Controllers.getCommentsController)
+//UPDATE
+router.put('/updateComment', Controllers.updateCommentController)
+//DELETE
+router.delete('/deleteComment', Controllers.deleteCommentController)
+
+// OTHERS
 router.post('/uploadNewImage', upload.array("newImage",1), Controllers.uploadNewImageController)
  
 

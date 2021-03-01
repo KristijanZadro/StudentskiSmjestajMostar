@@ -2,15 +2,20 @@ import React, { Component } from 'react'
 import {Switch, Route, NavLink} from "react-router-dom"
 import "./SuperAdminLayout.css"
 import "../../components/Private/Layout/Layout.css"
-import Header from '../../containers/Header/Header'
 import { connect } from "react-redux";
+import {getMe} from '../../redux/actions/auth'
+// components
+import Header from '../../containers/Header/Header'
 import Home from '../../components/Private/Home/Home'
 import Profile from '../../components/Private/Profile/Profile'
 import MyAds from '../../components/Private/MyAds/MyAds'
 import Settings from '../../components/Private/Settings/Settings'
 import Create from '../../components/Private/CreateAds/Create'
 import AdDetails from '../../components/Private/AdDetails/AdDetails'
-import {getMe} from '../../redux/actions/auth'
+import Requests from '../../adminPanel/Requests/Requests'
+import UserList from '../../adminPanel/UserList/UserList'
+import OpenNavButton from '../../components/Private/OpenNavButton/OpenNavButton'
+// react icons
 import { HiHome } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg"
 import { RiAdvertisementLine } from "react-icons/ri"
@@ -18,10 +23,6 @@ import { RiSettings5Fill } from "react-icons/ri";
 import {GoRequestChanges} from "react-icons/go"
 import {BsCardList} from 'react-icons/bs'
 
-import Requests from '../../adminPanel/Requests/Requests'
-import UserList from '../../adminPanel/UserList/UserList'
-
-import OpenNavButton from '../../components/Private/OpenNavButton/OpenNavButton'
 //import Jwt_Decode from "jwt-decode";
 
 

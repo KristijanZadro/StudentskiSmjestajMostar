@@ -1,8 +1,6 @@
 import React from 'react'
 import './Register.css'
 import Input from '../../containers/Input/Input'
-//import {Link} from 'react-router-dom'
-
 import { connect } from "react-redux";
 import {loadSignUpPage, registerUser} from '../../redux/actions/auth'
 import Header from '../../containers/Header/Header';

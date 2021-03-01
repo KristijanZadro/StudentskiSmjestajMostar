@@ -25,7 +25,9 @@ const initialState = {
     getMyAdLoading: false,
     uploadLoading: false,
     getAdLoading: false,
-    adDetailsImages: []
+    adDetailsImages: [],
+    createReviewLoading: false,
+    deleteCommLoading: false
 };
 
 const createAdStart = (state, action) => ({
@@ -99,10 +101,16 @@ const getAd = (state, action) => ({
 
   
 });
+const createReviewLoading = (state, action) => ({
+  ...state,
+  createReviewLoading: true
+});
 const createReview = (state, action) => ({
   ...state,
   comment: action.comment,
   rating: action.rating.rating,
+  createReviewLoading: false,
+  
 });
 const commentLoading = (state, action) => ({
   ...state,
@@ -138,6 +146,17 @@ const uploadSuccess = (state, action) => ({
   uploadLoading: false
 });
 
+const deleteCommentLoading = (state, action) => ({
+  ...state,
+  deleteCommLoading: true
+});
+const deleteCommentSuccess = (state, action) => ({
+  ...state,
+  deleteCommLoading: false
+});
+
+
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -157,6 +176,8 @@ const reducer = (state = initialState, action) => {
           return getAd(state, action);
         case actionTypes.ADV_CREATE_REVIEW:
           return createReview(state, action);
+        case actionTypes.ADV_CREATE_REVIEW_LOADING:
+          return createReviewLoading(state, action);
         case actionTypes.ADV_GET_COMMENTS:
           return getComments(state, action);
         case actionTypes.ADV_GET_MYAD:
@@ -173,6 +194,10 @@ const reducer = (state = initialState, action) => {
           return uploadLoading(state, action);
         case actionTypes.ADV_GET_AD_LOADING:
           return getAdLoading(state, action);
+        case actionTypes.ADV_DELETE_COMMENT:
+          return deleteCommentSuccess(state, action);
+        case actionTypes.ADV_DELETE_COMMENT_LOADING:
+          return deleteCommentLoading(state, action);
         default:
           return state;
     }

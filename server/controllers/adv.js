@@ -13,11 +13,9 @@ const advController = async (req, res, next) => {
             `./uploads/${newFileName}`,
             function () {
                 console.log("callback")
-                //res.send("200")
             }
         )
     }
-    //console.log(req)
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -32,7 +30,6 @@ const advController = async (req, res, next) => {
     })
     const user_id = req.params.id
     const isAdmin = req.body.isAdmin == "true" ? true : false
-    //await pipeline(image.stream, fs.createWriteStream(`${__dirname}/../public/uploads/${image}`))
 
     const SQL_SELECT = "SELECT * FROM advertisement WHERE title = ?;"
     db.query(SQL_SELECT, title, (err, result) => {
@@ -260,6 +257,7 @@ const updateCommentController = (req,res,next) => {
         }
     })
 }
+
 const getMyAdsController = (req, res, next) => {
 
     const user_id = req.body.user_id
@@ -274,7 +272,6 @@ const getMyAdsController = (req, res, next) => {
         }
     })
 }
-
 
 const changeApprovedController = (req, res, next) => {
     const approved = req.body.approved
@@ -336,7 +333,20 @@ const deleteAdvController = (req, res, next) => {
 }
 
 
+const deleteCommentController = (req, res, next) => {
 
+    const comment_id = req.body.comment_id
+
+    const SQL_DEL_COMM = "DELETE FROM ratings WHERE id_ratings = ?;"
+    db.query(SQL_DEL_COMM, comment_id, (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(result)
+            res.send(result)
+        }
+    })
+}
 
 
 
@@ -357,6 +367,7 @@ module.exports = {
     updateCommentController,
     updateAdvControllers,
     deleteImageController,
-    uploadNewImageController
+    uploadNewImageController,
+    deleteCommentController
 
 }

@@ -6,8 +6,16 @@
     position: fixed;
     bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     color: whitesmoke;
     font-size: larger;
+}
+.footer a {
+    outline: none;
+    text-decoration: none;
+    color: whitesmoke;
+}
+.footer a:hover{
+    text-decoration: underline;
 }
