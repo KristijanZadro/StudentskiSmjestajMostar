@@ -16,6 +16,7 @@ const advController = async (req, res, next) => {
             }
         )
     }
+    //console.log(req.body)
     const title = req.body.title
     const price = req.body.price
     const address = req.body.address
@@ -29,7 +30,10 @@ const advController = async (req, res, next) => {
         return image.filename + '.' + fileType
     })
     const user_id = req.params.id
-    const isAdmin = req.body.isAdmin == "true" ? true : false
+    const admin = req.body.admin == "true" ? true : false
+    const superadmin = req.body.superadmin == "true" ? true : false
+    let approved = false;
+    if(admin || superadmin) approved = true
 
     const SQL_SELECT = "SELECT * FROM advertisement WHERE title = ?;"
     db.query(SQL_SELECT, title, (err, result) => {
@@ -41,7 +45,7 @@ const advController = async (req, res, next) => {
                 res.send({ "title_available": false })
             } else {
                 const SQL_INSERT = "INSERT INTO advertisement (title, price, address, people_allowed, size, pets, balcony, description, images, user_id,approved) VALUES (?,?,?,?,?,?,?,?,?,?,?);"
-                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id, isAdmin], (err, result2) => {
+                db.query(SQL_INSERT, [title, price, address, peopleAllowed, size, pets, balcony, desc, [images.join().split(",").map(i => i).join()], user_id, approved], (err, result2) => {
                     if (err) {
                         console.log(err)
                     } else {
@@ -62,8 +66,8 @@ const updateAdvControllers = (req, res, next) => {
     const address = req.body.address
     const peopleAllowed = req.body.peopleAllowed
     const size = req.body.size
-    const pets = req.body.pets == "true" ? true : false
-    const balcony = req.body.balcony == "true" ? true : false
+    const pets = req.body.pets
+    const balcony = req.body.balcony
     const desc = req.body.desc
     const updateImages = req.body.image
     const adv_id = req.params.id

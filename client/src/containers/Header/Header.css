@@ -8,6 +8,25 @@
     background-image: linear-gradient(to right,royalblue, rgb(105, 141, 248));
 
 }
+.admin-header{
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightslategrey;
+    background-image: linear-gradient(to right,lightslategrey, grey);
+}
+
+.superadmin-header{
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightslategrey;
+    background-image: linear-gradient(to right,lightslategrey, grey);
+}
 
 .header-title{
     color: white;

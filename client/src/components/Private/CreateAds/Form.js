@@ -291,8 +291,9 @@ const styles = theme => ({
 
     onAdSend = (e) => {
         e.preventDefault()
+        const {admin, superadmin} = this.props
         if(this.formValidation()){
-            this.props.createAd(this.state, this.onCloseModal, this.getAds);
+            this.props.createAd(this.state, this.onCloseModal, this.getAds, admin, superadmin);
         }
      
         
@@ -586,15 +587,17 @@ const mapStateToProps = (state) => {
       createAdErrorMsg: state.adv.createAdErrorMsg,
       ads: state.adv.ads,
       sortedAds: state.adv.sortedAds,
-      uploadLoading: state.adv.uploadLoading
+      uploadLoading: state.adv.uploadLoading,
+      admin: state.auth.admin,
+      superadmin: state.auth.superadmin
 
     };
   };
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      createAd: (state, onCloseModal, getAds ) =>
-        dispatch(createAd(state, onCloseModal, getAds)),
+      createAd: (state, onCloseModal, getAds,admin, superadmin ) =>
+        dispatch(createAd(state, onCloseModal, getAds, admin, superadmin)),
       loadModal: () => dispatch(loadModal()),
       getAllAds: () => dispatch(getAllAds()),
       updateAdv: (state, onCloseModal, adv_id) => dispatch(updateAdv(state, onCloseModal, adv_id)),

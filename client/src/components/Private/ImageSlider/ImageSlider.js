@@ -9,8 +9,7 @@ export default class ImageSlider extends Component {
                 style={
                     {
                         'backgroundImage': `url(http://localhost:5000/static/${this.props.image})`,
-                        "height":"400px",
-                        "width":"800px",
+                        'backgroundSize': 'cover',
                         "backgroundPosition":"center"
                     }
                 }>

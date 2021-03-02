@@ -64,7 +64,7 @@ class MyAds extends Component {
                         <p>Address: {myAd.address}</p>
                         <p>People allowed: {myAd.people_allowed}</p>
                         <p>Size: {myAd.size}&#109;&sup2;</p>
-                        <p>{myAd.pets && myAd.balcony ? "Pets allowed and balcony included" : myAd.pets ? "Pets allowed" : myAd.balcony ? "Balcony included" : "No pets and balcony"}</p>
+                        <p>{myAd.pets && myAd.balcony === 1 ? "Pets allowed and balcony included" : myAd.pets === 1 ? "Pets allowed" : myAd.balcony === 1 ? "Balcony included" : "No pets and balcony"}</p>
                     </div>
                     <div className="my-ad-desc">
                         {myAd.description}
@@ -95,14 +95,11 @@ class MyAds extends Component {
         let approvedMyAdsRender = this.renderMyAdsLists(approvedMyAds)
         let unApprovedMyAdsRender = this.renderMyAdsLists(unApprovedMyAds)
 
-        //let images = this.props.myAds.images.split(',')
-        //let isAdmin = localStorage.getItem("isAdmin")
-
         return (
             <div className="my-adss">
-                <Title title="My Approved Ads" />
+                <Title title={this.props.admin || this.props.superadmin ? approvedMyAds.length > 0 ? "My ads" : "You have no ads" : approvedMyAds.length > 0 ? "My Approved Ads" : "You have no ads"} />
                 {approvedMyAdsRender}
-                <Title title="Waiting to be published" />
+                <Title title={this.props.admin || this.props.superadmin ? "" : unApprovedMyAds.length > 0 ? "Waiting to be published" : ""} />
                 {unApprovedMyAdsRender}
 
             </div>
@@ -112,7 +109,9 @@ class MyAds extends Component {
 const mapStateToProps = (state) => {
     return {
         myAds: state.adv.myAds,
-        getMyAdLoading: state.adv.getMyAdLoading
+        getMyAdLoading: state.adv.getMyAdLoading,
+        admin: state.auth.admin,
+        superadmin: state.auth.superadmin
     };
 };
 const mapDispatchToProps = (dispatch) => {

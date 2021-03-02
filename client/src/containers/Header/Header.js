@@ -1,13 +1,13 @@
 import React from 'react'
 import './Header.css'
 //import Create from '../../components/Private/CreateAds/Create'
+import { connect } from "react-redux";
 
-
-export default class Header extends React.Component {
+class Header extends React.Component {
     
     render() {
         return (
-            <div className="header">
+            <div className={this.props.admin ? "admin-header" : this.props.superadmin ? "superadmin-header" : "header"}>
                 {this.props.openNavButton}
                 <div className="header-title">
                     <h1>{this.props.title}</h1>
@@ -18,3 +18,13 @@ export default class Header extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+      admin: state.auth.admin,
+      superadmin: state.auth.superadmin
+
+    };
+  };
+  
+  
+  export default connect(mapStateToProps, null)(Header);

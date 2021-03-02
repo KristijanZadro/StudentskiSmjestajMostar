@@ -121,7 +121,9 @@ const authCheckTokenFail = (state, action) => ({
 const logout = (state, action) => ({
   ...state,
   isAuthenticated: false,
-  authSuccess: false
+  authSuccess: false,
+  admin: false,
+  superadmin: false
 }) 
 
 const roles = (state, action) => ({

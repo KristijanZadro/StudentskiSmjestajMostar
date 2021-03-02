@@ -27,11 +27,10 @@ export const createAdStart = () => {
     };
   };
 
-  export const createAd = (state, onCloseModal, getAds) => {
+  export const createAd = (state, onCloseModal, getAds, admin, superadmin) => {
     return async (dispatch) => {
       // send request
       dispatch(createAdStart());
-          const isAdmin = localStorage.getItem("isAdmin");
 
             const { title, price, address, peopleAllowed, size, pets, balcony, desc, image } = state
             let formData = new FormData();
@@ -46,7 +45,8 @@ export const createAdStart = () => {
             for(let i = 0; i<image.length; i++) {
               formData.append('myImage', image[i]);
             }
-            formData.append('isAdmin',isAdmin);
+            formData.append('admin', admin);
+            formData.append('superadmin', superadmin);
             const jwt_Token_decoded = Jwt_Decode(localStorage.getItem("auth-token-ssm"));
             let user_id = jwt_Token_decoded.user.id;
             

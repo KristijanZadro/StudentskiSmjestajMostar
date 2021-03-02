@@ -144,7 +144,7 @@ class AdminLayout extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        roles: state.auth.roles
+        roles: state.auth.roles,
     };
 };
 const mapDispatchToProps = (dispatch) => {
