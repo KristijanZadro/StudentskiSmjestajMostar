@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter as Router} from 'react-router-dom'
+import {HashRouter as Router} from 'react-router-dom'
 
 import { createStore, compose, combineReducers, applyMiddleware } from "redux";
 //import allReducers from './reducers'
@@ -26,7 +26,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-      <Router>
+      <Router basename="/">
         <App />
       </Router>
     </Provider>,
