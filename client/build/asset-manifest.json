@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/projekti/fsre_rwa/2020/g16/static/css/main.9cbf7a7c.chunk.css",
-    "main.js": "/projekti/fsre_rwa/2020/g16/static/js/main.ecc0e4e5.chunk.js",
-    "main.js.map": "/projekti/fsre_rwa/2020/g16/static/js/main.ecc0e4e5.chunk.js.map",
+    "main.js": "/projekti/fsre_rwa/2020/g16/static/js/main.6178e4e7.chunk.js",
+    "main.js.map": "/projekti/fsre_rwa/2020/g16/static/js/main.6178e4e7.chunk.js.map",
     "runtime-main.js": "/projekti/fsre_rwa/2020/g16/static/js/runtime-main.0ee5f371.js",
     "runtime-main.js.map": "/projekti/fsre_rwa/2020/g16/static/js/runtime-main.0ee5f371.js.map",
     "static/css/2.b57b7cfd.chunk.css": "/projekti/fsre_rwa/2020/g16/static/css/2.b57b7cfd.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.b57b7cfd.chunk.css",
     "static/js/2.65d50b4d.chunk.js",
     "static/css/main.9cbf7a7c.chunk.css",
-    "static/js/main.ecc0e4e5.chunk.js"
+    "static/js/main.6178e4e7.chunk.js"
   ]
 }
