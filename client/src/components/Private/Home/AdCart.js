@@ -34,7 +34,7 @@ class AdCart extends Component {
                         pathname: admin ? `/private/admin/details/${title}` : superadmin ? `/private/superadmin/details/${title}` : `/private/details/${title}`,
                        
                     }}>
-                        <img src={`http://localhost:5000/static/${cardImage}`} alt="" />
+                        <img src={`https://studenti.sum.ba/StudentskiSmjestajMostar/static/${cardImage}`} alt="" />
                     </NavLink>
                     
                     <div className="cart-price">
