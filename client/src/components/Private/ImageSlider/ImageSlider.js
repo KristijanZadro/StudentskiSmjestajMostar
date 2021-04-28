@@ -8,7 +8,7 @@ export default class ImageSlider extends Component {
                 className="img-in-slider" 
                 style={
                     {
-                        'backgroundImage': `url(https://studenti.sum.ba/StudentskiSmjestajMostar/static/${this.props.image})`,
+                        'backgroundImage': `url(http://localhost:5000/static/${this.props.image})`,
                         'backgroundSize': 'cover',
                         "backgroundPosition":"center"
                     }

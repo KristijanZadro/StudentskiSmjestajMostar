@@ -46,7 +46,7 @@ class MyAds extends Component {
                                             image ?
                                             <div className="my-ad-image" >
                                                 <img 
-                                                src={ `https://studenti.sum.ba/StudentskiSmjestajMostar/static/${image}`} 
+                                                src={ `http://localhost:5000/static/${image}`} 
                                                 alt="" 
                                             />
                                             

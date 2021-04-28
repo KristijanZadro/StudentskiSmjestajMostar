@@ -26,7 +26,6 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {},
-  "homepage": "https://studenti.sum.ba/projekti/fsre_rwa/2020/g16/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

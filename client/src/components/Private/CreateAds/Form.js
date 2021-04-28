@@ -374,7 +374,7 @@ const styles = theme => ({
                             img ?
                             <div className="form-image" >
                                 <img 
-                                src={this.props.uploadLoading ? loadingGif : `https://studenti.sum.ba/StudentskiSmjestajMostar/static/${img}`} 
+                                src={this.props.uploadLoading ? loadingGif : `http://localhost:5000/static/${img}`} 
                                 alt="aa" 
                                 onClick={() => this.handleToggle(index)}
                             />
@@ -516,7 +516,7 @@ const styles = theme => ({
                                         </DialogContentText>
                                         <div className="modal-image">
                                             <img 
-                                                src={`https://studenti.sum.ba/StudentskiSmjestajMostar/static/${this.state.clickedImage}`} 
+                                                src={`http://localhost:5000/static/${this.state.clickedImage}`} 
                                                 alt="" 
                                                 className="clicked-image"
                                                 name="modal-image"

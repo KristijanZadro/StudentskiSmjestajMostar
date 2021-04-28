@@ -42,7 +42,7 @@ class Request extends Component {
                             images.map((image, index) => {
                                 return (
                                     <div className="admin-ad-image" key={index} >
-                                        <img src={`https://studenti.sum.ba/StudentskiSmjestajMostar/static/${image}`}  alt="" />
+                                        <img src={`http://localhost:5000/static/${image}`}  alt="" />
                                     </div>
                                 )
                             })
